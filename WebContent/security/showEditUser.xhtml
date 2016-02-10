@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:body>
+
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="contentHeader">
+			<h1>
+				Paramètres <small>Modifier Utilisateur</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><h:link outcome="/home/dashboard.xhtml">
+						<i class="fa fa-home"></i>Acceuil</h:link></li>
+				<li class="active"><h:link
+						outcome="#{UserController.listUsers()}">
+						<i class="fa fa-key"></i>Paramètres</h:link></li>
+			</ol>
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+				<div class="row">
+					<!-- left column -->
+					<div class="col-md-6">
+						<!-- general form elements disabled -->
+						<div class="box box-warning">
+							<div class="box-header">
+								<h3 class="box-title">Détail Utilisateur</h3>
+							</div>
+							<!-- /.box-header -->
+							<h:form>
+								<div class="box-body">
+
+									<h:inputHidden value="#{UserController.selectedUser.id}"
+										id="employee_id" />
+									<div class="form-group">
+										<h:outputLabel value="Employee" />
+										<h:selectOneMenu styleClass="form-control"
+											value="#{UserController.selectedUser.employee}">
+											<f:selectItems value="#{EmployeeController.employees}"
+												var="employee" itemValue="#{employee}"
+												itemLabel="#{employee.firstName }  #{employee.lastName}" />
+											<f:converter converterId="employeeConverter" />
+										</h:selectOneMenu>
+									</div>
+									<!-- text input -->
+									<div class="form-group">
+										<h:outputLabel value="Login" />
+										<h:inputText placeholder="Login" styleClass="form-control"
+											value="#{UserController.selectedUser.login}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Mot de passe" />
+										<h:inputText placeholder="Password" styleClass="form-control"
+											value="#{UserController.selectedUser.password}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Groupes" />
+										<h:selectManyCheckbox layout="pageDirection" styleClass="checkbox"
+											value="#{UserController.selectedUser.groupes}">
+											<f:selectItems value="#{GroupeController.list}" var="groupe"
+												itemValue="#{groupe}" itemLabel="#{groupe.label}" />
+											<f:converter converterId="groupeConverter" />
+										</h:selectManyCheckbox>
+									</div>
+								</div>
+								<div class="box-footer">
+									<h:commandButton styleClass="btn btn-primary"
+										value="valider Modification"
+										action="#{UserController.editUser()}" type="submit">
+									</h:commandButton>
+								</div>
+							</h:form>
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+					</div>
+					<!--/.col (right) -->
+				</div>
+
+			</f:view>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+	<application>
+		<resource-bundle>
+			<base-name>tn.welldone.messages</base-name>
+			<var>prop</var>
+		</resource-bundle>
+		<locale-config>
+			<default-locale>en</default-locale>
+		</locale-config>
+		<resource-bundle>
+			<base-name>tn.welldone.messages</base-name>
+			<var>i18n</var>
+		</resource-bundle>
+	</application>
+	<lifecycle>
+			<phase-listener>
+				tn.welldone.listener.LifeCycleListener
+			</phase-listener>
+		<phase-listener>tn.welldone.listener.MultiPageMessagesSupport</phase-listener>
+	</lifecycle>
+	    <faces-flow-definition>
+        
+    </faces-flow-definition>
+</faces-config>

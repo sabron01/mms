@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:body>
+
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="contentHeader">
+			<h1>
+				Sécurité <small>Nouvelle Permission</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><h:link outcome="/home/dashboard.xhtml">
+						<i class="fa fa-home"></i>Accueil
+					</h:link></li>
+				<li class="active"><h:link
+						outcome="#{PermissionController.listPermissions()}">
+						<i class="fa fa-key"></i>Sécurité</h:link></li>
+			</ol>
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+				<div class="row">
+					<!-- left column -->
+					<div class="col-md-6">
+						<!-- general form elements disabled -->
+						<div class="box box-warning">
+							<div class="box-header">
+								<h3 class="box-title">General Elements</h3>
+							</div>
+							<!-- /.box-header -->
+							<h:form>
+								<div class="box-body">
+									<!-- text input -->
+									<div class="form-group">
+										<h:outputLabel value="Label" />
+										<h:inputText placeholder="Label" styleClass="form-control"
+											value="#{PermissionController.permission.label}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Ressource" />
+										<h:selectOneMenu styleClass="form-control"
+											value="#{PermissionController.systemResource}">
+											<f:selectItems value="#{SystemResourceController.list}"
+												var="systemResource" itemValue="#{systemResource}"
+												itemLabel="#{systemResource.label}">
+											</f:selectItems>
+											<f:converter converterId="systemResourceConverter" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Opération" />
+										<h:selectOneMenu styleClass="form-control"
+											value="#{PermissionController.permission.operation}">
+											<f:selectItems value="#{PermissionController.operations}"
+												var="operation" itemValue="#{operation}"
+												itemLabel="#{operation}" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div class="box-footer">
+									<h:commandButton styleClass="btn btn-primary"
+										value="Sauvegarder"
+										action="#{PermissionController.createPermission()}"
+										type="submit" />
+								</div>
+							</h:form>
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+					</div>
+					<!--/.col (right) -->
+				</div>
+
+			</f:view>
+		</ui:define>
+
+
+	</ui:composition>
+
+</h:body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+<h:body>
+
+	<ui:composition template="/template/common/commonLayout.xhtml">
+		<ui:define name="content">
+
+			<!-- Small boxes (Stat box) -->
+			<div class="row">
+				<div class="col-lg-3 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-aqua">
+						<div class="inner">
+							<h3>150</h3>
+							<p>New Orders</p>
+						</div>
+						<div class="icon">
+							<i class="ion ion-bag"></i>
+						</div>
+						<a href="#" class="small-box-footer"> More info <i
+							class="fa fa-arrow-circle-right"></i>
+						</a>
+					</div>
+				</div>
+				<!-- ./col -->
+				<div class="col-lg-3 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3>
+								53<sup style="font-size: 20px">%</sup>
+							</h3>
+							<p>Bounce Rate</p>
+						</div>
+						<div class="icon">
+							<i class="ion ion-stats-bars"></i>
+						</div>
+						<a href="#" class="small-box-footer"> More info <i
+							class="fa fa-arrow-circle-right"></i>
+						</a>
+					</div>
+				</div>
+				<!-- ./col -->
+				<div class="col-lg-3 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-yellow">
+						<div class="inner">
+							<h3>44</h3>
+							<p>User Registrations</p>
+						</div>
+						<div class="icon">
+							<i class="ion ion-person-add"></i>
+						</div>
+						<a href="#" class="small-box-footer"> More info <i
+							class="fa fa-arrow-circle-right"></i>
+						</a>
+					</div>
+				</div>
+				<!-- ./col -->
+				<div class="col-lg-3 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-red">
+						<div class="inner">
+							<h3>65</h3>
+							<p>Unique Visitors</p>
+						</div>
+						<div class="icon">
+							<i class="ion ion-pie-graph"></i>
+						</div>
+						<a href="#" class="small-box-footer"> More info <i
+							class="fa fa-arrow-circle-right"></i>
+						</a>
+					</div>
+				</div>
+				<!-- ./col -->
+			</div>
+			<!-- /.row -->
+
+
+			<!-- Main row -->
+			<div class="row">
+				<!-- Left col -->
+				<section class="col-lg-6 connectedSortable"> <!-- Box (with bar chart) -->
+
+				<!-- /.box --> <!-- quick email widget -->
+				<div class="box box-info">
+					<div class="box-header">
+						<i class="fa fa-envelope"></i>
+						<h3 class="box-title">Quick Message</h3>
+						<!-- tools box -->
+						<div class="pull-right box-tools">
+							<button class="btn btn-info btn-sm" data-widget="remove"
+								data-toggle="tooltip" title="Remove">
+								<i class="fa fa-times"></i>
+							</button>
+						</div>
+						<!-- /. tools -->
+					</div>
+					<h:form>
+						<div class="box-body">
+
+							<div class="form-group">
+								<h:selectManyListbox class="multipleSelect"
+									styleClass="multipleSelect" placeholder="Text to:"
+									value="#{UserController.notification.targetUsers}">
+									<f:selectItems value="#{EmployeeController.employees}"
+										var="employee" itemValue="#{employee}"
+										itemLabel="#{employee.firstName } #{employee.lastName}" />
+									<f:converter converterId="employeeConverter" />
+								</h:selectManyListbox>
+							</div>
+							<div class="form-group">
+								<h:inputText placeholder="Subject:" styleClass="form-control"
+									value="#{UserController.notification.subject}">
+									<f:passThroughAttribute name="placeholder" value="Subject:" />
+								</h:inputText>
+							</div>
+							<div>
+								<h:inputTextarea placeholder="Message" styleClass="textarea "
+									value="#{UserController.notification.text}">
+									<f:passThroughAttribute name="style"
+										value="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" />
+								</h:inputTextarea>
+							</div>
+
+						</div>
+						<div class="box-footer clearfix">
+							<h:commandButton styleClass="pull-right btn btn-default"
+								id="sendEmail" value="Send"
+								action="#{UserController.sendMessage()}" type="submit">
+
+							</h:commandButton>
+						</div>
+					</h:form>
+				</div>
+
+				</section>
+				<!-- /.Left col -->
+				<!-- right col (We are only adding the ID to make the widgets sortable)-->
+				<section class="col-lg-6 connectedSortable"> <!-- Map box -->
+				<!-- TO DO List -->
+				<div class="box box-primary">
+					<div class="box-header">
+						<i class="ion ion-clipboard"></i>
+						<h:form>
+							<h3 class="box-title">Liste des Notifications</h3>
+							<div class="box-tools pull-right">
+								<ul class="pagination pagination-sm inline">
+									<li><h:commandButton value="&laquo;"
+											action="#{notificationController.paginator.prev}" /></li>
+									<li><h:outputText
+											value="#{notificationController.paginator.pageIndex} / #{notificationController.paginator.pages}" /></li>
+									<li><h:commandButton value="&raquo;"
+											action="#{notificationController.paginator.next}" /></li>
+									<li><h:inputHidden
+											value="#{notificationController.paginator.pageIndex}" /></li>
+								</ul>
+							</div>
+						</h:form>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<ul class="todo-list">
+							<ui:repeat value="#{notificationController.paginator.model}"
+								var="element">
+								<h:form>
+									<li>
+										<!-- todo text --> <span class="text"><h:outputText
+												value="#{element.subject}"></h:outputText> </span> <span
+										class="text"><h:outputText value="#{element.text}"></h:outputText>
+									</span> <!-- Emphasis label --> <small class="label label-info">
+											<i class="fa fa-clock-o"></i> <h:outputText
+												value="#{element.createdAt}"></h:outputText>
+									</small> <!-- General tools such as edit or delete-->
+										<div class="tools">
+											<i class="fa fa-edit"></i>
+											<h:commandLink title="Delete" styleClass="fa fa-trash-o"
+												action="#{notificationController.deleteNotification(element.id)}"
+												value="">
+												<f:setPropertyActionListener value="#{element}"
+													target="#{notificationController.selectedNotification}" />
+											</h:commandLink>
+										</div>
+									</li>
+								</h:form>
+							</ui:repeat>
+
+						</ul>
+					</div>
+					<!-- /.box-body -->
+				</div>
+				<!-- /.box --> </section>
+				<!-- right col -->
+			</div>
+			<!-- /.row (main row) -->
+
+			<h:outputScript target="body">
+
+
+$(function() {
+    "use strict";
+
+    //bootstrap WYSIHTML5 - text editor
+    $(".textarea").wysihtml5();
+
+    /* The todo list plugin */
+    $(".todo-list").todolist({
+        onCheck: function(ele) {
+            //console.log("The element has been checked")
+        },
+        onUncheck: function(ele) {
+            //console.log("The element has been unchecked")
+        }
+    });
+$('.multipleSelect').fastselect();
+});
+
+</h:outputScript>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

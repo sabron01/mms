@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html class="bg-black" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta charset="UTF-8" content=""></meta>
+	<title>MMS Tunisie | Log in</title>
+	<meta
+		content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
+		name='viewport'></meta>
+
+	<!-- bootstrap 3.0.2 -->
+	<h:outputStylesheet name="bootstrap.min.css" library="css" />
+
+	<!-- font Awesome -->
+	<h:outputStylesheet name="font-awesome.min.css" library="css" />
+
+	<!-- Theme style -->
+	<h:outputStylesheet name="AdminLTE.css" library="css" />
+
+	<!--[if lt IE 9]>
+	       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+	<![endif]-->
+</h:head>
+
+<h:body styleClass="bg-black">
+	<div class="form-box" id="login-box">
+		<div class="header">Sign In</div>
+		<h:form id="formLogin" prependId="false"
+			onsubmit="document.getElementById('formLogin').action = 'j_security_check';">
+			<div class="body bg-gray">
+				<div class="form-group">
+					<h:inputText styleClass="form-control" id="j_username"
+						required="true" >
+						<f:passThroughAttribute name="placeholder" value="UserName" />
+						</h:inputText>
+				</div>
+				<div class="form-group">
+					<h:inputSecret styleClass="form-control" id="j_password"
+						required="true" >
+					<f:passThroughAttribute name="placeholder" value="Password" />
+					</h:inputSecret>
+				</div>
+				<div class="form-group">
+					<input type="checkbox" name="remember_me" /> Remember me
+				</div>
+			</div>
+			<div class="footer">
+				<h:commandButton styleClass="btn bg-olive btn-block"
+					value="Sign me in" type="submit" />
+			</div>
+		</h:form>
+
+		<div class="margin text-center">
+			<span>Powered By Welldone Tn</span> <br />
+			<button class="btn bg-light-blue btn-circle">
+				<i class="fa fa-facebook"></i>
+			</button>
+			<button class="btn bg-aqua btn-circle">
+				<i class="fa fa-twitter"></i>
+			</button>
+			<button class="btn bg-red btn-circle">
+				<i class="fa fa-google-plus"></i>
+			</button>
+		</div>
+	</div>
+	<ui:insert name="footer">
+		<ui:include src="/template/common/loginFooter.xhtml" />
+	</ui:insert>
+</h:body>
+</html>

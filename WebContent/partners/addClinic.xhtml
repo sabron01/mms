@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:body>
+
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="contentHeader">
+			<h1>
+				Clinique  <small>Nouvelle Clinique</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><h:link outcome="/home/dashboard.xhtml">
+						<i class="fa fa-home"></i>Home
+					</h:link></li>
+				<li class="active"><h:link
+						outcome="#{PartnerAgencyController.listClinics()}">
+						<i class="fa fa-icon-hospital"></i>Clinique</h:link></li>
+			</ol>
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+				<h:form>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="box box-primary">
+
+								<div class="box-header">
+									<h3 class="box-title">Informations sur Clinique</h3>
+								</div>
+								<div class="box-body">
+									<div class="form-group">
+										<h:outputLabel value="Nom commercial" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{PartnerAgencyController.clinic.tradingName}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Activités" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{PartnerAgencyController.clinic.activity}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Raison sociale" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{PartnerAgencyController.clinic.companyName}" />
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-xs-6">
+												<h:outputLabel value="Téléphone Fixe" />
+											</div>
+											<div class="col-xs-6">
+												<h:outputLabel value="Mobile Phone" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-6">
+												<h:inputText placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{PartnerAgencyController.clinic.tel}" />
+											</div>
+											<div class="col-xs-6">
+												<h:inputText placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{PartnerAgencyController.clinic.mobile}" />
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-xs-6">
+												<h:outputLabel value="E-Mail" />
+											</div>
+											<div class="col-xs-6">
+												<h:outputLabel value="Fax" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-6">
+												<h:inputText placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{PartnerAgencyController.clinic.mail}" />
+											</div>
+											<div class="col-xs-6">
+												<h:inputText placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{PartnerAgencyController.clinic.fax}" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<!-- Contact Agency Box -->
+							<div class="box box-info">
+								<div class="box-header">
+									<h3 class="box-title">Localisation et Coordonnées de
+										Clinique</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body">
+									<div class="form-group">
+										<h:outputLabel value="Addresse" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{PartnerAgencyController.location.address}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Code Postal" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{PartnerAgencyController.location.zipCode}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Pays" />
+										<h:selectOneMenu
+											binding="#{DataParameterController.htmlCountrySelect}"
+											styleClass="form-control"
+											value="#{PartnerAgencyController.location.country}">
+											<f:selectItems value="#{DataParameterController.countries}"
+												var="country" itemValue="#{country}"
+												itemLabel="#{country.label}">
+											</f:selectItems>
+											<f:converter converterId="countryConverter" />
+											<f:ajax immediate="true"
+												listener="#{DataParameterController.changeCountry}"
+												render="regions" />
+										</h:selectOneMenu>
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="Région" />
+										<h:selectOneMenu
+											binding="#{DataParameterController.htmlRegionSelect}"
+											styleClass="form-control" id="regions"
+											value="#{PartnerAgencyController.location.region}">
+											<f:converter converterId="regionConverter" />
+											<f:selectItems value="#{DataParameterController.regions}"
+												var="region" itemValue="#{region}"
+												itemLabel="#{region.label}" />
+											<f:ajax immediate="true"
+												listener="#{DataParameterController.changeRegion}"
+												render="cities" />
+										</h:selectOneMenu>
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="Ville" />
+										<h:selectOneMenu styleClass="form-control" id="cities"
+											value="#{PartnerAgencyController.location.city}">
+											<f:selectItems value="#{DataParameterController.cities}"
+												var="city" itemValue="#{city}" itemLabel="#{city.label}" />
+											<f:converter converterId="cityConverter" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<!-- /.box-body -->
+							</div>
+							<!-- /.box -->
+						</div>
+
+
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<!-- Détails Agency Box -->
+							<div class="box box-warning">
+								<div class="box-header">
+									<h3 class="box-title">Détails Clinique</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body">
+									<div class="form-group">
+										<h:outputLabel value="Type de l'agence" />
+										<h:selectOneMenu styleClass="form-control"
+											value="#{PartnerAgencyController.typeProvider}">
+											<f:selectItems
+												value="#{DataParameterController.providerTypes}" var="type"
+												itemValue="#{type}" itemLabel="#{type.label}" />
+											<f:converter converterId="providerTypeConverter" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Services" />
+										<h:selectManyCheckbox styleClass="checkbox"
+											value="#{PartnerAgencyController.services}"
+											layout="lineDirection">
+											<f:selectItems value="#{DataParameterController.services}"
+												var="service" itemValue="#{service}"
+												itemLabel="#{service.label}" />
+											<f:converter converterId="serviceConverter" />
+										</h:selectManyCheckbox>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Code de l'agence" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{PartnerAgencyController.clinic.codeProvider}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Date de création" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<h:inputText
+												value="#{PartnerAgencyController.clinic.creationDate}"
+												styleClass="form-control">
+												<f:passThroughAttribute name="data-mask" value="" />
+												<f:passThroughAttribute name="id" value="datemask" />
+												<f:passThroughAttribute name="data-inputmask"
+													value="'alias': 'dd/mm/yyyy'" />
+												<f:convertDateTime pattern="dd/mm/yyyy" />
+											</h:inputText>
+										</div>
+									</div>
+								</div>
+								<!-- /.box-body -->
+							</div>
+							<!-- /.box -->
+						</div>
+						<div class="col-md-6">
+							<!-- Détails Agency Box -->
+							<div class="box box-warning">
+								<div class="box-header">
+									<h3 class="box-title">Détails Fiscalité de Clinique</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body">
+									<div class="form-group">
+										<h:outputLabel value="Nom du Responsable" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{PartnerAgencyController.clinic.responsibleName}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Matricule du Responsable" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{PartnerAgencyController.clinic.responsibleIdentity}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Numéro de registre fiscale" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{PartnerAgencyController.clinic.codeCommercialRegister}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Matricule fiscale" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{PartnerAgencyController.clinic.taxID}" />
+									</div>
+								</div>
+								<!-- /.box-body -->
+							</div>
+							<!-- /.box -->
+						</div>
+						<div class="col-md-6">
+							<!-- Détails Agency Box -->
+							<div class="box box-danger">
+								<div class="box-header">
+									<h3 class="box-title">Sauvegarde de l'opération</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body"></div>
+								<!-- /.box-body -->
+								<div class="box-footer">
+									<h:commandButton styleClass="btn btn-primary"
+										value="#{i18n.submit}"
+										action="#{PartnerAgencyController.createClinic()}"
+										type="submit" />
+								</div>
+							</div>
+							<!-- /.box -->
+						</div>
+					</div>
+				</h:form>
+				<h:outputScript target="body">
+            $(function() {
+                //Datemask dd/mm/yyyy
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+            });
+</h:outputScript>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

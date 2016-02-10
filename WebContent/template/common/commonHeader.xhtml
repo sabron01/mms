@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<body>
+	<ui:composition>
+		<h:link class="logo" outcome="/home/dashboard.xhtml">
+			<h:outputText value="#{prop['message.application_name']}" />
+		</h:link>
+		<!-- Header Navbar: style can be found in header.less -->
+		<nav class="navbar navbar-static-top" role="navigation">
+			<!-- Sidebar toggle button-->
+			<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas"
+				role="button"> <span class="sr-only">Toggle navigation</span>
+				<div id="output"></div> <b onclick="sendText('Click');">Click</b> <span
+				class="icon-bar"></span> <span class="icon-bar"></span> <span
+				class="icon-bar"></span>
+			</a>
+			<div class="navbar-right">
+				<ul class="nav navbar-nav">
+					<!-- Messages: style can be found in dropdown.less-->
+					<li class="dropdown messages-menu"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"> <i
+							class="fa fa-envelope"></i> <span class="label label-success">#{notificationController.currentUserMessages.size()}</span>
+					</a>
+						<ul class="dropdown-menu">
+							<li class="header">You have
+								#{notificationController.currentUserMessages.size()} messages</li>
+							<li>
+								<!-- inner menu: contains the actual data -->
+								<ul class="menu">
+									<ui:repeat
+										value="#{notificationController.currentUserMessages}"
+										var="element">
+
+										<li>
+											<!-- start message --> <a href="#">
+												<div class="pull-left">
+													<img src="#{resource['img/avatar3.png']}"
+														class="img-circle" alt="User Image" />
+												</div>
+												<h4>
+													<h:outputText
+														value="#{element.notifiedBy.employee.lastName}"></h:outputText>
+													<h:outputText
+														value="#{element.notifiedBy.employee.firstName}"></h:outputText>
+													<small><i class="fa fa-clock-o"></i> <h:outputText
+															value="#{element.createdAt}">
+															<f:convertDateTime pattern="dd/mm/yyyy" />
+														</h:outputText> </small>
+												</h4>
+												<p>
+													<h:outputText value="#{element.text}"></h:outputText>
+												</p>
+										</a>
+										</li>
+										<!-- end message -->
+									</ui:repeat>
+								</ul>
+							</li>
+							<li class="footer"><h:link outcome="/home/dashboard.xhtml">See All Messages</h:link></li>
+						</ul></li>
+					<!-- Tasks: style can be found in dropdown.less -->
+					<li class="dropdown tasks-menu"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"> <i
+							class="fa fa-tasks"></i> <span class="label label-danger">#{notificationController.currentUserNotifications.size()}</span>
+					</a>
+						<ul class="dropdown-menu">
+							<li class="header">You have
+								#{notificationController.currentUserNotifications.size()} tasks</li>
+							<li>
+								<!-- inner menu: contains the actual data -->
+								<ul class="menu">
+
+									<ui:repeat
+										value="#{notificationController.currentUserNotifications}"
+										var="element">
+										<!-- Task item -->
+										<li><a href="#">
+												<h3>
+													<h:outputText value="#{element.text}"></h:outputText>
+													<small class="pull-right">20%</small>
+												</h3>
+												<div class="progress xs">
+													<div class="progress-bar progress-bar-aqua"
+														style="width: 20%" role="progressbar" aria-valuenow="20"
+														aria-valuemin="0" aria-valuemax="100">
+														<span class="sr-only">10% Complete</span>
+													</div>
+												</div>
+										</a></li>
+										<!-- end task item -->
+									</ui:repeat>
+								</ul>
+							</li>
+							<li class="footer"><a href="#">View all tasks</a></li>
+						</ul></li>
+					<!-- User Account: style can be found in dropdown.less -->
+					<li class="dropdown user user-menu"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"> <i
+							class="glyphicon glyphicon-user"></i> <span>
+								#{request.remoteUser} <i class="caret"></i>
+						</span>
+					</a>
+						<ul class="dropdown-menu">
+							<!-- User image -->
+							<li class="user-header bg-light-blue"><img
+								src="#{resource['img/avatar3.png']}" class="img-circle"
+								alt="User Image" />
+								<p>
+									#{sessionUser.user.employee.firstName}
+									#{sessionUser.user.employee.lastName} -
+									#{sessionUser.user.employee.function.title} <small>Employee
+										since <h:outputText
+											value="#{sessionUser.user.employee.startDate}">
+											<f:converter converterId="calendarDateConverter" />
+										</h:outputText>
+									</small>
+								</p></li>
+							<!-- Menu Body -->
+							<li class="user-body">
+								<div class="col-xs-4 text-center">
+									<a href="#">Followers</a>
+								</div>
+								<div class="col-xs-4 text-center">
+									<a href="#">Sales</a>
+								</div>
+								<div class="col-xs-4 text-center">
+									<a href="#">Friends</a>
+								</div>
+							</li>
+							<!-- Menu Footer-->
+							<li class="user-footer">
+								<div class="pull-left">
+									<a href="#" class="btn btn-default btn-flat">Profile</a>
+								</div>
+								<div class="pull-right">
+									<h:form>
+										<h:commandLink class="btn btn-default btn-flat"
+											value="Sign out" action="#{UserController.logout}" />
+										<!-- 									<a href="#" class="btn btn-default btn-flat">Sign out</a> -->
+									</h:form>
+								</div>
+							</li>
+						</ul></li>
+				</ul>
+			</div>
+		</nav>
+	</ui:composition>
+</body>
+</html>

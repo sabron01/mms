@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:body>
+
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="contentHeader">
+			<h1>
+				Régions <small>Edit Région</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><h:link outcome="/home/dashboard.xhtml">
+						<i class="fa fa-home"></i>Accueil</h:link></li>
+				<li class="active"><h:link
+						outcome="#{DataParameterController.listRegions()}">
+						<i class="fa fa-cogs"></i>Paramètres</h:link></li>
+			</ol>
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+				<div class="row">
+					<!-- left column -->
+					<div class="col-md-6">
+						<!-- general form elements disabled -->
+						<div class="box box-warning">
+							<div class="box-header">
+								<h3 class="box-title">Détails Région</h3>
+							</div>
+							<!-- /.box-header -->
+							<h:form>
+								<div class="box-body">
+
+									<!-- text input -->
+									<div class="form-group">
+										<h:inputHidden
+											value="#{DataParameterController.selectedRegion.id}"
+											id="country_id" />
+										<h:outputLabel value="Code Région" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{DataParameterController.selectedRegion.regionCode}" />
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="Label" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{DataParameterController.selectedRegion.label}" />
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="Pays" />
+										<h:selectOneMenu styleClass="form-control"
+											value="#{DataParameterController.selectedRegion.country}"
+											converter="#{CountryConverter}">
+											<f:selectItems value="#{DataParameterController.countries}"
+												var="country" itemValue="#{country}"
+												itemLabel="#{country.label}">
+											</f:selectItems>
+											<f:converter converterId="countryConverter" />
+										</h:selectOneMenu>
+									</div>
+
+								</div>
+								<div class="box-footer">
+									<h:commandButton styleClass="btn btn-primary"
+										value="#{i18n.submit}"
+										action="#{DataParameterController.editRegion()}"
+										type="submit">
+									</h:commandButton>
+								</div>
+							</h:form>
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+					</div>
+					<!--/.col (right) -->
+				</div>
+
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

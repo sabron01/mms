@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta charset="UTF-8" content=""></meta>
+	<title>MMS Tunisie</title>
+	<meta
+		content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
+		name='viewport'></meta>
+
+	<!-- bootstrap 3.0.2 -->
+	<h:outputStylesheet name="bootstrap.min.css" library="css" />
+
+	<!-- font Awesome -->
+	<h:outputStylesheet name="font-awesome.min.css" library="css" />
+
+	<!-- Ionicons -->
+	<h:outputStylesheet name="ionicons.min.css" library="css" />
+
+	<!-- Morris chart -->
+	<h:outputStylesheet name="morris/morris.css" library="css" />
+
+	<!-- jvectormap -->
+	<h:outputStylesheet name="jvectormap/jquery-jvectormap-1.2.2.css"
+		library="css" />
+
+	<!-- fullCalendar -->
+	<h:outputStylesheet name="fullcalendar/fullcalendar.css" library="css" />
+    <h:outputStylesheet name="fullcalendar/fullcalendar.print.css" library="css" media="print"  />
+
+	<!-- Daterange picker -->
+	<h:outputStylesheet name="daterangepicker/daterangepicker-bs3.css"
+		library="css" />
+
+	<!-- bootstrap wysihtml5 - text editor -->
+	<h:outputStylesheet
+		name="bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" library="css" />
+
+	<!-- Theme style -->
+	<h:outputStylesheet name="AdminLTE.css" library="css" />
+
+	<!--[if lt IE 9]>
+	       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+	<![endif]-->
+</h:head>
+
+<h:body styleClass="skin-blue">
+	<!-- header logo: style can be found in header.less -->
+	<header class="header"> 
+		<ui:insert name="header">
+			<ui:include src="/template/planification/planificationHeader.xhtml" />
+		</ui:insert> 
+	</header>
+
+	<div class="wrapper row-offcanvas row-offcanvas-left">
+		<!-- Left side column. contains the logo and sidebar -->
+		<aside class="left-side sidebar-offcanvas"> 
+			<ui:insert name="leftSide">
+				<ui:include src="/template/common/leftSideBar.xhtml" />
+			</ui:insert> 
+		</aside>
+	
+		<!-- Right side column. Contains the navbar and content of the page -->
+		<aside class="right-side"> 
+				<!-- Content Header (Page header) -->
+				<section class="content-header"> 
+					<ui:insert name="contentHeader">
+						<ui:include src="/template/common/contentHeader.xhtml" />
+					</ui:insert> 
+				</section> 
+				<!-- Main content --> 
+				<section class="content"> 
+					<ui:insert name="content">
+						<ui:include src="/template/planification/planificationContent.xhtml" />
+					</ui:insert>
+				</section>
+				<!-- /.content --> 
+		</aside>
+		<!-- /.right-side -->
+	</div>
+	<!-- ./wrapper -->
+
+	<ui:insert name="footer">
+		<ui:include src="/template/planification/planificationFooter.xhtml" />
+	</ui:insert>
+</h:body>
+</html>

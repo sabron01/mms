@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:body>
+
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="contentHeader">
+			<h1>
+				Services <small>Edit Service</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><h:link outcome="/default.xhtml">
+						<i class="fa fa-dashboard"></i>Home</h:link></li>
+				<li class="active"><h:link
+						outcome="#{ServiceController.listServices()}">
+						<i class="fa fa-dashboard"></i>Services</h:link></li>
+			</ol>
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+				<div class="row">
+					<!-- left column -->
+					<div class="col-md-6">
+						<!-- general form elements disabled -->
+						<div class="box box-warning">
+							<div class="box-header">
+								<h3 class="box-title">Détail Service</h3>
+							</div>
+							<!-- /.box-header -->
+							<h:form>
+								<div class="box-body">
+
+									<!-- text input -->
+									<div class="form-group">
+										<h:inputHidden value="#{ServiceController.selectedService.id}" id="service_id" />
+										<h:outputLabel value="Designation de Service" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{ServiceController.selectedService.label}" />
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="Code de Service" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{ServiceController.selectedService.serviceCode}" />
+									</div>
+								</div>
+								<div class="box-footer">
+									<h:commandButton styleClass="btn btn-primary"
+										value="#{i18n.submit}"
+										action="#{ServiceController.editService()}" type="submit">
+										</h:commandButton>
+								</div>
+							</h:form>
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+					</div>
+					<!--/.col (right) -->
+				</div>
+
+			</f:view>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

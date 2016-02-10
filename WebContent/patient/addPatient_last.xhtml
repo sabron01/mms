@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:body>
+	<ui:composition template="/template/common/commonLayout.xhtml">
+		<ui:define name="contentHeader">
+			<h1>
+				Les Patients <small>Nouveau patient</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><h:link outcome="/default.xhtml">
+						<i class="fa fa-dashboard"></i>Home
+					</h:link></li>
+				<li class="active"><h:link
+						outcome="#{PatientController.listPatients()}">
+						<i class="fa fa-dashboard"></i>Les Patients</h:link></li>
+			</ol>
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+				<h:form>
+					<div class="row">
+						<!-- Right column -->
+						<div class="col-md-6">
+							<!-- Info Agency Box-->
+							<div class="box box-primary">
+								<h:form>
+									<div class="box-header">
+										<h3 class="box-title">Patient</h3>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<div class="form-group">
+											<div class="row">
+												<div class="col-xs-4">
+													<h:outputLabel value="Code Patient" />
+												</div>
+												<div class="col-xs-4">
+													<h:outputLabel value="Matricule" />
+												</div>
+												<div class="col-xs-4">
+													<h:outputLabel value="N° de passeport" />
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-4">
+													<h:inputText placeholder="Enter ..."
+														styleClass="form-control"
+														value="#{PatientController.patient.codePatient}" />
+												</div>
+												<div class="col-xs-4">
+													<h:inputText placeholder="Enter ..."
+														styleClass="form-control"
+														value="#{PatientController.patient.matricule}" />
+												</div>
+												<div class="col-xs-4">
+													<h:inputText placeholder="Enter ..."
+														styleClass="form-control"
+														value="#{PatientController.patient.passeport}" />
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="row">
+												<div class="col-xs-3">
+													<h:outputLabel value="Mr./Mss" />
+												</div>
+												<div class="col-xs-4">
+													<h:outputLabel value="Nom" />
+												</div>
+												<div class="col-xs-5">
+													<h:outputLabel value="Prénom" />
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-3">
+													<h:selectOneMenu styleClass="form-control"
+														value="#{PatientController.patient.honorificTitle}">
+														<f:selectItems
+															value="#{PatientController.honorificTitles}" var="title"
+															itemValue="#{title}" itemLabel="#{title}" />
+													</h:selectOneMenu>
+												</div>
+
+												<div class="col-xs-4">
+													<h:inputText placeholder="Enter ..."
+														styleClass="form-control"
+														value="#{PatientController.patient.firstName}" />
+												</div>
+												<div class="col-xs-5">
+													<h:inputText placeholder="Enter ..."
+														styleClass="form-control"
+														value="#{PatientController.patient.lastName}" />
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="row">
+												<div class="col-xs-3">
+													<h:outputLabel value="Sexe" />
+												</div>
+												<div class="col-xs-5">
+													<h:outputLabel value="Date de Naissance" />
+												</div>
+												<div class="col-xs-4">
+													<h:outputLabel value="Etat civil" />
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-3">
+													<h:selectOneMenu styleClass="form-control"
+														value="#{PatientController.patient.gender}">
+														<f:selectItems value="#{PatientController.genders}"
+															var="gender" itemValue="#{gender}" itemLabel="#{gender}" />
+													</h:selectOneMenu>
+												</div>
+
+												<div class="col-xs-5">
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-calendar"></i>
+														</div>
+														<h:inputText value="#{PatientController.patient.birthday}"
+															styleClass="form-control">
+															<f:passThroughAttribute name="data-mask" value=""/>
+															<f:passThroughAttribute name="id" value="datemask"/>															
+															<f:passThroughAttribute name="data-inputmask" value="'alias': 'dd/mm/yyyy'"/>
+															<f:convertDateTime pattern="dd/mm/yyyy" />
+														</h:inputText>
+													</div>
+
+												</div>
+												<div class="col-xs-4">
+													<h:selectOneMenu styleClass="form-control"
+														value="#{PatientController.patient.civilState}">
+														<f:selectItems value="#{PatientController.civilStates}"
+															var="state" itemValue="#{state}" itemLabel="#{state}" />
+													</h:selectOneMenu>
+												</div>
+
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="row">
+												<div class="col-xs-4">
+													<h:outputLabel value="Addresse" />
+												</div>
+												<div class="col-xs-2">
+													<h:outputLabel value="Code Postale" />
+												</div>
+												<div class="col-xs-2">
+													<h:outputLabel value="Pays" />
+												</div>
+												<div class="col-xs-2">
+													<h:outputLabel value="Région" />
+												</div>
+												<div class="col-xs-2">
+													<h:outputLabel value="Ville" />
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-4">
+													<h:inputText placeholder="Enter ..."
+														styleClass="form-control"
+														value="#{PatientController.location.address}" />
+												</div>
+												<div class="col-xs-2">
+													<h:inputText placeholder="Enter ..."
+														styleClass="form-control"
+														value="#{PatientController.location.zipCode}" />
+												</div>
+												<div class="col-xs-2">
+													<h:selectOneMenu
+														binding="#{DataParameterController.htmlCountrySelect}"
+														styleClass="form-control"
+														value="#{PatientController.location.country}">
+														<f:selectItems value="#{DataParameterController.countries}"
+															var="country" itemValue="#{country}"
+															itemLabel="#{country.label}">
+														</f:selectItems>
+														<f:converter converterId="countryConverter" />
+														<f:ajax immediate="true"
+															listener="#{DataParameterController.changeCountry}"
+															render="regions" />
+													</h:selectOneMenu>
+												</div>
+												<div class="col-xs-2">
+													<h:selectOneMenu
+														binding="#{DataParameterController.htmlRegionSelect}"
+														styleClass="form-control" id="regions"
+														value="#{PatientController.location.region}">
+														<f:converter converterId="regionConverter" />
+														<f:selectItems value="#{DataParameterController.regions}"
+															var="region" itemValue="#{region}"
+															itemLabel="#{region.label}" />
+														<f:ajax immediate="true"
+															listener="#{DataParameterController.changeRegion}"
+															render="cities" />
+													</h:selectOneMenu>
+												</div>
+												<div class="col-xs-2">
+													<h:selectOneMenu styleClass="form-control" id="cities"
+														value="#{PatientController.location.city}">
+														<f:selectItems value="#{DataParameterController.cities}"
+															var="city" itemValue="#{city}" itemLabel="#{city.label}" />
+														<f:converter converterId="cityConverter" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>								
+										<div class="form-group">
+											<div class="row">
+												<div class="col-xs-4">
+													<h:outputLabel value="E-Mail" />
+												</div>
+												<div class="col-xs-2">
+													<h:outputLabel value="Area Code" />
+												</div>
+												<div class="col-xs-3">
+													<h:outputLabel value="Type" />
+												</div>
+												<div class="col-xs-3">
+													<h:outputLabel value="N° Téléphone" />
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-4">
+													<h:inputText placeholder="Enter ..."
+														styleClass="form-control"
+														value="#{PatientController.patient.mail}" />
+												</div>
+												<div class="col-xs-2">
+													<h:inputText placeholder="Enter ..."
+														styleClass="form-control"
+														value="#{PatientController.phone.areaCode}" />
+												</div>
+												<div class="col-xs-3">
+													<h:selectOneMenu styleClass="form-control"
+														value="#{PatientController.phone.type}">
+														<f:selectItems value="#{PatientController.phoneTypes}"
+															var="type" itemValue="#{type}" itemLabel="#{type}" />
+													</h:selectOneMenu>
+												</div>												
+												<div class="col-xs-3">
+													<h:inputText placeholder="Enter ..."
+														styleClass="form-control"
+														value="#{PatientController.phone.number}" />
+												</div>
+											</div>
+										</div>		
+									</div>
+									<!-- /.box-body -->
+									<div class="box-footer">
+										<h:commandButton styleClass="btn btn-primary"
+											value="#{i18n.submit}"
+											action="#{PatientController.createPatient()}" type="submit" />
+									</div>
+								</h:form>
+							</div>
+							<!-- /.box -->
+
+						</div>
+						<!--/.col (right) -->
+					</div>
+				</h:form>	
+ <h:outputScript target="body">
+            $(function() {
+                //Datemask dd/mm/yyyy
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+            });
+</h:outputScript>		
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

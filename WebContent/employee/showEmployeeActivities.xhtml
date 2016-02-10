@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:body>
+
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="contentHeader">
+			<h1>
+				Les Employees <small>Activités</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><h:link outcome="/home/dashboard.xhtml">
+						<i class="fa fa-home"></i>Home</h:link></li>
+				<li class="active"><h:link
+						outcome="#{EmployeeController.listEmployees()}">
+						<i class="fa fa-male"></i>Les Employees</h:link></li>
+			</ol>
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+				<h:form>
+					<h:messages globalOnly="true" />
+					<div class="row">
+						<!-- Left column -->
+						<div class="col-md-6">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">Informations Employee</h3>
+								</div>
+								<div class="box-body">
+									<div class="form-group">
+										<div class="row">
+											<div class="col-xs-2">
+												<h:outputLabel value="Mr./Mss" />
+											</div>
+											<div class="col-xs-2">
+												<h:outputLabel value="Nom" />
+											</div>
+											<div class="col-xs-2">
+												<h:outputLabel value="Prénom" />
+											</div>
+										</div>
+										<div class="row">
+											<h:inputHidden
+												value="#{EmployeeController.selectedEmployee.id}"
+												id="selectedEmployee_id" />
+											<div class="col-xs-2">
+												<h:selectOneMenu readonly="true" styleClass="form-control"
+													value="#{EmployeeController.selectedEmployee.honorificTitle}">
+													<f:selectItems
+														value="#{EmployeeController.honorificTitles}" var="title"
+														itemValue="#{title}" itemLabel="#{title}" />
+												</h:selectOneMenu>
+											</div>
+
+											<div class="col-xs-2">
+												<h:inputText readonly="true" placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{EmployeeController.selectedEmployee.firstName}" />
+											</div>
+											<div class="col-xs-2">
+												<h:inputText readonly="true" placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{EmployeeController.selectedEmployee.lastName}" />
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!-- left column -->
+						<div class="col-md-6">
+							<!-- general form elements disabled -->
+							<div class="box box-warning">
+								<div class="box-header">
+									<h3 class="box-title">Activités</h3>
+								</div>
+								<!-- /.box-header -->
+
+								<div class="box-body">
+
+									<div class="form-group">
+										<h:outputLabel value="Activités" />
+										<h:selectManyCheckbox styleClass="checkbox"
+											value="#{EmployeeController.selectedEmployee.activities}"
+											layout="lineDirection">
+											<f:selectItems value="#{DataParameterController.services}"
+												var="service" itemValue="#{service}"
+												itemLabel="#{service.label}" />
+											<f:converter converterId="serviceConverter" />
+										</h:selectManyCheckbox>
+									</div>
+								</div>
+								<!-- /.box-body -->
+							</div>
+							<!-- /.box -->
+						</div>
+						<!--/.col (right) -->
+					</div>
+
+					<div class="row">
+						<!-- Left column -->
+						<div class="col-md-12">
+							<!-- Détails Agency Box -->
+							<div class="box box-danger">
+								<div class="box-header">
+									<h3 class="box-title">Sauvegarde de l'opération</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body"></div>
+								<!-- /.box-body -->
+								<div class="box-footer">
+									<h:commandButton styleClass="btn btn-primary"
+										value="#{i18n.submit}"
+										action="#{EmployeeController.setEmployeeActivities()}"
+										type="submit" />
+								</div>
+							</div>
+							<!-- /.box -->
+						</div>
+					</div>
+				</h:form>
+				<h:outputScript target="body">
+            $(function() {
+                //Datemask dd/mm/yyyy
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("#hireDate").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+            });
+</h:outputScript>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

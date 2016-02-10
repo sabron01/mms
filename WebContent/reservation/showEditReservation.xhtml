@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:body>
+
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="contentHeader">
+			<h1>
+				Hébergement<small>editer une tâche d'hébèrgement</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><h:link outcome="/home/dashboard.xhtml">
+						<i class="fa fa-home"></i>Accueil</h:link></li>
+				<li class="active"><h:link
+						outcome="#{ReservationController.listReservations()}">
+						<i class="fa fa-bed"></i>Hébergement</h:link></li>
+			</ol>
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+				<div class="row">
+					<!-- left column -->
+					<div class="col-md-6">
+						<!-- general form elements disabled -->
+						<div class="box box-warning">
+							<div class="box-header">
+								<h3 class="box-title">Détail Tâche Hébèrgement</h3>
+							</div>
+							<!-- /.box-header -->
+							<h:form>
+								<div class="box-body">
+									<h:inputHidden
+										value="#{ReservationController.selectedReservation.id}"
+										id="treatment_id" />
+									<div class="form-group">
+										<h:outputLabel value="Séjour Médical" />
+										<h:selectOneMenu styleClass="form-control"
+											value="#{ReservationController.medicalJourney}">
+											<f:selectItems value="#{MedicalJourneyController.list}"
+												var="sejour" itemValue="#{sejour}"
+												itemLabel="#{sejour.identifier}" />
+											<f:converter converterId="medicalJourneyConverter" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Hôtel/Agence Immobilière" />
+										<h:selectOneMenu styleClass="form-control"
+											value="#{ReservationController.lodgingHost}">
+											<f:selectItems value="#{PartnerAgencyController.hotels}"
+												var="agency" itemValue="#{agency}"
+												itemLabel="#{agency.companyName}" />
+											<f:converter converterId="lodgingHostConverter" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Date d'entrée" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<h:inputText
+												value="#{ReservationController.selectedReservation.startDate}"
+												styleClass="form-control">
+												<f:passThroughAttribute name="data-mask" value="" />
+												<f:passThroughAttribute name="id" value="startDate" />
+												<f:passThroughAttribute name="data-inputmask"
+													value="'alias': 'dd/mm/yyyy'" />
+												<f:converter converterId="calendarDateConverter" />
+											</h:inputText>
+										</div>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Date de sortie" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<h:inputText
+												value="#{ReservationController.selectedReservation.endDate}"
+												styleClass="form-control">
+												<f:passThroughAttribute name="data-mask" value="" />
+												<f:passThroughAttribute name="id" value="endDate" />
+												<f:passThroughAttribute name="data-inputmask"
+													value="'alias': 'dd/mm/yyyy'" />
+												<f:converter converterId="calendarDateConverter" />
+											</h:inputText>
+										</div>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Lieu de départ" />
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-xs-6">
+												<h:outputLabel value="Addresse" />
+											</div>
+											<div class="col-xs-2">
+												<h:outputLabel value="ZipCode" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-6">
+												<h:inputText placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{ReservationController.location.address}" />
+											</div>
+											<div class="col-xs-2">
+												<h:inputText placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{ReservationController.location.zipCode}" />
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-xs-4">
+												<h:outputLabel value="Pays" />
+											</div>
+											<div class="col-xs-4">
+												<h:outputLabel value="Région" />
+											</div>
+											<div class="col-xs-4">
+												<h:outputLabel value="Ville" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-4">
+												<h:selectOneMenu
+													binding="#{DataParameterController.htmlCountrySelect}"
+													styleClass="form-control"
+													value="#{ReservationController.location.country}">
+													<f:selectItems value="#{DataParameterController.countries}"
+														var="country" itemValue="#{country}"
+														itemLabel="#{country.label}">
+													</f:selectItems>
+													<f:converter converterId="countryConverter" />
+													<f:ajax immediate="true"
+														listener="#{DataParameterController.changeCountry}"
+														render="regions" />
+												</h:selectOneMenu>
+											</div>
+											<div class="col-xs-4">
+												<h:selectOneMenu
+													binding="#{DataParameterController.htmlRegionSelect}"
+													styleClass="form-control" id="regions"
+													value="#{ReservationController.location.region}">
+													<f:converter converterId="regionConverter" />
+													<f:selectItems value="#{DataParameterController.regions}"
+														var="region" itemValue="#{region}"
+														itemLabel="#{region.label}" />
+													<f:ajax immediate="true"
+														listener="#{DataParameterController.changeRegion}"
+														render="cities" />
+												</h:selectOneMenu>
+											</div>
+											<div class="col-xs-4">
+												<h:selectOneMenu styleClass="form-control" id="cities"
+													value="#{ReservationController.location.city}">
+													<f:selectItems value="#{DataParameterController.cities}"
+														var="city" itemValue="#{city}" itemLabel="#{city.label}" />
+													<f:converter converterId="cityConverter" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Nombre de personnes" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{ReservationController.selectedReservation.personCount}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Description" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{ReservationController.selectedReservation.desription}" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Total Facture" />
+										<h:inputText placeholder="Enter ..." styleClass="form-control"
+											value="#{ReservationController.selectedReservation.amount}" />
+									</div>
+								</div>
+								<div class="box-footer">
+									<h:commandButton styleClass="btn btn-primary"
+										value="valider Modification de Tâche d'hébèrgement"
+										action="#{ReservationController.editReservation()}"
+										type="submit">
+									</h:commandButton>
+								</div>
+							</h:form>
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+					</div>
+					<!--/.col (right) -->
+				</div>
+				<h:outputScript target="body">
+            $(function() {
+                //Datemask dd/mm/yyyy
+                $("#startDate").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                $("#endDate").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+            });
+</h:outputScript>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>
