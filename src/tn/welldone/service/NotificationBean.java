@@ -17,6 +17,7 @@ import tn.welldone.model.Employee;
 import tn.welldone.model.MedicalJourney;
 import tn.welldone.model.Notification;
 import tn.welldone.model.Notification.Type;
+import tn.welldone.model.Service;
 import tn.welldone.model.Tache;
 import tn.welldone.model.User;
 
@@ -93,6 +94,24 @@ public class NotificationBean implements Serializable {
 		notification.setStatus("");
 		notificationRepository.add(notification);
 	}
+	
+	public void addTaskNotification(MedicalJourney medicalJourney, Service service) {
+		Notification notification = new Notification();
+		Collection<User> targetUsers = new ArrayList<User>();
+		for (User u : userRepository.getList()) {
+			if (!u.equals(session.getUser()))
+				targetUsers.add(u);
+		}
+		logger.info("Nb users AFTER :" + targetUsers.size());
+		notification.setTargetUsers(targetUsers);
+		notification.setMedicalJourney(medicalJourney);
+		notification.setType(Type.Task);
+		String text = "New Task of "+service.getLabel()+" is assigned for M-J "+medicalJourney.getIdentifier();
+		notification.setText(text);
+		notification.setSubject("Nouvelle Tâche");
+		notification.setStatus("");
+		notificationRepository.addTask(notification);
+	}
 
 	public Notification addNotification(Notification notification) {
 		notificationRepository.add(notification);
@@ -125,5 +144,11 @@ public class NotificationBean implements Serializable {
 	public Collection<Notification> getCurrentUserMessages() {
 		return notificationRepository.getCurrentUserMessages();
 	}
+
+	public Collection<Notification> getUncheckeTasksByUser() {
+		return notificationRepository.getUncheckeTasksByUser();
+	}
+
+
 
 }

@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import tn.welldone.data.UserRepository;
 import tn.welldone.model.Permission;
@@ -13,6 +14,7 @@ import tn.welldone.model.User;
 
 @Stateless
 @Local
+@Named
 public class UserBean implements Serializable {
 
 	private static final long serialVersionUID = 3491915688820634422L;

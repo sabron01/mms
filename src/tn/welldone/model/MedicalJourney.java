@@ -53,7 +53,7 @@ public class MedicalJourney implements Serializable {
 	private Date deletedAt;
 	private Collection<Tache> taches;
 	private Collection<Employee> affectedEmployees;
-	private Set<MedicalJourneyEmployee> medicalJourneyEmployees = new HashSet<MedicalJourneyEmployee>(0);
+	private Set<MedicalJourneyEmployeeService> medicalJourneyEmployeeServices = new HashSet<MedicalJourneyEmployeeService>(0);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -238,13 +238,14 @@ public class MedicalJourney implements Serializable {
 		this.medicalJourneyState = medicalJourneyState;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "medicalJourneyEmployeeId.medicalJourney", cascade=CascadeType.ALL)
-	public Set<MedicalJourneyEmployee> getMedicalJourneyEmployees() {
-		return medicalJourneyEmployees;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "medicalJourneyEmployeeServiceId.medicalJourney")
+	public Set<MedicalJourneyEmployeeService> getMedicalJourneyEmployeeServices() {
+		return medicalJourneyEmployeeServices;
 	}
 
-	public void setMedicalJourneyEmployees(Set<MedicalJourneyEmployee> medicalJourneyEmployees) {
-		this.medicalJourneyEmployees = medicalJourneyEmployees;
+	public void setMedicalJourneyEmployeeServices(
+			Set<MedicalJourneyEmployeeService> medicalJourneyEmployeeServices) {
+		this.medicalJourneyEmployeeServices = medicalJourneyEmployeeServices;
 	}
 
 }

@@ -13,8 +13,7 @@
 		<nav class="navbar navbar-static-top" role="navigation">
 			<!-- Sidebar toggle button-->
 			<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas"
-				role="button"> <span class="sr-only">Toggle navigation</span>
-				<div id="output"></div> <b onclick="sendText('Click');">Click</b> <span
+				role="button"> <span class="sr-only">Toggle navigation</span> <span
 				class="icon-bar"></span> <span class="icon-bar"></span> <span
 				class="icon-bar"></span>
 			</a>
@@ -23,18 +22,16 @@
 					<!-- Messages: style can be found in dropdown.less-->
 					<li class="dropdown messages-menu"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown"> <i
-							class="fa fa-envelope"></i> <span class="label label-success">#{notificationController.currentUserMessages.size()}</span>
+							class="fa fa-envelope"></i> <span id="new-message-count"
+							class="label label-success">#{currentUserMessages.size()}</span>
 					</a>
 						<ul class="dropdown-menu">
-							<li class="header">You have
-								#{notificationController.currentUserMessages.size()} messages</li>
+							<li class="header">You have <span id="messagesCount">#{currentUserMessages.size()}</span>messages
+							</li>
 							<li>
 								<!-- inner menu: contains the actual data -->
-								<ul class="menu">
-									<ui:repeat
-										value="#{notificationController.currentUserMessages}"
-										var="element">
-
+								<ul id="messages" class="menu">
+									<ui:repeat value="#{currentUserMessages}" var="element">
 										<li>
 											<!-- start message --> <a href="#">
 												<div class="pull-left">
@@ -43,12 +40,10 @@
 												</div>
 												<h4>
 													<h:outputText
-														value="#{element.notifiedBy.employee.lastName}"></h:outputText>
-													<h:outputText
-														value="#{element.notifiedBy.employee.firstName}"></h:outputText>
+														value="#{element.notifiedBy.employee.lastName} #{element.notifiedBy.employee.firstName}"></h:outputText>
 													<small><i class="fa fa-clock-o"></i> <h:outputText
 															value="#{element.createdAt}">
-															<f:convertDateTime pattern="dd/mm/yyyy" />
+															<f:convertDateTime pattern="dd/MM/yyyy" />
 														</h:outputText> </small>
 												</h4>
 												<p>
@@ -62,21 +57,43 @@
 							</li>
 							<li class="footer"><h:link outcome="/home/dashboard.xhtml">See All Messages</h:link></li>
 						</ul></li>
+					<!-- Notifications: style can be found in dropdown.less -->
+					<li class="dropdown notifications-menu"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"> <i
+							class="fa fa-warning"></i> <span id="new-notif-count"
+							class="label label-warning">#{currentUserNotifications.size()}</span>
+					</a>
+						<ul class="dropdown-menu">
+							<li class="header">You have <span id="notificationsCount">#{currentUserNotifications.size()}</span>
+								notifications
+							</li>
+							<li>
+								<!-- inner menu: contains the actual data -->
+								<ul id="notifications" class="menu">
+									<ui:repeat value="#{currentUserNotifications}" var="element">
+										<li><a href="#"> <i class="fa fa-h-square info"></i>
+												#{element.text}
+										</a></li>
+
+									</ui:repeat>
+								</ul>
+							</li>
+							<li class="footer"><h:link outcome="/home/dashboard.xhtml">View all</h:link></li>
+						</ul></li>
 					<!-- Tasks: style can be found in dropdown.less -->
 					<li class="dropdown tasks-menu"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown"> <i
-							class="fa fa-tasks"></i> <span class="label label-danger">#{notificationController.currentUserNotifications.size()}</span>
+							class="fa fa-tasks"></i> <span id="new-task-count"
+							class="label label-danger">#{currentUserTasks.size()}</span>
 					</a>
 						<ul class="dropdown-menu">
-							<li class="header">You have
-								#{notificationController.currentUserNotifications.size()} tasks</li>
+							<li class="header">You have <span id="tasksCount">
+									#{currentUserTasks.size()} </span> tasks
+							</li>
 							<li>
 								<!-- inner menu: contains the actual data -->
-								<ul class="menu">
-
-									<ui:repeat
-										value="#{notificationController.currentUserNotifications}"
-										var="element">
+								<ul id="tasks" class="menu">
+									<ui:repeat value="#{currentUserTasks}" var="element">
 										<!-- Task item -->
 										<li><a href="#">
 												<h3>
@@ -95,7 +112,8 @@
 									</ui:repeat>
 								</ul>
 							</li>
-							<li class="footer"><a href="#">View all tasks</a></li>
+							<li class="footer"><h:link
+									outcome="/home/listCurrentUserTaches.xhtml">View all tasks</h:link></li>
 						</ul></li>
 					<!-- User Account: style can be found in dropdown.less -->
 					<li class="dropdown user user-menu"><a href="#"

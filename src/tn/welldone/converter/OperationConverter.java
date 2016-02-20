@@ -2,7 +2,8 @@ package tn.welldone.converter;
 
 import javax.persistence.AttributeConverter;
 
-import tn.welldone.model.Permission.Operation;
+import tn.welldone.helpers.Operation;
+
 
 
 public class OperationConverter implements AttributeConverter<Operation, String>{

@@ -11,7 +11,7 @@
 
 		<ui:define name="contentHeader">
 			<h1>
-				Hébergement <small>planifier une tâche d'hébergement </small>
+				Billetterie <small>planifier une tâche de réservation </small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><h:link outcome="/home/dashboard.xhtml">
@@ -19,7 +19,7 @@
 					</h:link></li>
 				<li class="active"><h:link
 						outcome="#{ReservationController.listReservations()}">
-						<i class="fa fa-bed"></i>Hébergement</h:link></li>
+						<i class="fa fa-ticket"></i>Réservation</h:link></li>
 			</ol>
 		</ui:define>
 		<ui:define name="content">
@@ -35,8 +35,8 @@
 							<!-- /.box-header -->
 							<h:form>
 								<div class="box-body">
-									<div class="form-group">
 									<h:inputHidden value="#{ReservationController.reservation.id}" />
+									<div class="form-group">
 										<h:outputLabel value="Séjour Médical" />
 										<h:selectOneMenu styleClass="form-control"
 											value="#{ReservationController.medicalJourney}">
@@ -47,24 +47,24 @@
 										</h:selectOneMenu>
 									</div>
 									<div class="form-group">
-										<h:outputLabel value="Hôtel/Agence Immobilière" />
+										<h:outputLabel value="Agence de voyage" />
 										<h:selectOneMenu styleClass="form-control"
-											value="#{ReservationController.lodgingHost}">
+											value="#{ReservationController.travelAgency}">
 											<f:selectItems
-												value="#{PartnerAgencyController.hotels}"
+												value="#{PartnerAgencyController.travelAgencies}"
 												var="agency" itemValue="#{agency}"
 												itemLabel="#{agency.companyName}" />
-											<f:converter converterId="lodgingHostConverter" />
+											<f:converter converterId="travelAgencyConverter" />
 										</h:selectOneMenu>
 									</div>
 									<div class="form-group">
-										<h:outputLabel value="Date d'entrée" />
+										<h:outputLabel value="Date de reservation" />
 										<div class="input-group">
 											<div class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</div>
 											<h:inputText
-												value="#{ReservationController.reservation.startDate}"
+												value="#{ReservationController.reservation.departureDate}"
 												styleClass="form-control">
 												<f:passThroughAttribute name="data-mask" value="" />
 												<f:passThroughAttribute name="id" value="startDate" />
@@ -75,98 +75,56 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<h:outputLabel value="Date de sortie" />
-										<div class="input-group">
-											<div class="input-group-addon">
-												<i class="fa fa-calendar"></i>
+										<h:selectBooleanCheckbox styleClass="minimal"
+											binding="#{ReservationController.selectBooleanCheckboxRoundTrip}"
+											value="#{ReservationController.isRoundTrip}"
+											valueChangeListener="#{ReservationController.checkRoundTrip}">
+											<f:ajax onevent="showHtmlReturnDate" immediate="true"
+												execute="@this"
+												listener="#{ReservationController.activeHtmlReturDate}"
+												render="returnDate" />
+										</h:selectBooleanCheckbox>
+										<h:outputLabel value=" Allez-Retour" />
+									</div>
+									<h:panelGroup id="returnDate">
+										<div class="form-group">
+											<h:outputLabel value="Date de retour" />
+											<div class="input-group">
+												<div class="input-group-addon">
+													<i class="fa fa-calendar"></i>
+												</div>
+												<h:inputText
+													value="#{ReservationController.reservation.returnDate}"
+													rendered="#{(ReservationController.isRoundTrip || (facesContext.currentPhaseId.ordinal ne 6))}"
+													styleClass="form-control">
+													<f:passThroughAttribute name="data-mask" value="" />
+													<f:passThroughAttribute name="id" value="endDate" />
+													<f:passThroughAttribute name="data-inputmask"
+														value="'alias': 'dd/mm/yyyy'" />
+													<f:converter converterId="calendarDateConverter" />
+												</h:inputText>
 											</div>
-											<h:inputText
-												value="#{ReservationController.reservation.endDate}"
-												styleClass="form-control">
-												<f:passThroughAttribute name="data-mask" value="" />
-												<f:passThroughAttribute name="id" value="endDate" />
-												<f:passThroughAttribute name="data-inputmask"
-													value="'alias': 'dd/mm/yyyy'" />
-												<f:converter converterId="calendarDateConverter" />
-											</h:inputText>
 										</div>
+									</h:panelGroup>
+									<div class="form-group">
+										<h:outputLabel value="Airoport de départ" />
+										<h:selectOneMenu styleClass="form-control"
+											value="#{ReservationController.startAirport}">
+											<f:selectItems value="#{PartnerAgencyController.airports}"
+												var="agency" itemValue="#{agency}"
+												itemLabel="#{agency.companyName}" />
+											<f:converter converterId="airportConverter" />
+										</h:selectOneMenu>
 									</div>
 									<div class="form-group">
-										<h:outputLabel value="Lieu de départ" />
-									</div>
-									<div class="form-group">
-										<div class="row">
-											<div class="col-xs-6">
-												<h:outputLabel value="Addresse" />
-											</div>
-											<div class="col-xs-2">
-												<h:outputLabel value="ZipCode" />
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-xs-6">
-												<h:inputText placeholder="Enter ..."
-													styleClass="form-control"
-													value="#{ReservationController.location.address}" />
-											</div>
-											<div class="col-xs-2">
-												<h:inputText placeholder="Enter ..."
-													styleClass="form-control"
-													value="#{ReservationController.location.zipCode}" />
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="row">
-											<div class="col-xs-4">
-												<h:outputLabel value="Pays" />
-											</div>
-											<div class="col-xs-4">
-												<h:outputLabel value="Région" />
-											</div>
-											<div class="col-xs-4">
-												<h:outputLabel value="Ville" />
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-xs-4">
-												<h:selectOneMenu
-													binding="#{DataParameterController.htmlCountrySelect}"
-													styleClass="form-control"
-													value="#{ReservationController.location.country}">
-													<f:selectItems value="#{DataParameterController.countries}"
-														var="country" itemValue="#{country}"
-														itemLabel="#{country.label}">
-													</f:selectItems>
-													<f:converter converterId="countryConverter" />
-													<f:ajax immediate="true"
-														listener="#{DataParameterController.changeCountry}"
-														render="regions" />
-												</h:selectOneMenu>
-											</div>
-											<div class="col-xs-4">
-												<h:selectOneMenu
-													binding="#{DataParameterController.htmlRegionSelect}"
-													styleClass="form-control" id="regions"
-													value="#{ReservationController.location.region}">
-													<f:converter converterId="regionConverter" />
-													<f:selectItems value="#{DataParameterController.regions}"
-														var="region" itemValue="#{region}"
-														itemLabel="#{region.label}" />
-													<f:ajax immediate="true"
-														listener="#{DataParameterController.changeRegion}"
-														render="cities" />
-												</h:selectOneMenu>
-											</div>
-											<div class="col-xs-4">
-												<h:selectOneMenu styleClass="form-control" id="cities"
-													value="#{ReservationController.location.city}">
-													<f:selectItems value="#{DataParameterController.cities}"
-														var="city" itemValue="#{city}" itemLabel="#{city.label}" />
-													<f:converter converterId="cityConverter" />
-												</h:selectOneMenu>
-											</div>
-										</div>
+										<h:outputLabel value="Airoport de destination" />
+										<h:selectOneMenu styleClass="form-control"
+											value="#{ReservationController.destinationAirport}">
+											<f:selectItems value="#{PartnerAgencyController.airports}"
+												var="agency" itemValue="#{agency}"
+												itemLabel="#{agency.companyName}" />
+											<f:converter converterId="airportConverter" />
+										</h:selectOneMenu>
 									</div>
 									<div class="form-group">
 										<h:outputLabel value="Nombre de personnes" />
@@ -176,7 +134,7 @@
 									<div class="form-group">
 										<h:outputLabel value="Description" />
 										<h:inputText placeholder="Enter ..." styleClass="form-control"
-											value="#{ReservationController.reservation.desription}" />
+											value="#{ReservationController.reservation.description}" />
 									</div>
 									<div class="form-group">
 										<h:outputLabel value="Total Facture" />
@@ -186,8 +144,8 @@
 								</div>
 								<div class="box-footer">
 									<h:commandButton styleClass="btn btn-primary"
-										value="Ajouter Consultation"
-										action="#{ReservationController.createTaskReservation()}"
+										value="Sauvegarder"
+										action="#{ReservationController.createReservation()}"
 										type="submit" />
 								</div>
 							</h:form>
@@ -198,7 +156,12 @@
 					<!--/.col (right) -->
 				</div>
 				<h:outputScript target="body">
+				function showHtmlReturnDate() {
+				console.log("Function is Called !!");
+				 $("#endDate").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+			}
             $(function() {
+            	$('input').iCheck('destroy');
                 //Datemask dd/mm/yyyy
                 $("#startDate").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
                 $("#endDate").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});

@@ -17,8 +17,8 @@ import tn.welldone.model.Consultation;
 import tn.welldone.model.Displacement;
 import tn.welldone.model.Employee;
 import tn.welldone.model.MedicalJourney;
-import tn.welldone.model.MedicalJourneyEmployee;
 import tn.welldone.model.Prescription;
+import tn.welldone.model.Booking;
 import tn.welldone.model.Reservation;
 import tn.welldone.model.Service;
 import tn.welldone.model.Tache;
@@ -117,15 +117,15 @@ public class TacheBean implements Serializable {
 		case 1:
 			return new Treatment();
 		case 2:
-			return new Reservation();
+			return new Booking();
 		case 3:
 			return new Displacement();
 		case 4:
 			return new Consultation();
 		case 5:
-			return new Displacement();
+			return new Reservation();
 		case 6:
-			return new Prescription();
+			return new Prescription();	
 		default:
 			return null;
 		}
@@ -139,7 +139,7 @@ public class TacheBean implements Serializable {
 		case 5:
 			return new Treatment();
 		case 6:
-			return new Reservation();
+			return new Booking();
 		case 7:
 			return new Prescription();
 		case 8:
@@ -157,7 +157,7 @@ public class TacheBean implements Serializable {
 		case 5:
 			return new Treatment();
 		case 6:
-			return new Reservation();
+			return new Booking();
 		case 7:
 			return new Prescription();
 		case 8:

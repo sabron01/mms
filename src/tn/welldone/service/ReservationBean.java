@@ -9,10 +9,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import tn.welldone.data.ReservationRepository;
-import tn.welldone.model.Location;
 import tn.welldone.model.MedicalJourney;
 import tn.welldone.model.Reservation;
-import tn.welldone.model.ServiceProvider;
 
 @Local
 @Stateless
@@ -28,17 +26,10 @@ public class ReservationBean implements Serializable {
 	ReservationRepository reservationRepository;
 
 	public Reservation addReservation(Reservation reservation) {
-
 		reservationRepository.add(reservation);
-
 		return reservation;
-
 	}
 
-	public Reservation addReservation(Reservation reservation, ServiceProvider lodgingHost, Location location, MedicalJourney medicalJourney) {
-		Reservation t = reservationRepository.add(reservation,lodgingHost,location,medicalJourney);
-		return t;
-	}
 	
 	public Reservation editReservation(Reservation reservation) {
 		reservationRepository.edit(reservation);

@@ -10,7 +10,7 @@
 
 		<ui:define name="contentHeader">
 			<h1>
-				Hébergement <small>Liste des Réservations</small>
+				Reservation <small>Liste des tâches des reservations</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><h:link outcome="/home/dashboard.xhtml">
@@ -18,7 +18,7 @@
 					</h:link></li>
 				<li class="active"><h:link
 						outcome="#{ReservationController.listReservations()}">
-						<i class="fa fa-bed"></i>Hébergement</h:link></li>
+						<i class="fa fa-ticket"></i>Réservation</h:link></li>
 			</ol>
 		</ui:define>
 		<ui:define name="content">
@@ -28,8 +28,8 @@
 						rendered="#{ReservationController.list == null || ReservationController.list.size() ==0}" />
 					<div class="col-xs-12">
 						<div class="box">
-													<div class="box-header">
-								<h3 class="box-title">Liste des Réservations</h3>
+							<div class="box-header">
+								<h3 class="box-title">Liste des reservations</h3>
 								<div class="box-tools">
 									<div class="input-group">
 										<input type="text" name="table_search"
@@ -50,48 +50,48 @@
 							<!-- /.box-header -->
 							<div class="box-body table-responsive no-padding">
 								<table class="table table-hover">
-									<br />
 									<tbody>
 										<tr>
 											<th>Séjour</th>
-											<th>Hôtel/Agence Immo</th>
-											<th>Addresse</th>
-											<th>Date d'entrée</th>
-											<th>Date de sortie</th>
-											<th>Description</th>
-											<th>personnes</th>
-											<th>Total Facture</th>
+											<th>Agence de Voyage</th>
+											<th>Aéroport de départ</th>
+											<th>Aéroport d'arrivée</th>
+											<th>Date de départ</th>
+											<th>Date d'arrivée</th>
+											<th>Remarque</th>
 											<th>Action</th>
 										</tr>
 
-										<ui:repeat value="#{ReservationController.list}" var="element">
+										<ui:repeat value="#{ReservationController.list}"
+											var="element">
 											<h:form>
 												<tr>
 													<td><h:outputText
 															value="#{element.medicalJourney.identifier}"></h:outputText></td>
 													<td><h:outputText
-															value="#{element.lodgingHost.companyName}"></h:outputText></td>
+															value="#{element.travelAgency.companyName}"></h:outputText></td>
 													<td><h:outputText
-															value="#{element.location.city}"></h:outputText></td>
-													<td><h:outputText value="#{element.startDate}">
+															value="#{element.startAirport.companyName}"></h:outputText></td>
+													<td><h:outputText
+															value="#{element.destinationAirport.companyName}"></h:outputText></td>
+													<td><h:outputText value="#{element.departureDate}">
 															<f:converter converterId="calendarDateConverter" />
 														</h:outputText></td>
-													<td><h:outputText value="#{element.endDate}">
+													<td><h:outputText value="#{element.returnDate}">
 															<f:converter converterId="calendarDateConverter" />
 														</h:outputText></td>
-													<td><h:outputText
-															value="#{element.desription}"></h:outputText></td>	
-													<td><h:outputText
-															value="#{element.personCount}"></h:outputText></td>	
-													<td><h:outputText
-															value="#{element.amount}"></h:outputText></td>														
-													<td><h:commandLink title="Edit"
+													<td><h:outputText value="#{element.description}"></h:outputText></td>
+
+
+													<td>
+													<h:commandLink title="Edit"
 															styleClass="badge bg-green"
 															action="#{ReservationController.showEditReservation(element.id)}"
 															value="edit">
 															<f:setPropertyActionListener value="#{element}"
 																target="#{ReservationController.selectedReservation}" />
-														</h:commandLink> <h:commandLink title="Edit" styleClass="badge bg-red"
+														</h:commandLink> 
+														<h:commandLink title="Edit" styleClass="badge bg-red"
 															action="#{ReservationController.deleteReservation(element.id)}"
 															value="delete">
 															<f:setPropertyActionListener value="#{element}"

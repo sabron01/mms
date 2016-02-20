@@ -25,4 +25,9 @@
 	    <faces-flow-definition>
         
     </faces-flow-definition>
+<!--     <factory> -->
+<!--         <exception-handler-factory> -->
+<!--             tn.welldone.exception.CustomExceptionHandlerFactory -->
+<!--         </exception-handler-factory> -->
+<!-- </factory> -->
 </faces-config>

@@ -40,8 +40,7 @@ public class Displacement extends Tache implements Serializable {
 		this.endDate = endDate;
 	}
 
-//	@ManyToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
 	public Location getStartPoint() {
 		return startPoint;
 	}
@@ -50,8 +49,7 @@ public class Displacement extends Tache implements Serializable {
 		this.startPoint = startPoint;
 	}
 
-//	@ManyToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
 	public Location getEndPoint() {
 		return endPoint;
 	}

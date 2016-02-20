@@ -11,7 +11,12 @@
 
 	<ui:composition template="/template/common/commonLayout.xhtml">
 		<ui:define name="content">
-
+			<ui:param name="currentUserTasks"
+				value="#{notificationController.currentUserTasks}" />
+			<ui:param name="currentUserNotifications"
+				value="#{notificationController.currentUserNotifications}" />
+			<ui:param name="currentUserMessages"
+				value="#{notificationController.currentUserMessages}" />
 			<!-- Small boxes (Stat box) -->
 			<div class="row">
 				<div class="col-lg-3 col-xs-6">
@@ -146,56 +151,61 @@
 				<!-- right col (We are only adding the ID to make the widgets sortable)-->
 				<section class="col-lg-6 connectedSortable"> <!-- Map box -->
 				<!-- TO DO List -->
+
 				<div class="box box-primary">
-					<div class="box-header">
-						<i class="ion ion-clipboard"></i>
-						<h:form>
-							<h3 class="box-title">Liste des Notifications</h3>
+					<h:form>
+						<div class="box-header" style="cursor: move;">
+							<i class="ion ion-clipboard"></i>
+							<h3 class="box-title">Notifications</h3>
+
 							<div class="box-tools pull-right">
 								<ul class="pagination pagination-sm inline">
-									<li><h:commandButton value="&laquo;"
+									<li><h:commandLink value="&laquo;"
 											action="#{notificationController.paginator.prev}" /></li>
-									<li><h:outputText
-											value="#{notificationController.paginator.pageIndex} / #{notificationController.paginator.pages}" /></li>
-									<li><h:commandButton value="&raquo;"
+									<li><a href="#"><h:outputText
+												value="#{notificationController.paginator.pageIndex}" /></a></li>
+									<li><h:commandLink value="&raquo;"
 											action="#{notificationController.paginator.next}" /></li>
 									<li><h:inputHidden
 											value="#{notificationController.paginator.pageIndex}" /></li>
 								</ul>
 							</div>
-						</h:form>
-					</div>
+
+						</div>
+					</h:form>
 					<!-- /.box-header -->
 					<div class="box-body">
-						<ul class="todo-list">
+						<ul class="todo-list ui-sortable">
 							<ui:repeat value="#{notificationController.paginator.model}"
 								var="element">
-								<h:form>
-									<li>
-										<!-- todo text --> <span class="text"><h:outputText
-												value="#{element.subject}"></h:outputText> </span> <span
-										class="text"><h:outputText value="#{element.text}"></h:outputText>
-									</span> <!-- Emphasis label --> <small class="label label-info">
-											<i class="fa fa-clock-o"></i> <h:outputText
-												value="#{element.createdAt}"></h:outputText>
-									</small> <!-- General tools such as edit or delete-->
-										<div class="tools">
-											<i class="fa fa-edit"></i>
-											<h:commandLink title="Delete" styleClass="fa fa-trash-o"
-												action="#{notificationController.deleteNotification(element.id)}"
-												value="">
-												<f:setPropertyActionListener value="#{element}"
-													target="#{notificationController.selectedNotification}" />
-											</h:commandLink>
-										</div>
-									</li>
-								</h:form>
+								<li>
+									<!-- todo text --> <span class="text"> <h:outputText
+											value="#{element.subject}"></h:outputText>
+								</span> <span class="label label-success"><h:outputText
+											value="#{element.medicalJourney.identifier}"></h:outputText></span>
+									<small class="label label-danger"><i
+										class="fa fa-clock-o"></i>
+									<h:outputText value="#{element.createdAt}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText></small>
+									<div class="tools">
+										<i class="fa fa-trash-o"> <h:form>
+												<h:commandLink title="Delete"
+													action="#{notificationController.deleteNotification(element.id)}"
+													value="">
+													<f:setPropertyActionListener value="#{element}"
+														target="#{notificationController.selectedNotification}" />
+												</h:commandLink>
+											</h:form>
+										</i>
+									</div>
+								</li>
 							</ui:repeat>
-
 						</ul>
 					</div>
 					<!-- /.box-body -->
 				</div>
+
 				<!-- /.box --> </section>
 				<!-- right col -->
 			</div>

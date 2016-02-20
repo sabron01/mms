@@ -145,7 +145,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return ""+getId();
+		return "" + getId();
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public class User implements Serializable {
 		this.deletedAt = deletedAt;
 	}
 
-//	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Groupe.class)
+	// @ManyToMany(fetch = FetchType.EAGER, targetEntity = Groupe.class)
 	@ManyToMany
 	@JoinTable(name = "User_Groupe", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "groupe_id") })
 	public Collection<Groupe> getGroupes() {
@@ -188,7 +188,7 @@ public class User implements Serializable {
 	public void setGroupes(Collection<Groupe> groupes) {
 		this.groupes = groupes;
 	}
-	
+
 	@ManyToMany(mappedBy = "targetUsers")
 	public Collection<Notification> getNotifications() {
 		return notifications;
@@ -197,9 +197,5 @@ public class User implements Serializable {
 	public void setNotifications(Collection<Notification> notifications) {
 		this.notifications = notifications;
 	}
-	
-	
-	
-	
 
 }

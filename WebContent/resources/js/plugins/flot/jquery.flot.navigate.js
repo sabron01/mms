@@ -71,7 +71,7 @@ Example API usage:
 
 Here, "center" specifies where the center of the zooming should happen. Note
 that this is defined in pixel space, not the space of the data points (you can
-use the p2c helpers on the axes in Flot to help you convert between these).
+use the p2c tn.welldone.helpers on the axes in Flot to help you convert between these).
 
 "amount" is the amount to zoom the viewport relative to the current range, so
 1 is 100% (i.e. no change), 1.5 is 150% (zoom in), 0.7 is 70% (zoom out). You

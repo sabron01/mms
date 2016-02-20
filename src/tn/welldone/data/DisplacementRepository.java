@@ -66,10 +66,14 @@ public class DisplacementRepository {
 			MedicalJourney medicalJourney, ServiceProvider agency,
 			Location startLocation, Location endLocation) {
 		displacement.setIsDeleted(false);
+		entityManager.persist(endLocation);
+		entityManager.persist(startLocation);
 		setTransactionDetails(displacement, Action.CREATE);
 		entityManager.persist(displacement);
 		displacement.setMedicalJourney(medicalJourney);
 		displacement.setProvider(agency);
+		displacement.setStartPoint(startLocation);
+		displacement.setEndPoint(endLocation);
 		Displacement d = entityManager.merge(displacement);
 		entityManager.merge(medicalJourney);
 		entityManager.flush();
@@ -79,6 +83,10 @@ public class DisplacementRepository {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void edit(Displacement displacement) {
 		setTransactionDetails(displacement, Action.UPDATE);
+		entityManager.merge(displacement.getMedicalJourney());
+		//entityManager.merge(displacement.getEndPoint());
+		//entityManager.merge(displacement.getStartPoint());
+		
 		displacement.setIsDeleted(false);
 		Displacement d = entityManager.merge(displacement);
 		entityManager.flush();

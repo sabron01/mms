@@ -7,11 +7,10 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.jboss.logging.Logger;
 
 import tn.welldone.controller.SessionUser;
 import tn.welldone.model.Doctor;
@@ -20,6 +19,7 @@ import tn.welldone.model.ServiceProvider;
 import tn.welldone.model.Tache.TacheState;
 import tn.welldone.model.Treatment;
 import tn.welldone.model.User;
+import tn.welldone.webSockets.WBTimeEvent;
 
 @Stateless
 @Local
@@ -27,6 +27,8 @@ public class TreatmentRepository {
 
 	@PersistenceContext(unitName = "mmsPU")
 	private EntityManager entityManager;
+	
+	@Inject  @WBTimeEvent Event<Treatment> treatmentEvent;
 
 	@Inject
 	private SessionUser session;

@@ -38,8 +38,7 @@ public class Consultation extends Tache implements Serializable {
 		this.dateConsultation = dateConsultation;
 	}
 
-//	@ManyToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
 	public Location getAddress() {
 		return address;
 	}

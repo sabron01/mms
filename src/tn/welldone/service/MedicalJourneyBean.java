@@ -13,6 +13,7 @@ import tn.welldone.data.MedicalJourneyRepository;
 import tn.welldone.model.Contract;
 import tn.welldone.model.Employee;
 import tn.welldone.model.MedicalJourney;
+import tn.welldone.model.MedicalJourneyEmployeeService;
 import tn.welldone.model.Service;
 import tn.welldone.model.Tache;
 
@@ -50,8 +51,6 @@ public class MedicalJourneyBean implements Serializable {
 	
 	public void updateMedicalJourneyEmployees(
 			MedicalJourney selectedMedicalJourney, Employee employee) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public Tache generateTacheForEmployee(MedicalJourney medicalJourney,
@@ -77,7 +76,17 @@ public class MedicalJourneyBean implements Serializable {
 		medicalJourneyRepository.edit(medicalJourney, contract);
 		return medicalJourney;
 	}
+	
+	public void removeAffectedEmployee(MedicalJourneyEmployeeService mse) {
+		medicalJourneyRepository.removeAffectedEmployee(mse);
+	}
 
+	public void affectEmployee(
+			MedicalJourneyEmployeeService medicalJourneyEmployeeService) {
+		medicalJourneyRepository.affectEmployee(medicalJourneyEmployeeService);
+		
+	}
+	
 	public MedicalJourney deleteMedicalJourney(MedicalJourney medicalJourney) {
 		medicalJourneyRepository.delete(medicalJourney);
 		return medicalJourney;
@@ -91,6 +100,10 @@ public class MedicalJourneyBean implements Serializable {
 	public Collection<MedicalJourney> getCurrentMedicalJourneys() {
 		return medicalJourneyRepository.getCurrentMedicalJourneys();
 	}
+
+
+
+
 
 
 }

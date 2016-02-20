@@ -4,7 +4,7 @@
 * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana%2CArial%2Csans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=4px&bgColorHeader=%23e6e7e8&bgTextureHeader=flat&bgImgOpacityHeader=100&borderColorHeader=%23ddd&fcHeader=%23222222&iconColorHeader=%23222222&bgColorContent=%23ffffff&bgTextureContent=flat&bgImgOpacityContent=75&borderColorContent=%23ddd&fcContent=%23222222&iconColorContent=%23222222&bgColorDefault=%23e6e6e6&bgTextureDefault=flat&bgImgOpacityDefault=75&borderColorDefault=%23ddd&fcDefault=%23555555&iconColorDefault=%23888888&bgColorHover=%23dadada&bgTextureHover=flat&bgImgOpacityHover=75&borderColorHover=%23999999&fcHover=%23212121&iconColorHover=%23454545&bgColorActive=%23ffffff&bgTextureActive=flat&bgImgOpacityActive=65&borderColorActive=%23aaaaaa&fcActive=%23212121&iconColorActive=%23454545&bgColorHighlight=%23f39c12&bgTextureHighlight=flat&bgImgOpacityHighlight=55&borderColorHighlight=%23f39c12&fcHighlight=%23f9f9f9&iconColorHighlight=%23ffffff&bgColorError=%23f56954&bgTextureError=flat&bgImgOpacityError=100&borderColorError=%23f56954&fcError=%23f9f9f9&iconColorError=%23ffffff&bgColorOverlay=%23aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=%23aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
 * Copyright 2014 jQuery Foundation and other contributors; Licensed MIT */
 
-/* Layout helpers
+/* Layout tn.welldone.helpers
 ----------------------------------*/
 .ui-helper-hidden {
 	display: none;

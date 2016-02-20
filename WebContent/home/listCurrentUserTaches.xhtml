@@ -11,6 +11,12 @@
 
 	<ui:composition template="/template/common/commonLayout.xhtml">
 		<ui:define name="contentHeader">
+			<ui:param name="currentUserTasks"
+				value="#{notificationController.currentUserTasks}" />
+			<ui:param name="currentUserNotifications"
+				value="#{notificationController.currentUserNotifications}" />
+			<ui:param name="currentUserMessages"
+				value="#{notificationController.currentUserMessages}" />
 			<h1>
 				Accueil <small>Tâches</small>
 			</h1>
@@ -23,7 +29,7 @@
 		</ui:define>
 		<ui:define name="content">
 			<f:view>
-<h:outputStylesheet>
+				<h:outputStylesheet>
 .label-ACHIEVED { background-color: #5cb85c;}
 .label-CREATED { background-color: #f4543c;}
 .label-PLANNED { background-color: #3c8dbc;}
@@ -61,6 +67,7 @@
 									<tbody>
 										<tr>
 											<th>Code</th>
+											<th>Tâche</th>
 											<th>Date</th>
 											<th>Séjour</th>
 											<th>Patient</th>
@@ -73,6 +80,7 @@
 											<h:form>
 												<tr>
 													<td><h:outputText value="#{element.codeTache}"></h:outputText></td>
+													<td><h:outputText value="#{element['class'].simpleName}"></h:outputText></td>
 													<td><h:outputText value="#{element.createdAt}">
 															<f:convertDateTime pattern="dd-MM-yyyy" />
 														</h:outputText></td>
@@ -89,7 +97,7 @@
 															value="Perform">
 															<f:setPropertyActionListener value="#{element}"
 																target="#{tacheController.selectedTache}" />
-														</h:commandLink> </td>
+														</h:commandLink></td>
 												</tr>
 											</h:form>
 										</ui:repeat>

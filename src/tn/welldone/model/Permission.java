@@ -17,19 +17,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import tn.welldone.converter.OperationConverter;
+import tn.welldone.helpers.Operation;
 
 //import tn.welldone.converter.OperationConverter;
 
 @Entity
 public class Permission implements Serializable {
-
-	/**
-	 * 
-	 */
-
-	public enum Operation {
-		VIEW, ADD, EDIT, UPDATE, DELETE, PRINT
-	}
 
 	private static final long serialVersionUID = -4684016528511451763L;
 	private int id;

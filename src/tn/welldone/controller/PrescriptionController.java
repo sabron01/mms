@@ -12,7 +12,7 @@ import javax.inject.Named;
 import tn.welldone.model.Doctor;
 import tn.welldone.model.MedicalJourney;
 import tn.welldone.model.Prescription;
-import tn.welldone.model.Reservation;
+import tn.welldone.model.Booking;
 import tn.welldone.model.Tache;
 import tn.welldone.model.Tache.TacheState;
 import tn.welldone.service.DataService;

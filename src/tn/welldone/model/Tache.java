@@ -18,17 +18,17 @@ import tn.welldone.converter.ActionConverter;
 import tn.welldone.converter.MedicalJourneyStateConverter;
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-public class Tache implements Serializable{
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Tache implements Serializable {
 
 	public enum TacheState {
 		CREATED, PLANNED, ACTIVE, SUSPENDED, ACHIEVED, CANCELED, REJECTED, DELETED
 	}
-	
+
 	public enum Action {
-		CREATE,UPDATE,DELETE
+		CREATE, UPDATE, DELETE
 	}
-	
+
 	private static final long serialVersionUID = 8846925337336266155L;
 	private int id;
 	private String codeTache;
@@ -45,8 +45,8 @@ public class Tache implements Serializable{
 	private Date updateAt;
 	private Date deletedAt;
 
-    @Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int getId() {
 		return id;
 	}
@@ -62,7 +62,7 @@ public class Tache implements Serializable{
 	public void setCodeTache(String codeTache) {
 		this.codeTache = codeTache;
 	}
-	
+
 	@ManyToOne
 	public MedicalJourney getMedicalJourney() {
 		return medicalJourney;
@@ -163,7 +163,7 @@ public class Tache implements Serializable{
 	public void setTacheState(TacheState tacheState) {
 		this.tacheState = tacheState;
 	}
-	
+
 	@Convert(converter = ActionConverter.class)
 	@Enumerated(EnumType.STRING)
 	public Action getAction() {
@@ -172,6 +172,28 @@ public class Tache implements Serializable{
 
 	public void setAction(Action action) {
 		this.action = action;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tache other = (Tache) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 }

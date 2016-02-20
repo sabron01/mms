@@ -8,7 +8,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 
+import tn.welldone.interceptors.TaskInterceptor;
 import tn.welldone.model.City;
 import tn.welldone.model.Consultation;
 import tn.welldone.model.Country;
@@ -89,17 +91,17 @@ public class ConsultationController implements Serializable {
 		if (oldConsultationAmount == null)
 			oldConsultationAmount = 0f;
 		Float newAmount = oldAmount - oldConsultationAmount
-				+ selectedConsultation.getAmount();
+				+ consultation.getAmount();
+		System.out.println("MedicalJourney ID "+medicalJourney.getId());
 		medicalJourney.setAmount(newAmount);
 		consultation.setAction(taskController.getTache().getAction());
 		consultation.setMedicalJourney(medicalJourney);
 		consultation.setDoctor(doctor);
 		consultation.setCodeTache(taskController.getTache().getCodeTache());
 		consultation.setOwnerAgent(taskController.getTache().getOwnerAgent());
-		medicalJourney.setAmount(newAmount);
 		consultation.setAddress(location);
 		consultation.setTacheState(TacheState.PLANNED);
-		consultationBean.editConsultation(selectedConsultation);
+		consultationBean.editConsultation(consultation);
 		taskController.setTache(new Tache());
 		return "listConsultations.faces?faces-redirect=true";
 	}

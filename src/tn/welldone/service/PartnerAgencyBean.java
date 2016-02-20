@@ -1,6 +1,7 @@
 package tn.welldone.service;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -108,6 +109,14 @@ public class PartnerAgencyBean implements Serializable {
 		
 		return doctorRepository.getDoctors();
 
+	}
+	
+	public Collection<ServiceProvider> getTravelAgencies(){
+		return serviceProviderReposotiry.getTravelAgencies();
+	}
+	
+	public Collection<ServiceProvider> getAirports(){
+		return serviceProviderReposotiry.getAirports();
 	}
 
 	public DoctorRepository getDoctorRepository() {

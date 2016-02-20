@@ -32,10 +32,10 @@ public class medicalJourneyConverter implements Converter {
 				.evaluateExpressionGet(context, "#{MedicalJourneyController}",
 						MedicalJourneyController.class);
 
-		for (MedicalJourney contract : data.getList()) {
+		for (MedicalJourney medicalJourney : data.getList()) {
 
-			if (contract.getId() == Integer.parseInt(value)) {
-				return contract;
+			if (medicalJourney.getId() == Integer.parseInt(value)) {
+				return medicalJourney;
 			}
 		}
 

@@ -2,6 +2,7 @@ package tn.welldone.controller;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -10,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import tn.welldone.model.Notification;
+import tn.welldone.model.Permission;
 import tn.welldone.model.User;
 import tn.welldone.service.UserBean;
 
@@ -23,6 +25,8 @@ public class SessionUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private User user;
+	
+	private Collection<Permission> permissions;
 
     @EJB
 	private UserBean userBean;
@@ -36,7 +40,7 @@ public class SessionUser implements Serializable {
         }
         return user;
     }
-     
+    
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -45,6 +49,14 @@ public class SessionUser implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext()
 				.invalidateSession();
 		return "/home/dashboard?faces-redirect=true";
+	}
+
+	public Collection<Permission> getPermissions() {
+		return userBean.getPermissions(user);
+	}
+
+	public void setPermissions(Collection<Permission> permissions) {
+		this.permissions = permissions;
 	}
 
 }

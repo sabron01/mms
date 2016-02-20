@@ -193,6 +193,8 @@ INSERT INTO mmsdb.ProviderType(id,isDeleted,label,typeCode) VALUES ('3', false, 
 INSERT INTO mmsdb.ProviderType(id,isDeleted,label,typeCode) VALUES ('4', false, "Clinique", "CLI");
 INSERT INTO mmsdb.ProviderType(id,isDeleted,label,typeCode) VALUES ('5', false, "Agence d'Assurances", "ASS");
 INSERT INTO mmsdb.ProviderType(id,isDeleted,label,typeCode) VALUES ('6', false, "pharmacie", "PH");
+INSERT INTO mmsdb.ProviderType(id,isDeleted,label,typeCode) VALUES ('7', false, "Agence de Voyage", "AV");
+INSERT INTO mmsdb.ProviderType(id,isDeleted,label,typeCode) VALUES ('8', false, "Aéroport", "AE");
 
 --Load Service Provider Data
 INSERT INTO mmsdb.ServiceProvider(id,isDeleted,companyName,responsibleName,creationDate,activity,mobile,mail,fax,tel,typeProvider_id) VALUES ('1', false, "Hotel Africa Tunis", "Yaakoub Maher","2015-05-07 00:00:00","hebergment",'71342343',"hotelafrica@gmail.com",'71345435','22123124','1');

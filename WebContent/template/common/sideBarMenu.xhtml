@@ -6,242 +6,264 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <body>
 	<ui:composition>
+		<h:form>
+			<ui:fragment rendered="#{request.isUserInRole('Administrateur')}">
+				<span style="margin: 10px;"><B>Convensions et Partenaires</B></span>
+				<li
+					class="#{view.viewId.contains('insuranceAgency')? 'active' : ''}"><h:link
+						outcome="/insuranceAgency/listInsuranceAgencies.xhtml">
+						<i class="fa fa-list-alt "></i>
+						<span>Liste des Assurances</span>
+					</h:link></li>
+			</ui:fragment>
+			<ui:fragment rendered="#{request.isUserInRole('Administrateur')}">
+				<li class="#{view.viewId.contains('contract')? 'active' : ''}"><h:link
+						outcome="/contract/listContracts.xhtml">
+						<i class="fa fa-pencil-square-o"></i>
+						<span>Les Contrats des Conventions</span>
+					</h:link></li>
+			</ui:fragment>
 
-		<ui:fragment rendered="#{request.isUserInRole('Administrateur')}">
-			<span style="margin: 10px;"><B>Convensions et Partenaires</B></span>
-			<li class="#{view.viewId.contains('insuranceAgency')? 'active' : ''}"><h:link
-					outcome="/insuranceAgency/listInsuranceAgencies.xhtml">
-					<i class="fa fa-list-alt "></i>
-					<span>Liste des Assurances</span>
-				</h:link></li>
-		</ui:fragment>
-		<ui:fragment rendered="#{request.isUserInRole('Administrateur')}">
-			<li class="#{view.viewId.contains('contract')? 'active' : ''}"><h:link
-					outcome="/contract/listContracts.xhtml">
-					<i class="fa fa-pencil-square-o"></i>
-					<span>Les Contrats des Conventions</span>
-				</h:link></li>
-		</ui:fragment>
+			<ui:fragment rendered="#{request.isUserInRole('Administrateur')}">
+				<li
+					class="treeview #{view.viewId.contains('partners') ? 'active' : ''}">
+					<a href="#"> <i class="fa fa-users"></i> <span>Les
+							Partenaires</span> <i class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="treeview-menu">
+						<li class="#{view.viewId.contains('Hotel')? 'active' : ''}"></li>
+						<li class="#{view.viewId.contains('Travel')? 'active' : ''}"><h:link
+								outcome="/partners/listTravelAgencies.xhtml">
+								<i class="fa fa-angle-double-right"></i>Les Agences des voyages</h:link></li>
+						<li class="#{view.viewId.contains('Airport')? 'active' : ''}"><h:link
+								outcome="/partners/listAirports.xhtml">
+								<i class="fa fa-angle-double-right"></i>Les Aéroports</h:link></li>
+						<li class="#{view.viewId.contains('Clinic')? 'active' : ''}"><h:link
+								outcome="/partners/listClinics.xhtml">
+								<i class="fa fa-angle-double-right"></i>Les Cliniques</h:link></li>
+						<li class="#{view.viewId.contains('Immo')? 'active' : ''}"><h:link
+								outcome="/partners/listRealEstateAgencies.xhtml">
+								<i class="fa fa-angle-double-right"></i>Les Agences Immobilières </h:link></li>
+						<li class="#{view.viewId.contains('LV')? 'active' : ''}"><h:link
+								outcome="/partners/listRentAcarAgencies.xhtml">
+								<i class="fa fa-angle-double-right"></i>Location des Voitures </h:link></li>
+						<li class="#{view.viewId.contains('Ambulance')? 'active' : ''}"><h:link
+								outcome="/partners/listAmbulanceAgencies.xhtml">
+								<i class="fa fa-angle-double-right"></i>Les Ambulances </h:link></li>
 
-		<ui:fragment rendered="#{request.isUserInRole('Administrateur')}">
-			<li
-				class="treeview #{view.viewId.contains('partners') ? 'active' : ''}">
-				<a href="#"> <i class="fa fa-users"></i> <span>Les
-						Partenaires</span> <i class="fa fa-angle-left pull-right"></i>
-			</a>
-				<ul class="treeview-menu">
-					<li class="#{view.viewId.contains('Hotel')? 'active' : ''}"><h:link
-							outcome="/partners/listHotels.xhtml">
-							<i class="fa fa-angle-double-right"></i>Les Hôtels</h:link></li>
-					<li class="#{view.viewId.contains('Clinic')? 'active' : ''}"><h:link
-							outcome="/partners/listClinics.xhtml">
-							<i class="fa fa-angle-double-right"></i>Les Cliniques</h:link></li>
-					<li class="#{view.viewId.contains('Immo')? 'active' : ''}"><h:link
-							outcome="/partners/listRealEstateAgencies.xhtml">
-							<i class="fa fa-angle-double-right"></i>Les Agences Immobilières </h:link></li>
-					<li class="#{view.viewId.contains('LV')? 'active' : ''}"><h:link
-							outcome="/partners/listRentAcarAgencies.xhtml">
-							<i class="fa fa-angle-double-right"></i>Location des Voitures </h:link></li>
+						<li class="#{view.viewId.contains('Pharmacie')? 'active' : ''}"><h:link
+								outcome="/partners/listPharmacies.xhtml">
+								<i class="fa fa-angle-double-right"></i>Les Pharmacies </h:link></li>
 
-					<li class="#{view.viewId.contains('Ambulance')? 'active' : ''}"><h:link
-							outcome="/partners/listAmbulanceAgencies.xhtml">
-							<i class="fa fa-angle-double-right"></i>Les Ambulances </h:link></li>
-
-					<li class="#{view.viewId.contains('Pharmacie')? 'active' : ''}"><h:link
-							outcome="/partners/listPharmacies.xhtml">
-							<i class="fa fa-angle-double-right"></i>Les Pharmacies </h:link></li>
-
-					<li class="#{view.viewId.contains('Doctors')? 'active' : ''}"><h:link
-							outcome="/partners/listDoctors.xhtml">
-							<i class="fa fa-angle-double-right"></i>Les Docteurs </h:link></li>
-				</ul>
-			</li>
-		</ui:fragment>
-
-		<ui:fragment>
-			<li class="#{view.viewId.contains('taches')? 'active' : ''}">
-				<h:link outcome="/home/listCurrentUserTaches.xhtml">
-					<i class="fa fa-pencil-square-o"></i>
-					<span>Mes Tâches</span>
-				</h:link> 
+						<li class="#{view.viewId.contains('Doctors')? 'active' : ''}"><h:link
+								outcome="/partners/listDoctors.xhtml">
+								<i class="fa fa-angle-double-right"></i>Les Docteurs </h:link></li>
+					</ul>
 				</li>
-		</ui:fragment>
+			</ui:fragment>
+
+			<ui:fragment>
+				<li class="#{view.viewId.contains('taches')? 'active' : ''}"><h:link
+						outcome="/home/listCurrentUserTaches.xhtml">
+						<i class="fa fa-pencil-square-o"></i>
+						<span>Mes Tâches</span>
+					</h:link></li>
+			</ui:fragment>
 
 
-		<ui:fragment rendered="#{request.isUserInRole('Santé')}">
-			<span style="margin: 10px;"><B>Gestion Médicale</B></span>
-			<li class="#{view.viewId.contains('patient') ? 'active' : ''}"><h:link
-					outcome="/patient/listPatients.xhtml">
-					<i class="fa fa-user-md"></i>
-					<span>Liste Patients</span>
-				</h:link></li>
-			<li
-				class="treeview #{view.viewId.contains('medicalJourney') ? 'active' : ''}">
-				<a href="#"> <i class="fa fa-pencil-square-o"></i> <span>Séjours</span>
-					<i class="fa fa-angle-left pull-right"></i>
-			</a>
-				<ul class="treeview-menu">
-					<li><h:link
-							outcome="/medicalJourney/listAffectedMedicalJourneys.xhtml">
-							<i class="fa fa-angle-double-right"></i>Séjours Affectés</h:link></li>
-					<li><h:link
-							outcome="/medicalJourney/listMedicalJourneys.xhtml">
-							<i class="fa fa-angle-double-right"></i>Liste des séjours</h:link></li>
-					<li><h:link
-							outcome="/medicalJourney/listCurrentMedicalJourneys.xhtml">
-							<i class="fa fa-angle-double-right"></i>Séjours en cours</h:link></li>
-				</ul>
+			<ui:fragment rendered="#{request.isUserInRole('Santé')}">
+				<span style="margin: 10px;"><B>Gestion Médicale</B></span>
+				<li class="#{view.viewId.contains('patient') ? 'active' : ''}"><h:link
+						outcome="/patient/listPatients.xhtml">
+						<i class="fa fa-user-md"></i>
+						<span>Liste Patients</span>
+					</h:link></li>
+				<li
+					class="treeview #{view.viewId.contains('medicalJourney') ? 'active' : ''}">
+					<a href="#"> <i class="fa fa-pencil-square-o"></i> <span>Séjours</span>
+						<i class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="treeview-menu">
+						<li><h:link
+								outcome="/medicalJourney/listAffectedMedicalJourneys.xhtml">
+								<i class="fa fa-angle-double-right"></i>Séjours Affectés</h:link></li>
+						<li><h:link
+								outcome="/medicalJourney/listMedicalJourneys.xhtml">
+								<i class="fa fa-angle-double-right"></i>Liste des séjours</h:link></li>
+						<li><h:link
+								outcome="/medicalJourney/listCurrentMedicalJourneys.xhtml">
+								<i class="fa fa-angle-double-right"></i>Séjours en cours</h:link></li>
+					</ul>
 
-			</li>
-			<li
-				class="treeview #{view.viewId.contains('doctor') ? 'active' : ''}">
-				<a href="#"> <i class="fa fa-user-md"></i> <span>Les
-						Docteurs</span> <i class="fa fa-angle-left pull-right"></i>
-			</a>
-				<ul class="treeview-menu">
-					<li><h:link outcome="/doctor/addDoctor.xhtml">
-							<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
-					<li><h:link outcome="/doctor/listDoctors.xhtml">
-							<i class="fa fa-angle-double-right"></i>Liste Docteurs</h:link></li>
-				</ul>
-			</li>
-		</ui:fragment>
+				</li>
+				<li
+					class="treeview #{view.viewId.contains('doctor') ? 'active' : ''}">
+					<a href="#"> <i class="fa fa-user-md"></i> <span>Les
+							Docteurs</span> <i class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="treeview-menu">
+						<li><h:link outcome="/doctor/addDoctor.xhtml">
+								<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
+						<li><h:link outcome="/doctor/listDoctors.xhtml">
+								<i class="fa fa-angle-double-right"></i>Liste Docteurs</h:link></li>
+					</ul>
+				</li>
+			</ui:fragment>
 
-		<ui:fragment
-			rendered="#{request.isUserInRole('Hebergement') || request.isUserInRole('Transport') || request.isUserInRole('Administrateur') || request.isUserInRole('Santé')}">
-			<span style="margin: 10px;"><B>Planification</B></span>
-			<li class="#{view.viewId.contains('planification')? 'active' : ''}"><h:link
-					outcome="/planification/planification.xhtml">
-					<i class="fa fa-calendar"></i>
-					<span>Calendrier des séjours</span>
-				</h:link></li>
-		</ui:fragment>
+			<ui:fragment
+				rendered="#{request.isUserInRole('Hebergement') || request.isUserInRole('Transport') || request.isUserInRole('Administrateur') || request.isUserInRole('Santé')}">
+				<span style="margin: 10px;"><B>Planification</B></span>
+				<li class="#{view.viewId.contains('planification')? 'active' : ''}"><h:link
+						outcome="/planification/planification.xhtml">
+						<i class="fa fa-calendar"></i>
+						<span>Calendrier des séjours</span>
+					</h:link></li>
+			</ui:fragment>
 
 
-		<ui:fragment rendered="#{request.isUserInRole('Administrateur')}">
-			<span style="margin: 10px;"><B>Gestion des Employées</B></span>
-			<li class="#{view.viewId.contains('employee')? 'active' : ''}"><h:link
-					outcome="/employee/listEmployees.xhtml">
-					<i class="fa fa-male"></i>
-					<span>Liste des Employées</span>
-				</h:link></li>
-		</ui:fragment>
+			<ui:fragment rendered="#{request.isUserInRole('Administrateur')}">
+				<span style="margin: 10px;"><B>Gestion des Employées</B></span>
+				<li class="#{view.viewId.contains('employee')? 'active' : ''}"><h:link
+						outcome="/employee/listEmployees.xhtml">
+						<i class="fa fa-male"></i>
+						<span>Liste des Employées</span>
+					</h:link></li>
+			</ui:fragment>
 
-		<ui:fragment
-			rendered="#{request.isUserInRole('Hebergement') || request.isUserInRole('Transport') || request.isUserInRole('Administrateur') || request.isUserInRole('Santé')}">
-			<span style="margin: 10px;"><B>Les Taches</B></span>
-		</ui:fragment>
-		<ui:fragment rendered="#{request.isUserInRole('Santé')}">
+			<ui:fragment
+				rendered="#{request.isUserInRole('Hebergement') || request.isUserInRole('Transport') || request.isUserInRole('Administrateur') || request.isUserInRole('Santé')}">
+				<span style="margin: 10px;"><B>Les Taches</B></span>
+			</ui:fragment>
+			<ui:fragment rendered="#{request.isUserInRole('Santé')}">
 
-			<li
-				class="treeview #{view.viewId.contains('treatment') ? 'active' : ''}">
-				<a href="#"> <i class="fa fa-h-square"></i> <span>Hospitalisation</span>
-					<i class="fa fa-angle-left pull-right"></i>
-			</a>
-				<ul class="treeview-menu">
-					<li><h:link outcome="/treatment/addTreatment.xhtml">
-							<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
-					<li><h:link outcome="/treatment/listTreatments.xhtml">
-							<i class="fa fa-angle-double-right"></i>Liste des traitements</h:link></li>
-				</ul>
-			</li>
-		</ui:fragment>
-		<ui:fragment rendered="#{request.isUserInRole('Transport')}">
-			<li
-				class="treeview #{view.viewId.contains('displacement') ? 'active' : ''}">
-				<a href="#"> <i class="fa fa-truck"></i> <span>Transport</span>
-					<i class="fa fa-angle-left pull-right"></i>
-			</a>
-				<ul class="treeview-menu">
-					<li><h:link outcome="/displacement/addDisplacement.xhtml">
-							<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
-					<li><h:link outcome="/displacement/listDisplacements.xhtml">
-							<i class="fa fa-angle-double-right"></i>Liste des déplacements</h:link></li>
-				</ul>
-			</li>
-		</ui:fragment>
-		<ui:fragment rendered="#{request.isUserInRole('Hebergement')}">
-			<li
-				class="treeview #{view.viewId.contains('reservation') ? 'active' : ''}">
-				<a href="#"> <i class="fa fa-building-o"></i> <span>Hébergement</span>
-					<i class="fa fa-angle-left pull-right"></i>
-			</a>
-				<ul class="treeview-menu">
-					<li><h:link outcome="/reservation/addReservation.xhtml">
-							<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
-					<li><h:link outcome="/reservation/listReservations.xhtml">
-							<i class="fa fa-angle-double-right"></i>Liste des réservations</h:link></li>
-				</ul>
-			</li>
-		</ui:fragment>
-		<ui:fragment rendered="#{request.isUserInRole('Santé')}">
-			<li
-				class="treeview #{view.viewId.contains('consultation') ? 'active' : ''}">
-				<a href="#"> <i class="fa  fa-stethoscope"></i> <span>Consultation</span>
-					<i class="fa fa-angle-left pull-right"></i>
-			</a>
-				<ul class="treeview-menu">
-					<li><h:link outcome="/consultation/addConsultation.xhtml">
-							<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
-					<li><h:link outcome="/consultation/listConsultations.xhtml">
-							<i class="fa fa-angle-double-right"></i>Liste des consultations</h:link></li>
-				</ul>
-			</li>
-			<li
-				class="treeview #{view.viewId.contains('prescription') ? 'active' : ''}">
-				<a href="#"> <i class="fa fa-medkit"></i> <span>Ordonnances</span>
-					<i class="fa fa-angle-left pull-right"></i>
-			</a>
-				<ul class="treeview-menu">
-					<li><h:link outcome="/prescription/addPrescription.xhtml">
-							<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
-					<li><h:link outcome="/prescription/listPrescriptions.xhtml">
-							<i class="fa fa-angle-double-right"></i>Liste des Ordonnaces</h:link></li>
-				</ul>
-			</li>
-		</ui:fragment>
+				<li
+					class="treeview #{view.viewId.contains('treatment') ? 'active' : ''}">
+					<a href="#"> <i class="fa fa-h-square"></i> <span>Hospitalisation</span>
+						<i class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="treeview-menu">
+						<li><h:link outcome="/treatment/addTreatment.xhtml">
+								<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
+						<li><h:link outcome="/treatment/listTreatments.xhtml">
+								<i class="fa fa-angle-double-right"></i>Liste des traitements</h:link></li>
+					</ul>
+				</li>
+			</ui:fragment>
+			<ui:fragment rendered="#{request.isUserInRole('Transport')}">
+				<li
+					class="treeview #{view.viewId.contains('displacement') ? 'active' : ''}">
+					<a href="#"> <i class="fa fa-truck"></i> <span>Transport</span>
+						<i class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="treeview-menu">
+						<li><h:commandLink styleClass="fa fa-angle-double-right"
+								action="#{DisplacementController.createNewDisplacement()}"
+								value="Nouveau">
+							</h:commandLink> <h:link outcome="/displacement/addDisplacement.xhtml">
+							</h:link></li>
+						<li><h:link outcome="/displacement/listDisplacements.xhtml">
+								<i class="fa fa-angle-double-right"></i>Liste des déplacements</h:link></li>
+					</ul>
+				</li>
+			</ui:fragment>
+			<ui:fragment rendered="#{request.isUserInRole('Transport')}">
+				<li
+					class="treeview #{view.viewId.contains('reservation') ? 'active' : ''}">
+					<a href="#"> <i class="fa fa-ticket"></i> <span>Billeterie</span>
+						<i class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="treeview-menu">
+						<li><h:link outcome="/reservation/addReservation.xhtml">
+								<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
+						<li><h:link outcome="/reservation/listReservations.xhtml">
+								<i class="fa fa-angle-double-right"></i>Liste des réservations</h:link></li>
+					</ul>
+				</li>
+			</ui:fragment>
+			<ui:fragment rendered="#{request.isUserInRole('Hebergement')}">
+				<li
+					class="treeview #{view.viewId.contains('booking') ? 'active' : ''}">
+					<a href="#"> <i class="fa fa-building-o"></i> <span>Hébergement</span>
+						<i class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="treeview-menu">
+						<li><h:link outcome="/booking/addBooking.xhtml">
+								<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
+						<li><h:link outcome="/booking/listBookings.xhtml">
+								<i class="fa fa-angle-double-right"></i>Liste des réservations</h:link></li>
+					</ul>
+				</li>
+			</ui:fragment>
+			<ui:fragment rendered="#{request.isUserInRole('Santé')}">
+				<li
+					class="treeview #{view.viewId.contains('consultation') ? 'active' : ''}">
+					<a href="#"> <i class="fa  fa-stethoscope"></i> <span>Consultation</span>
+						<i class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="treeview-menu">
+						<li><h:link outcome="/consultation/addConsultation.xhtml">
+								<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
+						<li><h:link outcome="/consultation/listConsultations.xhtml">
+								<i class="fa fa-angle-double-right"></i>Liste des consultations</h:link></li>
+					</ul>
+				</li>
+				<li
+					class="treeview #{view.viewId.contains('prescription') ? 'active' : ''}">
+					<a href="#"> <i class="fa fa-medkit"></i> <span>Ordonnances</span>
+						<i class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="treeview-menu">
+						<li><h:link outcome="/prescription/addPrescription.xhtml">
+								<i class="fa fa-angle-double-right"></i>Nouveau</h:link></li>
+						<li><h:link outcome="/prescription/listPrescriptions.xhtml">
+								<i class="fa fa-angle-double-right"></i>Liste des Ordonnaces</h:link></li>
+					</ul>
+				</li>
+			</ui:fragment>
 
-		<ui:fragment rendered="#{request.isUserInRole('Administrateur')}">
-			<span style="margin: 10px;"><B>Réglage et Paramètres</B></span>
-			<li
-				class="treeview #{view.viewId.contains('parameter') ? 'active' : ''}">
-				<a href="#"><i class="fa fa-cogs"></i><span>Parametres
-						system </span> <i class="fa fa-angle-left pull-right"></i></a>
-				<ul class="treeview-menu">
-					<li><h:link outcome="/parameter/systemResource.xhtml">
-							<i class="fa fa-angle-double-right"></i>Resources Systèmes</h:link></li>
-					<li><h:link outcome="/parameter/country.xhtml">
-							<i class="fa fa-angle-double-right"></i>Pays</h:link></li>
-					<li><h:link outcome="/parameter/region.xhtml">
-							<i class="fa fa-angle-double-right"></i>Region</h:link></li>
-					<li><h:link outcome="/parameter/city.xhtml">
-							<i class="fa fa-angle-double-right"></i>Ville</h:link></li>
-					<li><h:link outcome="/parameter/service.xhtml">
-							<i class="fa fa-angle-double-right"></i>Service</h:link></li>
-					<li><h:link outcome="/parameter/function.xhtml">
-							<i class="fa fa-angle-double-right"></i>Fonction</h:link></li>
-					<li><h:link outcome="/parameter/department.xhtml">
-							<i class="fa fa-angle-double-right"></i>Department</h:link></li>
-					<li><h:link outcome="/parameter/providerType.xhtml">
-							<i class="fa fa-angle-double-right"></i>Type des Agences</h:link></li>
-				</ul>
-			</li>
-			<li
-				class="treeview #{view.viewId.contains('security') ? 'active' : ''}">
-				<a href="#"> <i class="fa fa-key"></i> <span>Sécurité</span> <i
-					class="fa fa-angle-left pull-right"></i>
-			</a>
-				<ul class="treeview-menu">
-					<li><h:link outcome="/security/groupe.xhtml">
-							<i class="fa fa-angle-double-right"></i>Groupes</h:link></li>
-					<li><h:link outcome="/security/users.xhtml">
-							<i class="fa fa-angle-double-right"></i>Utilisateurs</h:link></li>
-					<li><h:link outcome="/security/permission.xhtml">
-							<i class="fa fa-angle-double-right"></i>Permissions</h:link></li>
-				</ul>
+			<ui:fragment rendered="#{request.isUserInRole('Administrateur')}">
+				<span style="margin: 10px;"><B>Réglage et Paramètres</B></span>
+				<li
+					class="treeview #{view.viewId.contains('parameter') ? 'active' : ''}">
+					<a href="#"><i class="fa fa-cogs"></i><span>Parametres
+							system </span> <i class="fa fa-angle-left pull-right"></i></a>
+					<ul class="treeview-menu">
+						<li><h:link outcome="/parameter/systemResource.xhtml">
+								<i class="fa fa-angle-double-right"></i>Resources Systèmes</h:link></li>
+						<li><h:link outcome="/parameter/country.xhtml">
+								<i class="fa fa-angle-double-right"></i>Pays</h:link></li>
+						<li><h:link outcome="/parameter/region.xhtml">
+								<i class="fa fa-angle-double-right"></i>Region</h:link></li>
+						<li><h:link outcome="/parameter/city.xhtml">
+								<i class="fa fa-angle-double-right"></i>Ville</h:link></li>
+						<li><h:link outcome="/parameter/service.xhtml">
+								<i class="fa fa-angle-double-right"></i>Service</h:link></li>
+						<li><h:link outcome="/parameter/function.xhtml">
+								<i class="fa fa-angle-double-right"></i>Fonction</h:link></li>
+						<li><h:link outcome="/parameter/department.xhtml">
+								<i class="fa fa-angle-double-right"></i>Department</h:link></li>
+						<li><h:link outcome="/parameter/providerType.xhtml">
+								<i class="fa fa-angle-double-right"></i>Type des Agences</h:link></li>
+					</ul>
+				</li>
+				<li
+					class="treeview #{view.viewId.contains('security') ? 'active' : ''}">
+					<a href="#"> <i class="fa fa-key"></i> <span>Sécurité</span> <i
+						class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="treeview-menu">
+						<li><h:link outcome="/security/groupe.xhtml">
+								<i class="fa fa-angle-double-right"></i>Groupes</h:link></li>
+						<li><h:link outcome="/security/users.xhtml">
+								<i class="fa fa-angle-double-right"></i>Utilisateurs</h:link></li>
+						<li><h:link outcome="/security/permission.xhtml">
+								<i class="fa fa-angle-double-right"></i>Permissions</h:link></li>
+					</ul>
 
-			</li>
-		</ui:fragment>
+				</li>
+
+			</ui:fragment>
+		</h:form>
 	</ui:composition>
 </body>
 </html>

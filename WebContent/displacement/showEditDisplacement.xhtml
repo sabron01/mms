@@ -40,7 +40,7 @@
 										<div class="form-group">
 											<h:outputLabel value="Séjour Médical" />
 											<h:selectOneMenu styleClass="form-control"
-												value="#{DisplacementController.selectedDisplacement.medicalJourney}">
+												value="#{DisplacementController.medicalJourney}">
 												<f:selectItems value="#{MedicalJourneyController.list}"
 													var="sejour" itemValue="#{sejour}"
 													itemLabel="#{sejour.identifier}" />
@@ -51,7 +51,7 @@
 										<div class="form-group">
 											<h:outputLabel value="Agence" />
 											<h:selectOneMenu styleClass="form-control"
-												value="#{DisplacementController.selectedDisplacement.provider}">
+												value="#{DisplacementController.agency}">
 												<f:selectItems
 													value="#{DisplacementController.displacementAgencies}"
 													var="agency" itemValue="#{agency}"

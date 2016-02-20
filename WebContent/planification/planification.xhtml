@@ -30,17 +30,84 @@
 							<h4 class="box-title">Liste des Tâches</h4>
 						</div>
 						<div class="box-body">
-							<!-- the events -->
-							<div id='external-events'>
-								<div class='external-event bg-green'>Lunch</div>
-								<div class='external-event bg-red'>Go home</div>
-								<div class='external-event bg-aqua'>Do homework</div>
-								<div class='external-event bg-yellow'>Work on UI design</div>
-								<div class='external-event bg-navy'>Sleep tight</div>
-								<p>
-									<input type='checkbox' id='drop-remove' /> 
-									<label for='drop-remove'>remove after drop</label>
-								</p>
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">Créer Tâche</h3>
+								</div>
+								<div class="box-body">
+									<h:form>
+										<div class="btn-group"
+											style="width: 100%; margin-bottom: 10px;">
+											<button type="button" id="color-chooser-btn"
+												class="btn btn-danger btn-block btn-sm dropdown-toggle"
+												data-toggle="dropdown">
+												Color <span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" id="color-chooser">
+												<li><a class="text-green" href="#"><i
+														class="fa fa-square"></i> Green</a></li>
+												<li><a class="text-blue" href="#"><i
+														class="fa fa-square"></i> Blue</a></li>
+												<li><a class="text-navy" href="#"><i
+														class="fa fa-square"></i> Navy</a></li>
+												<li><a class="text-yellow" href="#"><i
+														class="fa fa-square"></i> Yellow</a></li>
+												<li><a class="text-orange" href="#"><i
+														class="fa fa-square"></i> Orange</a></li>
+												<li><a class="text-aqua" href="#"><i
+														class="fa fa-square"></i> Aqua</a></li>
+												<li><a class="text-red" href="#"><i
+														class="fa fa-square"></i> Red</a></li>
+												<li><a class="text-fuchsia" href="#"><i
+														class="fa fa-square"></i> Fuchsia</a></li>
+												<li><a class="text-purple" href="#"><i
+														class="fa fa-square"></i> Purple</a></li>
+											</ul>
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Séjour Médical" />
+											<h:selectOneMenu id="medicalJourney"
+												styleClass="form-control"
+												value="#{PlanificationController.medicalJourney}">
+												<f:selectItems value="#{PlanificationController.list}"
+													var="sejour" itemValue="#{sejour}"
+													itemLabel="#{sejour.identifier}" />
+												<f:converter converterId="medicalJourneyConverter" />
+											</h:selectOneMenu>
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Services inclus" />
+											<h:selectOneMenu id="service" styleClass="form-control"
+												value="#{PlanificationController.service}"
+												layout="lineDirection">
+												<f:selectItems value="#{DataParameterController.services}"
+													var="service" itemValue="#{service}"
+													itemLabel="#{service.label}" />
+												<f:converter converterId="serviceConverter" />
+												<f:ajax immediate="true" execute="@this"
+													listener="#{PlanificationController.updateListEmployee}"
+													render="employee" />
+											</h:selectOneMenu>
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Employee" />
+											<div class="input-group">
+												<h:selectOneMenu styleClass="form-control" id="employee"
+													value="#{PlanificationController.employee}">
+													<f:selectItems value="#{PlanificationController.employees}"
+														var="employee" itemValue="#{employee}"
+														itemLabel="#{employee.firstName } #{employee.lastName} -- { #{employee.function.title} } " />
+													<f:converter converterId="employeeConverter" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="btn-group"
+											style="width: 100%; margin-bottom: 10px;">
+											<button type="button" id="add-new-event"
+												class="btn btn-block btn-default">Add</button>
+										</div>
+									</h:form>
+								</div>
 							</div>
 						</div>
 						<!-- /.box-body -->
@@ -48,50 +115,25 @@
 					<!-- /. box -->
 					<div class="box box-primary">
 						<div class="box-header">
-							<h3 class="box-title">Créer Tâche</h3>
+							<h4 class="box-title">Liste des Tâches</h4>
 						</div>
-						<div class="box-body">
-							<div class="btn-group" style="width: 100%; margin-bottom: 10px;">
-								<button type="button" id="color-chooser-btn"
-									class="btn btn-danger btn-block btn-sm dropdown-toggle"
-									data-toggle="dropdown">
-									Color <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" id="color-chooser">
-									<li><a class="text-green" href="#"><i
-											class="fa fa-square"></i> Green</a></li>
-									<li><a class="text-blue" href="#"><i
-											class="fa fa-square"></i> Blue</a></li>
-									<li><a class="text-navy" href="#"><i
-											class="fa fa-square"></i> Navy</a></li>
-									<li><a class="text-yellow" href="#"><i
-											class="fa fa-square"></i> Yellow</a></li>
-									<li><a class="text-orange" href="#"><i
-											class="fa fa-square"></i> Orange</a></li>
-									<li><a class="text-aqua" href="#"><i
-											class="fa fa-square"></i> Aqua</a></li>
-									<li><a class="text-red" href="#"><i
-											class="fa fa-square"></i> Red</a></li>
-									<li><a class="text-fuchsia" href="#"><i
-											class="fa fa-square"></i> Fuchsia</a></li>
-									<li><a class="text-purple" href="#"><i
-											class="fa fa-square"></i> Purple</a></li>
-								</ul>
-							</div>
-							<!-- /btn-group -->
-							<div class="input-group">
-								<input id="new-event" type="text" class="form-control"
-									placeholder="Event Title"></input>
-								<div class="input-group-btn">
-									<button id="add-new-event" type="button"
-										class="btn btn-default btn-flat">Add</button>
-								</div>
-								<!-- /btn-group -->
-							</div>
-							<!-- /input-group -->
+
+						<!-- the events -->
+						<div id='external-events'>
+							<div class='external-event bg-green'>Lunch</div>
+							<div class='external-event bg-red'>Go home</div>
+							<div class='external-event bg-aqua'>Do homework</div>
+							<div class='external-event bg-yellow'>Work on UI design</div>
+							<div class='external-event bg-navy'>Sleep tight</div>
+							<p>
+								<input type='checkbox' id='drop-remove' /> <label
+									for='drop-remove'>remove after drop</label>
+							</p>
 						</div>
 					</div>
+
 				</div>
+
 				<!-- /.col -->
 				<div class="col-md-9">
 					<div class="box box-primary">
@@ -106,7 +148,7 @@
 				<!-- /.col -->
 			</div>
 			<!-- /.row -->
-        <script type="text/javascript">
+			<script type="text/javascript">
             $(function() {
                 /* initialize the external events
                  -----------------------------------------------------------------*/
@@ -207,15 +249,22 @@
                 $("#add-new-event").click(function(e) {
                     e.preventDefault();
                     //Get value and make sure it is not null
+                    var medicalJourney = $("#medicalJourney").val();
+                    var service = $("#service").val();
+                    var employee = $("#employee").val();
+                    
                     var val = $("#new-event").val();
                     if (val.length == 0) {
                         return;
                     }
 
+                    //Save Create Tache and return Id
+
                     //Create event
                     var event = $("<div />");
+                    
                     event.css({"background-color": currColor, "border-color": currColor, "color": "#fff"}).addClass("external-event");
-                    event.html(val);
+                    event.html(val+" "+service+" "+medicalJourney+" "+employee);
                     $('#external-events').prepend(event);
 
                     //Add draggable funtionality

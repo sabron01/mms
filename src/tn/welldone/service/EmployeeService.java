@@ -18,7 +18,7 @@ import tn.welldone.model.Department;
 import tn.welldone.model.Employee;
 import tn.welldone.model.Location;
 import tn.welldone.model.MedicalJourney;
-import tn.welldone.model.MedicalJourneyEmployee;
+import tn.welldone.model.MedicalJourneyEmployeeService;
 import tn.welldone.model.PhoneNumber;
 import tn.welldone.model.Service;
 
@@ -130,8 +130,8 @@ public class EmployeeService implements Serializable {
 	public boolean checkExistedEmployeeByServiceForMedicalJourney(
 			Service service, Employee employee,
 			MedicalJourney medicalJourney) {
-		for (MedicalJourneyEmployee mje : medicalJourney.getMedicalJourneyEmployees()) {
-			if(mje.getEmployee().equals(employee) && mje.getService().equals(service))
+		for (MedicalJourneyEmployeeService mse : medicalJourney.getMedicalJourneyEmployeeServices()) {
+			if(mse.getEmployee().equals(employee) && mse.getService().equals(service))
 				return true;
 		}
 		return false;

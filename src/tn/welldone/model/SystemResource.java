@@ -142,7 +142,7 @@ public class SystemResource implements Serializable {
 
 	@Override
 	public String toString() {
-		return "" + this.getId();
+		return "" + this.getLabel();
 	}
 
 }

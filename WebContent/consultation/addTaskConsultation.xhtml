@@ -35,10 +35,16 @@
 							<!-- /.box-header -->
 							<h:form>
 								<div class="box-body">
-									<div class="form-group">
 									<h:inputHidden value="#{ConsultationController.consultation.id}" />
+									<div class="form-group">
 										<h:outputLabel value="Séjour Médical" />
-										<h:outputLabel value="Addresse" styleClass="form-control" value="#{ConsultationController.consultation.medicalJourney}" />
+										<h:selectOneMenu styleClass="form-control"
+											value="#{ConsultationController.medicalJourney}">
+											<f:selectItems value="#{MedicalJourneyController.list}"
+												var="sejour" itemValue="#{sejour}"
+												itemLabel="#{sejour.identifier}" />
+											<f:converter converterId="medicalJourneyConverter" />
+										</h:selectOneMenu>
 									</div>
 
 									<div class="form-group">

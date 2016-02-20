@@ -1,7 +1,5 @@
 package tn.welldone.controller;
 
-import helpers.RepeatPaginator;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,6 +8,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
+import tn.welldone.helpers.RepeatPaginator;
 import tn.welldone.model.Consultation;
 import tn.welldone.model.Employee;
 import tn.welldone.model.Groupe;
@@ -50,6 +49,8 @@ public class NotificationController implements Serializable {
 	
 	private Collection<Notification> currentUserNotifications;
 	
+	private Collection<Notification> currentUserTasks;
+	
 	private Collection<Notification> currentUserMessages;
 
 	private Collection<Groupe> groupes = new ArrayList<Groupe>();
@@ -60,6 +61,7 @@ public class NotificationController implements Serializable {
 	public void init() {
 		setNotifications(notificationBean.getAllNotifications());
 		setPaginator(new RepeatPaginator(new ArrayList(this.notifications)));
+		setCurrentUserTasks(notificationBean.getUncheckeTasksByUser());
 		setCurrentUserNotifications(notificationBean.getUncheckedNotificationsByUser());
 		setCurrentUserMessages(notificationBean.getCurrentUserMessages());
 	}
@@ -200,6 +202,14 @@ public class NotificationController implements Serializable {
 
 	public void setSelectedNotification(Notification selectedNotification) {
 		this.selectedNotification = selectedNotification;
+	}
+
+	public Collection<Notification> getCurrentUserTasks() {
+		return currentUserTasks;
+	}
+
+	public void setCurrentUserTasks(Collection<Notification> currentUserTasks) {
+		this.currentUserTasks = currentUserTasks;
 	}
 
 }

@@ -1,26 +1,33 @@
 package tn.welldone.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.component.html.HtmlSelectOneMenu;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 
 import tn.welldone.model.Consultation;
 import tn.welldone.model.Contract;
 import tn.welldone.model.Displacement;
+import tn.welldone.model.Employee;
 import tn.welldone.model.MedicalJourney;
 import tn.welldone.model.Patient;
 import tn.welldone.model.Prescription;
-import tn.welldone.model.Reservation;
+import tn.welldone.model.Booking;
+import tn.welldone.model.Service;
+import tn.welldone.model.Tache;
 import tn.welldone.model.Treatment;
 import tn.welldone.service.ConsultationBean;
 import tn.welldone.service.DisplacementBean;
 import tn.welldone.service.MedicalJourneyBean;
 import tn.welldone.service.NotificationBean;
 import tn.welldone.service.PrescriptionBean;
-import tn.welldone.service.ReservationBean;
+import tn.welldone.service.BookingBean;
+import tn.welldone.service.ServiceBean;
 import tn.welldone.service.TreatmentBean;
 
 
@@ -44,21 +51,30 @@ public class PlanificationController implements Serializable{
 	private DisplacementBean displacementBean;
 	
 	@EJB
-	private ReservationBean reservationBean;
+	private BookingBean bookingBean;
 	
 	@EJB
 	private PrescriptionBean prescriptionBean;
 	
 	@EJB
 	private TreatmentBean treatmentBean;
+	
+	@EJB
+	private ServiceBean serviceBean;
 	   
 	private MedicalJourney medicalJourney = new MedicalJourney();
 	
 	private MedicalJourney selectedMedicalJourney = new MedicalJourney();
 	
+	private Service service = new Service();
+	
+	private Employee employee = new Employee();
+	
 	private Contract contract = new Contract();
 	
 	private Patient patient = new Patient();
+	
+	private Tache jsTache = new Tache();
 	
 	private List<MedicalJourney> list;
 	
@@ -66,15 +82,27 @@ public class PlanificationController implements Serializable{
 	
 	private List<Displacement> listDisplacements;
 	
-	private List<Reservation> listReservations;
+	private List<Booking> listBookings;
 	
 	private List<Consultation> listConsultations;
 	
 	private List<Prescription> listPrescriptions;
 	
+	private List<Employee> employees;
+	
 	@javax.annotation.PostConstruct
 	public void init() {
 		setList(medicalJourneyBean.getAllMedicalJourneys());
+	}	
+	
+	public void updateListEmployee(AjaxBehaviorEvent event) {
+		HtmlSelectOneMenu htmlServiceSelect = ((HtmlSelectOneMenu) event
+				.getSource());
+		int service_id = Integer.parseInt((String) htmlServiceSelect
+				.getSubmittedValue());
+		Service serviceSelected = serviceBean.getServiceById(service_id);
+		List<Employee> fetchedEmployees = new ArrayList<Employee>(serviceSelected.getEmployees());
+		setEmployees(fetchedEmployees);
 	}
 	
 	public String createNewMedicalJourney() {
@@ -96,7 +124,7 @@ public class PlanificationController implements Serializable{
 		setListTreatments(treatmentBean.getListByMedicalJourney(m));
 		setListConsultations(consultationBean.getListByMedicalJourney(m));
 		setListDisplacements(displacementBean.getListByMedicalJourney(m));
-		setListReservations(reservationBean.getListByMedicalJourney(m));
+		setListBookings(bookingBean.getListByMedicalJourney(m));
 		setListPrescriptions(prescriptionBean.getListByMedicalJourney(m));
 		return "showDetailsMedicalJourney.faces";
 	}
@@ -191,12 +219,12 @@ public class PlanificationController implements Serializable{
 		this.listDisplacements = listDisplacements;
 	}
 
-	public List<Reservation> getListReservations() {
-		return listReservations;
+	public List<Booking> getListBookings() {
+		return listBookings;
 	}
 
-	public void setListReservations(List<Reservation> listReservations) {
-		this.listReservations = listReservations;
+	public void setListBookings(List<Booking> listBookings) {
+		this.listBookings = listBookings;
 	}
 
 	public List<Consultation> getListConsultations() {
@@ -213,6 +241,38 @@ public class PlanificationController implements Serializable{
 
 	public void setListPrescriptions(List<Prescription> listPrescriptions) {
 		this.listPrescriptions = listPrescriptions;
+	}
+
+	public Tache getJsTache() {
+		return jsTache;
+	}
+
+	public void setJsTache(Tache jsTache) {
+		this.jsTache = jsTache;
+	}
+
+	public List<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
+	}
+
+	public Service getService() {
+		return service;
+	}
+
+	public void setService(Service service) {
+		this.service = service;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 	
 	

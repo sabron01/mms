@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import tn.welldone.controller.SessionUser;
 import tn.welldone.model.Contract;
 import tn.welldone.model.MedicalJourney;
+import tn.welldone.model.MedicalJourneyEmployeeService;
 import tn.welldone.model.User;
 
 @Stateless
@@ -123,6 +124,18 @@ public class MedicalJourneyRepository {
 		return entityManager.createQuery(
 				"select m from MedicalJourney m where m.isDeleted = 'false' and m.closeDate > current_date ")
 				.getResultList();
+	}
+
+	public void removeAffectedEmployee(MedicalJourneyEmployeeService mse) {
+		entityManager.remove(mse);
+		entityManager.flush();
+	}
+
+	public void affectEmployee(
+			MedicalJourneyEmployeeService medicalJourneyEmployeeService) {
+		entityManager.persist(medicalJourneyEmployeeService);
+		entityManager.flush();
+		
 	}
 
 }

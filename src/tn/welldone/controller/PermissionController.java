@@ -8,8 +8,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
+import tn.welldone.helpers.Operation;
 import tn.welldone.model.Permission;
-import tn.welldone.model.Permission.Operation;
 import tn.welldone.model.SystemResource;
 import tn.welldone.service.PermissionBean;
 

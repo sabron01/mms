@@ -58,6 +58,7 @@ public class UserRepository {
 
 		Collection<Permission> permissions = new ArrayList<Permission>();
 		for (Groupe groupe : user.getGroupes()) {
+			
 			for (Permission permission : groupe.getPermissions()) {
 				permissions.add(permission);
 			}

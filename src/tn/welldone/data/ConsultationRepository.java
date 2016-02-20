@@ -14,7 +14,6 @@ import javax.persistence.PersistenceContext;
 import org.jboss.logging.Logger;
 
 import tn.welldone.controller.SessionUser;
-import tn.welldone.data.TreatmentRepository.Action;
 import tn.welldone.model.Consultation;
 import tn.welldone.model.Doctor;
 import tn.welldone.model.Location;

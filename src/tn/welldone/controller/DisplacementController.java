@@ -3,12 +3,16 @@ package tn.welldone.controller;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 
+import tn.welldone.helpers.Operation;
+import tn.welldone.interceptors.AuthorizationSecurityInterceptor;
 import tn.welldone.model.City;
 import tn.welldone.model.Country;
 import tn.welldone.model.Displacement;
@@ -17,8 +21,9 @@ import tn.welldone.model.MedicalJourney;
 import tn.welldone.model.Region;
 import tn.welldone.model.ServiceProvider;
 import tn.welldone.model.Tache;
-import tn.welldone.model.Displacement;
 import tn.welldone.model.Tache.TacheState;
+import tn.welldone.security.Permission;
+import tn.welldone.security.PermissionsRequired;
 import tn.welldone.service.DataService;
 import tn.welldone.service.DisplacementBean;
 import tn.welldone.service.MedicalJourneyBean;
@@ -75,8 +80,11 @@ public class DisplacementController implements Serializable {
 		this.setCountries(service.getCountries());
 	}
 
+
+	@Permission(resource=Displacement.class,value=Operation.ADD)
+	@Interceptors( { AuthorizationSecurityInterceptor.class })
 	public String createNewDisplacement() {
-		return "addDisplacement.faces";
+		return "/displacement/addDisplacement.faces?faces-redirect=true";
 	}
 	
 	public String createNewTaskDisplacement(Tache task) {
@@ -107,6 +115,8 @@ public class DisplacementController implements Serializable {
 		return "listDisplacements.faces?faces-redirect=true";
 	}
 
+	@Permission(resource=Displacement.class,value=Operation.ADD)
+	@Interceptors( { AuthorizationSecurityInterceptor.class })
 	public String createDisplacement() {
 		Float oldAmount = medicalJourney.getAmount();
 		if(oldAmount == null)
@@ -124,6 +134,8 @@ public class DisplacementController implements Serializable {
 	public String showEditDisplacement(int id) {
 		Displacement d = displacementBean.getDisplacementById(id);
 		oldDisplacementAmount = d.getAmount();
+		setAgency(d.getProvider());
+		setMedicalJourney(d.getMedicalJourney());
 		setStartLocation(d.getStartPoint());
 		setEndLocation(d.getEndPoint());
 		setSelectedDisplacement(d);

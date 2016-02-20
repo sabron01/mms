@@ -20,8 +20,8 @@
 			</ol>
 		</ui:define>
 		<ui:define name="content">
+		<f:view>
 			<div class="row">
-
 				<h:outputText value="#{i18n.noItemsFound}"
 					rendered="#{MedicalJourneyController.list == null || MedicalJourneyController.list.size() ==0}" />
 				<div class="col-xs-12">
@@ -85,17 +85,18 @@
 														value="Employées">
 														<f:setPropertyActionListener value="#{element}"
 															target="#{MedicalJourneyController.selectedMedicalJourney}" />
-													</h:commandLink> <h:commandLink title="Détails" styleClass="badge bg-green"
+													</h:commandLink> <h:commandLink title="Détails" styleClass="badge bg-navy"
 														action="#{MedicalJourneyController.showDetailsMedicalJourney(element.id)}"
 														value="Détails">
 														<f:setPropertyActionListener value="#{element}"
 															target="#{MedicalJourneyController.selectedMedicalJourney}" />
-													</h:commandLink> <h:commandLink title="Edit" styleClass="badge bg-red"
+													</h:commandLink> <h:commandLink title="Delete" styleClass="badge bg-red"
 														action="#{MedicalJourneyController.deleteMedicalJourney(element.id)}"
 														value="Delete">
 														<f:setPropertyActionListener value="#{element}"
 															target="#{MedicalJourneyController.selectedMedicalJourney}" />
-													</h:commandLink></td>
+													</h:commandLink>
+													</td>
 											</tr>
 										</h:form>
 									</ui:repeat>
@@ -107,6 +108,7 @@
 					<!-- /.box -->
 				</div>
 			</div>
+			</f:view>
 		</ui:define>
 	</ui:composition>
 </h:body>

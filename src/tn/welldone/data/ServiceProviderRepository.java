@@ -1,6 +1,7 @@
 package tn.welldone.data;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -248,6 +249,20 @@ public class ServiceProviderRepository implements Serializable {
 		return entityManager
 				.createQuery(
 						"select i from ServiceProvider i where i.isDeleted = 'false' AND i.typeProvider.id IN (3,4)")
+				.getResultList();
+	}
+
+	public Collection<ServiceProvider> getAirports() {
+		return entityManager
+				.createQuery(
+						"select i from ServiceProvider i where i.isDeleted = 'false' AND i.typeProvider.id = 8")
+				.getResultList();
+	}
+	
+	public Collection<ServiceProvider> getTravelAgencies(){
+		return entityManager
+				.createQuery(
+						"select i from ServiceProvider i where i.isDeleted = 'false' AND i.typeProvider.id = 7")
 				.getResultList();
 	}
 

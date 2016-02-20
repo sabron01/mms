@@ -40,7 +40,7 @@ public class LodgingHostConverter implements Converter {
 		}
 
 		throw new ConverterException(new FacesMessage(String.format(
-				"Cannot convert %s to ServiceProvider", value)));
+				"Cannot convert %s to lodgingHost", value)));
 	}
 
 }

@@ -12,10 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import tn.welldone.controller.SessionUser;
-import tn.welldone.model.Location;
 import tn.welldone.model.MedicalJourney;
 import tn.welldone.model.Reservation;
-import tn.welldone.model.ServiceProvider;
 import tn.welldone.model.User;
 
 @Stateless
@@ -55,23 +53,12 @@ public class ReservationRepository {
 
 	}
 
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void add(Reservation reservation){ 
 		setTransactionDetails(reservation, Action.CREATE);
 		reservation.setIsDeleted(false);
+		reservation.setOwnerAgent(session.getUser());
 		entityManager.persist(reservation);
-	}
-	
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public Reservation add(Reservation reservation, ServiceProvider lodgingHost,Location location, MedicalJourney medicalJourney) {
-		setTransactionDetails(reservation, Action.CREATE);
-		reservation.setIsDeleted(false);
-		entityManager.persist(reservation);
-		reservation.setLodgingHost(lodgingHost);
-		reservation.setMedicalJourney(medicalJourney);
-		Reservation r =entityManager.merge(reservation);
-		entityManager.merge(medicalJourney);
-		entityManager.flush();		
-		return r;
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)

@@ -6,11 +6,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlSelectManyCheckbox;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
@@ -18,16 +21,18 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import tn.welldone.model.Consultation;
 import tn.welldone.model.Contract;
 import tn.welldone.model.Displacement;
 import tn.welldone.model.Employee;
 import tn.welldone.model.MedicalJourney;
-import tn.welldone.model.MedicalJourneyEmployee;
+import tn.welldone.model.MedicalJourneyEmployeeService;
 import tn.welldone.model.Patient;
 import tn.welldone.model.Prescription;
-import tn.welldone.model.Reservation;
+import tn.welldone.model.Booking;
 import tn.welldone.model.Service;
 import tn.welldone.model.Tache;
 import tn.welldone.model.Treatment;
@@ -37,7 +42,7 @@ import tn.welldone.service.EmployeeService;
 import tn.welldone.service.MedicalJourneyBean;
 import tn.welldone.service.NotificationBean;
 import tn.welldone.service.PrescriptionBean;
-import tn.welldone.service.ReservationBean;
+import tn.welldone.service.BookingBean;
 import tn.welldone.service.ServiceBean;
 import tn.welldone.service.TreatmentBean;
 
@@ -60,7 +65,7 @@ public class MedicalJourneyController implements Serializable {
 	private DisplacementBean displacementBean;
 
 	@EJB
-	private ReservationBean reservationBean;
+	private BookingBean bookingBean;
 
 	@EJB
 	private PrescriptionBean prescriptionBean;
@@ -73,6 +78,9 @@ public class MedicalJourneyController implements Serializable {
 
 	@EJB
 	private ServiceBean serviceBean;
+	
+	@PersistenceContext(unitName = "mmsPU")
+	private EntityManager entityManager;
 
 	@Inject
 	private transient Logger logger;
@@ -97,7 +105,7 @@ public class MedicalJourneyController implements Serializable {
 
 	private List<Displacement> listDisplacements;
 
-	private List<Reservation> listReservations;
+	private List<Booking> listBookings;
 
 	private List<Consultation> listConsultations;
 
@@ -108,6 +116,10 @@ public class MedicalJourneyController implements Serializable {
 	private List<Service> checkedServices = new ArrayList<Service>();
 
 	private List<Employee> employees;
+	
+	private MedicalJourneyEmployeeService medicalJourneyEmployeeService = new MedicalJourneyEmployeeService();
+	 
+	private  List<MedicalJourneyEmployeeService> mesList = new ArrayList<MedicalJourneyEmployeeService>();
 
 	private Employee employee = new Employee();
 	
@@ -124,9 +136,14 @@ public class MedicalJourneyController implements Serializable {
 	private Service selectedItem;
 
 	private boolean selectedItemRemoved;
+	
+	@ManagedProperty("#{param.medicalJourneyId}")
+	private int medicalJourneyId;
 
 	@javax.annotation.PostConstruct
 	public void init() {
+		
+		System.out.println("AM IN INIT");
 
 		setList(medicalJourneyBean.getAllMedicalJourneys());
 		setListAffectedMedicalJourneys(medicalJourneyBean
@@ -134,11 +151,24 @@ public class MedicalJourneyController implements Serializable {
 		setListCurrentMedicalJourneys(medicalJourneyBean
 				.getCurrentMedicalJourneys());
 		this.setEmployees(employeeService.getEmployees());
+		
+		
+		String s_medicalJourneyId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("medicalJourneyId");
+		if(s_medicalJourneyId != null){
+			System.out.println("F:param ID : "+s_medicalJourneyId);
+			System.out.println("ActionListener ID : "+medicalJourneyId);			
+			int mId= Integer.parseInt(s_medicalJourneyId);
+			setMedicalJourneyId(mId);
+			MedicalJourney m = medicalJourneyBean.getMedicalJourneyById(mId);
+			setMesList(new ArrayList<MedicalJourneyEmployeeService>(m.getMedicalJourneyEmployeeServices()));
+			setSelectedMedicalJourney(m);
+		}
+
+
 	}
 
 	public void updateCheckedService(ValueChangeEvent event) {
 		setCheckedServices((List<Service>) event.getNewValue());
-		logger.info("Nbre service checked :" + checkedServices.size());
 		List<Service> oldValue = (List<Service>) event.getOldValue();
 		List<Service> newValue = (List<Service>) event.getNewValue();
 
@@ -192,34 +222,47 @@ public class MedicalJourneyController implements Serializable {
 
 	public String affectEmployeesMedicalJourney() {
 		MedicalJourney m = medicalJourneyBean.getMedicalJourneyById(selectedMedicalJourney.getId());
-		Collection<Employee> affectedEmployees;
-		if(m.getAffectedEmployees().size() == 0)
-			affectedEmployees = new ArrayList<Employee>();
-		else
-			affectedEmployees = m.getAffectedEmployees();
-		
+		System.out.println("M->"+m.getId());
+		System.out.println("S->"+service.getId());
+		System.out.println("E->"+employee.getId());
 		// Check if an employee existed with selected service.
-		//affectedEmployees.contains(employee)
-		
-		if(!employeeService.checkExistedEmployeeByServiceForMedicalJourney(service,employee,selectedMedicalJourney)){
+		if(!employeeService.checkExistedEmployeeByServiceForMedicalJourney(service,employee,m)){
 			Tache tache = medicalJourneyBean.generateTacheForEmployee(m,employee,service);
-			MedicalJourneyEmployee medicalJourneyEmployee = new MedicalJourneyEmployee();
-			medicalJourneyEmployee.setMedicalJourney(m);
-			medicalJourneyEmployee.setEmployee(employee);
-			medicalJourneyEmployee.setService(service);
-			medicalJourneyEmployee.setTache(tache);		
-			m.getMedicalJourneyEmployees().add(medicalJourneyEmployee);
-			medicalJourneyBean.editMedicalJourney(m);
+			MedicalJourneyEmployeeService medicalJourneyEmployeeService = new MedicalJourneyEmployeeService();
+			medicalJourneyEmployeeService.setMedicalJourney(m);
+			medicalJourneyEmployeeService.setEmployee(employee);
+			medicalJourneyEmployeeService.setService(service);
+			medicalJourneyEmployeeService.setTache(tache);	
 			
-			return "listMedicalJourneys.faces?faces-redirect=true";
-			//return manageEmployees(selectedMedicalJourney.getId());			
+			//m.getMedicalJourneyEmployeeServices().add(medicalJourneyEmployeeService);
+			//medicalJourneyBean.editMedicalJourney(m);
+			medicalJourneyBean. affectEmployee(medicalJourneyEmployeeService);
+			notificationBean.addTaskNotification(m,service);
+			return "listMedicalJourneys.faces?faces-redirect=true";		
 		}			
 		else{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Message","A employee was saved with the samed selected service"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "A employee was saved with the samed selected service","Error Message"));
 			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 			return manageEmployees(selectedMedicalJourney.getId());
 		}
 
+	}
+	
+	public String removeAffectedEmployee(int employee_id,int service_id){
+		
+		System.out.println("am hear !!!");
+		Employee e = employeeService.getEmployeeById(employee_id);	
+		Service s = serviceBean.getServiceById(service_id);
+		System.out.println("MED EMP SRV : "+selectedMedicalJourney.getId()+" "+employee_id+" "+service_id);
+		MedicalJourney m = medicalJourneyBean.getMedicalJourneyById(selectedMedicalJourney.getId());
+		for (MedicalJourneyEmployeeService mse :m.getMedicalJourneyEmployeeServices()) {
+			if(mse.getEmployee().equals(e) && mse.getService().equals(s)){
+				System.out.println("Element Found");
+				medicalJourneyBean.removeAffectedEmployee(mse);
+				System.out.println("After remove");
+			}
+		}
+		return manageEmployees(m.getId());
 	}
 	
 	public String removeEmployee(int id){
@@ -250,21 +293,31 @@ public class MedicalJourneyController implements Serializable {
 		setListTreatments(treatmentBean.getListByMedicalJourney(m));
 		setListConsultations(consultationBean.getListByMedicalJourney(m));
 		setListDisplacements(displacementBean.getListByMedicalJourney(m));
-		setListReservations(reservationBean.getListByMedicalJourney(m));
+		setListBookings(bookingBean.getListByMedicalJourney(m));
 		setListPrescriptions(prescriptionBean.getListByMedicalJourney(m));
 		return "showDetailsMedicalJourney.faces";
 	}
 
 	public String manageEmployees(int id) {
 		MedicalJourney m = medicalJourneyBean.getMedicalJourneyById(id);
+		setMesList(new ArrayList<MedicalJourneyEmployeeService>(m.getMedicalJourneyEmployeeServices()));
 		setSelectedMedicalJourney(m);
 		return "manageEmployees.faces";
 	}
 	
-	public String listAffectedEmployees(int id) {
-		MedicalJourney m = medicalJourneyBean.getMedicalJourneyById(id);
+	public String listAffectedEmployees() {
+		String s_medicalJourneyId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("medicalJourneyId");
+		
+		System.out.println("F:param ID : "+s_medicalJourneyId);
+		System.out.println("ActionListener ID : "+medicalJourneyId);
+		
+		int mId= Integer.parseInt(s_medicalJourneyId);
+		setMedicalJourneyId(mId);
+		MedicalJourney m = medicalJourneyBean.getMedicalJourneyById(mId);
+		setMesList(new ArrayList<MedicalJourneyEmployeeService>(m.getMedicalJourneyEmployeeServices()));
 		setSelectedMedicalJourney(m);
 		return "listAffectedEmployees.faces";
+		//return "listAffectedEmployees.faces?faces-redirect=true";
 	}
 
 	public String showEditMedicalJourney(int id) {
@@ -289,19 +342,16 @@ public class MedicalJourneyController implements Serializable {
 	}
 
 	public String listMedicalJourneys() {
-		System.out.println("2");
 		setList(medicalJourneyBean.getAllMedicalJourneys());
 		return "listMedicalJourneys.faces?faces-redirect=true";
 	}
 
 	public String listAffectedMedicalJourneys() {
-		System.out.println("1");
 		setList(medicalJourneyBean.getAffectedMedicalJourneys());
 		return "listAffectedMedicalJourneys.faces?faces-redirect=true";
 	}
 
 	public String listCurrentMedicalJourneys() {
-		System.out.println("3");
 		setList(medicalJourneyBean.getCurrentMedicalJourneys());
 		return "listCurrentMedicalJourneys.faces?faces-redirect=true";
 	}
@@ -370,12 +420,12 @@ public class MedicalJourneyController implements Serializable {
 		this.listDisplacements = listDisplacements;
 	}
 
-	public List<Reservation> getListReservations() {
-		return listReservations;
+	public List<Booking> getListBookings() {
+		return listBookings;
 	}
 
-	public void setListReservations(List<Reservation> listReservations) {
-		this.listReservations = listReservations;
+	public void setListBookings(List<Booking> listBookings) {
+		this.listBookings = listBookings;
 	}
 
 	public List<Consultation> getListConsultations() {
@@ -491,6 +541,31 @@ public class MedicalJourneyController implements Serializable {
 
 	public void setSelectedEmployee(Employee selectedEmployee) {
 		this.selectedEmployee = selectedEmployee;
+	}
+
+	public List<MedicalJourneyEmployeeService> getMesList() {
+		return mesList;
+	}
+
+	public void setMesList(List<MedicalJourneyEmployeeService> mesList) {
+		this.mesList = mesList;
+	}
+
+	public MedicalJourneyEmployeeService getMedicalJourneyEmployeeService() {
+		return medicalJourneyEmployeeService;
+	}
+
+	public void setMedicalJourneyEmployeeService(
+			MedicalJourneyEmployeeService medicalJourneyEmployeeService) {
+		this.medicalJourneyEmployeeService = medicalJourneyEmployeeService;
+	}
+
+	public int getMedicalJourneyId() {
+		return medicalJourneyId;
+	}
+
+	public void setMedicalJourneyId(int medicalJourneyId) {
+		this.medicalJourneyId = medicalJourneyId;
 	}
 
 }

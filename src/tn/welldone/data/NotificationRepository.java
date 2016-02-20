@@ -10,6 +10,7 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +19,8 @@ import tn.welldone.controller.SessionUser;
 import tn.welldone.model.Notification;
 import tn.welldone.model.Notification.Type;
 import tn.welldone.model.User;
+import tn.welldone.webSockets.TimeEvent;
+import tn.welldone.webSockets.WBTimeEvent;
 
 @Stateless
 @Local
@@ -31,6 +34,8 @@ public class NotificationRepository {
 
 	@Inject
 	UserRepository userRepository;
+	
+	@Inject  @WBTimeEvent Event<Notification> notificationEvent;
 
 	public enum Action {
 		CREATE, UPDATE, DELETE
@@ -64,17 +69,35 @@ public class NotificationRepository {
 
 	public void addMessage(Notification notification) {
 		setTransactionDetails(notification, Action.CREATE);
+		notification.setIsActive(true);
 		notification.setType(Type.Message);
+		notification.setIsChecked(false);
 		notification.setIsDeleted(false);
 		entityManager.persist(notification);
 		entityManager.flush();
+		notificationEvent.fire(notification);
 	}
 
-	public void add(Notification notification) {
+	public void addTask(Notification notification) {
 		setTransactionDetails(notification, Action.CREATE);
+		notification.setIsActive(true);
+		notification.setType(Type.Task);
+		notification.setIsChecked(false);
 		notification.setIsDeleted(false);
 		entityManager.persist(notification);
 		entityManager.flush();
+		notificationEvent.fire(notification);
+	}
+	
+	public void add(Notification notification) {
+		setTransactionDetails(notification, Action.CREATE);
+		notification.setIsActive(true);
+		notification.setType(Type.Notification);
+		notification.setIsChecked(false);
+		notification.setIsDeleted(false);
+		entityManager.persist(notification);
+		entityManager.flush();
+		notificationEvent.fire(notification);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -101,7 +124,7 @@ public class NotificationRepository {
 
 	public Collection<Notification> getNonDeletedNotifications() {
 		return entityManager.createQuery(
-				"select m from Notification m where m.isDeleted = 'false' ")
+				"select m from Notification m where m.type = 'Notification' AND m.isDeleted = 'false' ")
 				.getResultList();
 
 	}
@@ -149,5 +172,17 @@ public class NotificationRepository {
 		}
 		return notifications;
 	}
+
+	public Collection<Notification> getUncheckeTasksByUser() {
+		Collection<Notification> tasks = new ArrayList<Notification>();
+		for (Notification n : session.getUser().getNotifications()) {
+			if (!n.getIsChecked() && n.getType().equals(Type.Task)
+					&& !n.getIsDeleted())
+				tasks.add(n);
+		}
+		return tasks;
+	}
+
+
 
 }

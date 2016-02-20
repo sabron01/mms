@@ -23,7 +23,7 @@
 (function($) {
     $.color = {};
 
-    // construct color object with some convenient chainable helpers
+    // construct color object with some convenient chainable tn.welldone.helpers
     $.color.make = function (r, g, b, a) {
         var o = {};
         o.r = r || 0;

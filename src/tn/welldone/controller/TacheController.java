@@ -35,6 +35,9 @@ public class TacheController implements Serializable {
 	ConsultationController consultationController;
 	
 	@Inject
+	BookingController bookingController;
+	
+	@Inject
 	ReservationController reservationController;
 	
 	@Inject
@@ -104,6 +107,15 @@ public class TacheController implements Serializable {
 				} else
 					System.out.println(" Not Create state :");
 
+			case "tn.welldone.model.Booking":
+				System.out.println(" Am in switch ");
+				if (selectedTache.getAction().equals(Action.CREATE)) {
+					System.out.println(" Create state :");
+					taskController.intialiseTask(task);
+					return bookingController.createNewTaskBooking(task);
+				} else
+					System.out.println(" Not Create state :");
+				
 			case "tn.welldone.model.Reservation":
 				System.out.println(" Am in switch ");
 				if (selectedTache.getAction().equals(Action.CREATE)) {

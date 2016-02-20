@@ -5716,7 +5716,7 @@ function DayEventRenderer() {
 			var colCnt = getColCnt();
 			var elementTop = element.css('top');
 			var dayDelta;
-			var helpers;
+			var tn.welldone.helpers;
 			var eventCopy = $.extend({}, event);
 			var minCellOffset = dayOffsetToCellOffset( dateToDayOffset(event.start) );
 			clearSelection();
@@ -5739,12 +5739,12 @@ function DayEventRenderer() {
 
 					if (dayDelta) {
 						eventCopy.end = addDays(eventEnd(event), dayDelta, true);
-						var oldHelpers = helpers;
+						var oldHelpers = tn.welldone.helpers;
 
-						helpers = renderTempDayEvent(eventCopy, segment.row, elementTop);
-						helpers = $(helpers); // turn array into a jQuery object
+						tn.welldone.helpers = renderTempDayEvent(eventCopy, segment.row, elementTop);
+						tn.welldone.helpers = $(tn.welldone.helpers); // turn array into a jQuery object
 
-						helpers.find('*').css('cursor', direction + '-resize');
+						tn.welldone.helpers.find('*').css('cursor', direction + '-resize');
 						if (oldHelpers) {
 							oldHelpers.remove();
 						}
@@ -5752,10 +5752,10 @@ function DayEventRenderer() {
 						hideEvents(event);
 					}
 					else {
-						if (helpers) {
+						if (tn.welldone.helpers) {
 							showEvents(event);
-							helpers.remove();
-							helpers = null;
+							tn.welldone.helpers.remove();
+							tn.welldone.helpers = null;
 						}
 					}
 					clearOverlays();
@@ -5775,7 +5775,7 @@ function DayEventRenderer() {
 				clearOverlays();
 				if (dayDelta) {
 					eventResize(this, event, dayDelta, 0, ev);
-					// event redraw will clear helpers
+					// event redraw will clear tn.welldone.helpers
 				}
 				// otherwise, the drag handler already restored the old events
 				

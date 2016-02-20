@@ -2,6 +2,7 @@ package tn.welldone.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -91,6 +92,18 @@ public class PartnerAgencyController implements Serializable {
 
 	private Doctor selectedDoctor = new Doctor();
 	
+	private Collection<ServiceProvider> travelAgencies;
+	
+	private ServiceProvider travelAgency = new ServiceProvider();
+	
+	private ServiceProvider selectedTravelAgency = new ServiceProvider();
+	
+	private Collection<ServiceProvider> airports;
+	
+	private ServiceProvider airport = new ServiceProvider();
+	
+	private ServiceProvider selectedAirport = new ServiceProvider();
+	
 	private Gender[] genders;
 
 	private HonorificTitle[] honorificTitles;
@@ -122,6 +135,8 @@ public class PartnerAgencyController implements Serializable {
 		this.ambulancesAgencies = partnerAgencyBean.getAmbulancesAgencies();
 		this.pharmacies = partnerAgencyBean.getPharmacies();
 		this.doctors = partnerAgencyBean.getDoctors();
+		this.travelAgencies = partnerAgencyBean.getTravelAgencies();
+		this.airports = partnerAgencyBean.getAirports();
 		this.countries = service.getCountries();
 		this.genders = Gender.values();
 		this.honorificTitles = HonorificTitle.values();
@@ -129,6 +144,97 @@ public class PartnerAgencyController implements Serializable {
 		this.phoneTypes = PhoneType.values();
 		this.regions = service.getRegions();
 		this.cities = service.getCities();
+	}
+	
+	// ************les Aéroports************* 
+	// ***********************************
+	
+	public String createNewAirport() {
+		return "/partners/addAirport.faces?redirect=true";
+	}
+
+	public String createAirport() {
+		setTypeProvider(providerTypeBean.getProviderTypeById(8));
+		airport = partnerAgencyBean.addServiceProvider(airport, location, typeProvider,services);
+		return "listAirports.faces?faces-redirect=true";
+	}
+
+	public String showEditAirport(int id) {
+		ServiceProvider s = partnerAgencyBean.getPartnerById(id);
+		setLocation(s.getAddress());
+		setSelectedAirport(s);
+		return "showEditAirport.faces";
+	}
+
+	public String showDetailAirport(int id) {
+		ServiceProvider s = partnerAgencyBean.getPartnerById(id);
+		setLocation(s.getAddress());
+		setSelectedAirport(s);
+		return "showDetailAirport.faces";
+	}
+
+	public String deleteAirport(int id) {
+		ServiceProvider s = partnerAgencyBean.getPartnerById(id);
+		partnerAgencyBean.deletePartner(s);
+		return "listAirports.faces?faces-redirect=true";
+	}
+
+	public String editAirport() {
+		selectedAirport.setAddress(location);
+		setTypeProvider(providerTypeBean.getProviderTypeById(8));
+		selectedAirport.setTypeProvider(typeProvider);
+		partnerAgencyBean.editPartner(selectedAirport);
+		return "listAirports.faces?faces-redirect=true";
+	}
+
+	public String listAirports() {
+		return "/partners/listAirports.faces?faces-redirect=true";
+	}
+	
+	
+	
+	
+	// ************les Agences des voyages************* 
+	// ***********************************
+	
+	public String createNewTravelAgency() {
+		return "/partners/addTravelAgency.faces?redirect=true";
+	}
+
+	public String createTravelAgency() {
+		setTypeProvider(providerTypeBean.getProviderTypeById(7));
+		travelAgency = partnerAgencyBean.addServiceProvider(travelAgency, location, typeProvider,services);
+		return "listTravelAgencies.faces?faces-redirect=true";
+	}
+
+	public String showEditTravelAgency(int id) {
+		ServiceProvider s = partnerAgencyBean.getPartnerById(id);
+		setLocation(s.getAddress());
+		setSelectedTravelAgency(s);
+		return "showEditTravelAgency.faces";
+	}
+
+	public String showDetailTravelAgency(int id) {
+		ServiceProvider s = partnerAgencyBean.getPartnerById(id);
+		setLocation(s.getAddress());
+		setSelectedTravelAgency(s);
+		return "showDetailTravelAgency.faces";
+	}
+
+	public String deleteTravelAgency(int id) {
+		ServiceProvider s = partnerAgencyBean.getPartnerById(id);
+		partnerAgencyBean.deletePartner(s);
+		return "listTravelAgencies.faces?faces-redirect=true";
+	}
+
+	public String editTravelAgency() {
+		selectedTravelAgency.setAddress(location);
+		partnerAgencyBean.editPartner(selectedTravelAgency);
+		return "listTravelAgencies.faces?faces-redirect=true";
+	}
+
+	public String listTravelAgencies() {
+		return "/partners/listTravelAgencies.faces?faces-redirect=true";
 	}
 
 	// ************les Hôtels************* 
@@ -732,6 +838,54 @@ public class PartnerAgencyController implements Serializable {
 	public void setCities(List<City> cities) {
 		this.cities = cities;
 	}
-	
-	
+
+	public Collection<ServiceProvider> getTravelAgencies() {
+		return travelAgencies;
+	}
+
+	public void setTravelAgencies(Collection<ServiceProvider> travelAgencies) {
+		this.travelAgencies = travelAgencies;
+	}
+
+	public Collection<ServiceProvider> getAirports() {
+		return airports;
+	}
+
+	public void setAirports(Collection<ServiceProvider> airports) {
+		this.airports = airports;
+	}
+
+	public ServiceProvider getTravelAgency() {
+		return travelAgency;
+	}
+
+	public void setTravelAgency(ServiceProvider travelAgency) {
+		this.travelAgency = travelAgency;
+	}
+
+	public ServiceProvider getSelectedTravelAgency() {
+		return selectedTravelAgency;
+	}
+
+	public void setSelectedTravelAgency(ServiceProvider selectedTravelAgency) {
+		this.selectedTravelAgency = selectedTravelAgency;
+	}
+
+	public ServiceProvider getAirport() {
+		return airport;
+	}
+
+	public void setAirport(ServiceProvider airport) {
+		this.airport = airport;
+	}
+
+	public ServiceProvider getSelectedAirport() {
+		return selectedAirport;
+	}
+
+	public void setSelectedAirport(ServiceProvider selectedAirport) {
+		this.selectedAirport = selectedAirport;
+	}
+
+
 }

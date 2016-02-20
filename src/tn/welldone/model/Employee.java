@@ -36,10 +36,8 @@ public class Employee extends Person implements Serializable {
 	private Calendar startDate;
 	private Calendar endDate;
 	private Collection<MedicalJourney> managedMedicalJourneys;
-	private Set<MedicalJourneyEmployee> medicalJourneyEmployees = new HashSet<MedicalJourneyEmployee>(0);
-
-
-
+	private Set<MedicalJourneyEmployeeService> medicalJourneyEmployeeServices = new HashSet<MedicalJourneyEmployeeService>(0);
+	
 	// Need to check the Fetch type
 //	@OneToMany(mappedBy="manager",fetch=FetchType.LAZY)
 	@OneToMany
@@ -168,13 +166,14 @@ public class Employee extends Person implements Serializable {
 		this.activities = activities;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "medicalJourneyEmployeeId.employee")
-	public Set<MedicalJourneyEmployee> getMedicalJourneyEmployees() {
-		return medicalJourneyEmployees;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "medicalJourneyEmployeeServiceId.employee")
+	public Set<MedicalJourneyEmployeeService> getMedicalJourneyEmployeeServices() {
+		return medicalJourneyEmployeeServices;
 	}
 
-	public void setMedicalJourneyEmployees(Set<MedicalJourneyEmployee> medicalJourneyEmployees) {
-		this.medicalJourneyEmployees = medicalJourneyEmployees;
+	public void setMedicalJourneyEmployeeServices(
+			Set<MedicalJourneyEmployeeService> medicalJourneyEmployeeServices) {
+		this.medicalJourneyEmployeeServices = medicalJourneyEmployeeServices;
 	}
 
 }

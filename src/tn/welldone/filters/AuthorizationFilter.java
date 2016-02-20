@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.Principal;
 
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -26,12 +27,19 @@ public class AuthorizationFilter implements Filter {
 
 	@EJB
 	private UserBean userBean;
+	
 
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
+		
+		//System.out.println("AuthorizationFilter !!!");
 		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse resp = (HttpServletResponse) response;
 		String pageRequested = req.getRequestURL().toString();
+		//System.out.println("Page Requested !!! : "+pageRequested);
+		
+		//System.out.println("URI !!! : "+pageRequested);
+		HttpServletResponse resp = (HttpServletResponse) response;
+		
 		boolean isAllowed = false;
 		Principal principal = req.getUserPrincipal();
 		if (principal != null) {

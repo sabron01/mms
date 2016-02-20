@@ -9,13 +9,18 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 
+import tn.welldone.helpers.Operation;
+import tn.welldone.interceptors.AuthorizationSecurityInterceptor;
+import tn.welldone.model.Displacement;
 import tn.welldone.model.Doctor;
 import tn.welldone.model.MedicalJourney;
 import tn.welldone.model.ServiceProvider;
 import tn.welldone.model.Tache;
 import tn.welldone.model.Tache.TacheState;
 import tn.welldone.model.Treatment;
+import tn.welldone.security.Permission;
 import tn.welldone.service.TacheBean;
 import tn.welldone.service.TreatmentBean;
 
@@ -54,10 +59,14 @@ public class TreatmentController implements Serializable {
 		setList(treatmentBean.getAllTreatments());
 	}
 
+	@Permission(resource=Treatment.class,value=Operation.ADD)
+	@Interceptors( { AuthorizationSecurityInterceptor.class })
 	public String createNewTreatment() {
 		return "addTreatment.faces";
 	}
 
+	@Permission(resource=Treatment.class,value=Operation.ADD)
+	@Interceptors( { AuthorizationSecurityInterceptor.class })
 	public String createNewTaskTreatment(Tache tache) {
 		taskController.setTache(tache);
 		Treatment t = treatmentBean.getTreatmentById(tache.getId());
@@ -65,6 +74,8 @@ public class TreatmentController implements Serializable {
 		return "/treatment/addTaskTreatment.faces";
 	}
 
+	@Permission(resource=Treatment.class,value=Operation.ADD)
+	@Interceptors( { AuthorizationSecurityInterceptor.class })
 	public String createTaskTreatment() {
 		Float oldAmount = medicalJourney.getAmount();
 		if (oldAmount == null)
@@ -86,6 +97,8 @@ public class TreatmentController implements Serializable {
 		return "listTreatments.faces?faces-redirect=true";
 	}
 
+	@Permission(resource=Treatment.class,value=Operation.ADD)
+	@Interceptors( { AuthorizationSecurityInterceptor.class })
 	public String createTreatment() {
 		Float oldAmount = medicalJourney.getAmount();
 		if (oldAmount == null)
@@ -100,6 +113,8 @@ public class TreatmentController implements Serializable {
 		return "listTreatments.faces?faces-redirect=true";
 	}
 
+	@Permission(resource=Treatment.class,value=Operation.EDIT)
+	@Interceptors( { AuthorizationSecurityInterceptor.class })
 	public String showEditTreatment(int id) {
 		Treatment treatment = treatmentBean.getTreatmentById(id);
 		System.out.println("showEditTreatment Treatment :" + treatment.getId());
@@ -113,12 +128,16 @@ public class TreatmentController implements Serializable {
 		return "/treatment/showEditTreatment.faces";
 	}
 
+	@Permission(resource=Treatment.class,value=Operation.DELETE)
+	@Interceptors( { AuthorizationSecurityInterceptor.class })
 	public String deleteTreatment(int id) {
 		Treatment d = treatmentBean.getTreatmentById(id);
 		treatmentBean.deleteTreatment(d);
 		return "listTreatments.faces?faces-redirect=true";
 	}
 
+	@Permission(resource=Treatment.class,value=Operation.EDIT)
+	@Interceptors( { AuthorizationSecurityInterceptor.class })
 	public String editTreatment() {
 		Float oldAmount = medicalJourney.getAmount();
 		if (oldAmount == null)
@@ -133,6 +152,8 @@ public class TreatmentController implements Serializable {
 		return "listTreatments.faces?faces-redirect=true";
 	}
 
+	@Permission(resource=Treatment.class,value=Operation.VIEW)
+	@Interceptors( { AuthorizationSecurityInterceptor.class })
 	public String listTreatments() {
 		return "listTreatments.faces?faces-redirect=true";
 	}

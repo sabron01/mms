@@ -1645,7 +1645,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 			this.offset.parent = this._getParentOffset();
 		}
 
-		//Compute the helpers position
+		//Compute the tn.welldone.helpers position
 		this.position = this._generatePosition(event);
 		this.positionAbs = this._convertPositionTo("absolute");
 
@@ -1708,7 +1708,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 	},
 
 	_mouseUp: function(event) {
-		//Remove frame helpers
+		//Remove frame tn.welldone.helpers
 		$("div.ui-draggable-iframeFix").each(function() {
 			this.parentNode.removeChild(this);
 		});
@@ -2010,7 +2010,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 		this.cancelHelperRemoval = false;
 	},
 
-	// From now on bulk stuff - mainly helpers
+	// From now on bulk stuff - mainly tn.welldone.helpers
 
 	_trigger: function(type, event, ui) {
 		ui = ui || this._uiHash();
@@ -4267,7 +4267,7 @@ $.widget("ui.sortable", $.ui.mouse, {
 			o = this.options,
 			scrolled = false;
 
-		//Compute the helpers position
+		//Compute the tn.welldone.helpers position
 		this.position = this._generatePosition(event);
 		this.positionAbs = this._convertPositionTo("absolute");
 
