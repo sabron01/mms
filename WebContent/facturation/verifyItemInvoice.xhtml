@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:body>
+	<ui:composition template="/template/common/commonLayout.xhtml">
+		<ui:define name="contentHeader">
+			<h1>
+				Facture <small>Vérifier</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><h:link outcome="/home/dashboard.xhtml">
+						<i class="fa fa-home"></i>Accueil
+					</h:link></li>
+				<li class="active">Facture</li>
+			</ol>
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+				<h:form>
+					<div class="row">
+						<!-- Left column -->
+						<div class="col-md-12">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">Informations Facture</h3>
+								</div>
+								<div class="box-body">
+									<div class="form-group">
+										<div class="row">
+											<div class="col-xs-3">
+												<h:outputLabel value="Référence" />
+											</div>
+											<div class="col-xs-4">
+												<h:outputLabel value="Séjour" />
+											</div>
+											<div class="col-xs-5">
+												<h:outputLabel value="Assurance" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-3">
+												<h:outputLabel
+													value="#{InvoiceController.item.invoice.reference}" />
+											</div>
+
+											<div class="col-xs-4">
+												<h:outputLabel
+													value="#{InvoiceController.item.invoice.medicalJourney.identifier}" />
+											</div>
+											<div class="col-xs-5">
+												<h:outputLabel
+													value="#{InvoiceController.item.invoice.beneficiary.companyName}" />
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-xs-5">
+												<h:outputLabel value="Date d'émission" />
+											</div>
+											<div class="col-xs-4">
+												<h:outputLabel value="Échéance" />
+											</div>
+											<div class="col-xs-3">
+												<h:outputLabel value="Message d'entête" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-5">
+												<div class="input-group">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<h:outputLabel
+														value="#{InvoiceController.item.invoice.issueDate}">
+														<f:convertDateTime pattern="dd/mm/yyyy" />
+													</h:outputLabel>
+												</div>
+
+											</div>
+											<div class="col-xs-4">
+												<div class="input-group">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<h:outputLabel
+														value="#{InvoiceController.item.invoice.paymentDate}">
+														<f:convertDateTime pattern="dd/mm/yyyy" />
+													</h:outputLabel>
+												</div>
+
+											</div>
+											<div class="col-xs-3">
+												<h:outputLabel
+													value="#{InvoiceController.item.invoice.headerMessage}">
+												</h:outputLabel>
+											</div>
+
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-xs-6">
+												<h:outputLabel value="Note de bas de page" />
+											</div>
+											<div class="col-xs-3">
+												<h:outputLabel value="Taux TVA" />
+											</div>
+											<div class="col-xs-3">
+												<h:outputLabel value="Net à payer" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-6">
+												<h:outputLabel
+													value="#{InvoiceController.item.invoice.footerMessage}">
+												</h:outputLabel>
+											</div>
+											<div class="col-xs-3">
+												<h:outputLabel
+													value="#{InvoiceController.item.invoice.tvaValue}">
+												</h:outputLabel>
+											</div>
+											<div class="col-xs-3">
+												<h:outputLabel
+													value="#{InvoiceController.item.invoice.amount}">
+												</h:outputLabel>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+				<div class="row">
+					<h:form enctype="multipart/form-data">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="box box-primary">
+
+									<div class="box-header">
+										<h3 class="box-title">Informations sur le produit</h3>
+									</div>
+									<div class="box-body">
+										<div class="form-group">
+											<h:outputLabel value="Référence" />
+											<h:inputText placeholder="Enter ..."
+												styleClass="form-control"
+												value="#{InvoiceController.item.reference}" />
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Description" />
+											<h:inputText placeholder="Enter ..." styleClass="form-control" value="#{InvoiceController.item.description}" />
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Total" />
+											<h:inputText placeholder="Enter ..." styleClass="form-control" value="#{InvoiceController.item.unitAmount}" />
+										</div>
+									</div>
+									<div class="box-footer">
+										<h:commandButton styleClass="btn btn-primary" value="#{i18n.submit}" action="#{InvoiceController.updateItem()}" type="submit" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</h:form>
+				</div>
+				<h:outputScript target="body">
+				$(function() {
+					//Datemask dd/mm/yyyy
+					$("#issueDate").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+					$("#paymentDate").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+				});
+				</h:outputScript>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -95,6 +95,20 @@ public class NotificationBean implements Serializable {
 		notificationRepository.add(notification);
 	}
 	
+	public void addCustomNotification(User u,MedicalJourney medicalJourney,String subject,String text){
+		Notification notification = new Notification();
+		Collection<User> targetUsers = new ArrayList<User>();
+		if (u != null)
+			targetUsers.add(u);
+		notification.setTargetUsers(targetUsers);
+		notification.setMedicalJourney(medicalJourney);
+		notification.setType(Type.Notification);
+		notification.setText(text);
+		notification.setSubject(subject);
+		notificationRepository.add(notification);
+		
+	}
+	
 	public void addTaskNotification(MedicalJourney medicalJourney, Service service) {
 		Notification notification = new Notification();
 		Collection<User> targetUsers = new ArrayList<User>();

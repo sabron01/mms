@@ -33,16 +33,19 @@ import tn.welldone.model.MedicalJourneyEmployeeService;
 import tn.welldone.model.Patient;
 import tn.welldone.model.Prescription;
 import tn.welldone.model.Booking;
+import tn.welldone.model.Reservation;
 import tn.welldone.model.Service;
 import tn.welldone.model.Tache;
 import tn.welldone.model.Treatment;
 import tn.welldone.service.ConsultationBean;
 import tn.welldone.service.DisplacementBean;
 import tn.welldone.service.EmployeeService;
+import tn.welldone.service.FirebaseService;
 import tn.welldone.service.MedicalJourneyBean;
 import tn.welldone.service.NotificationBean;
 import tn.welldone.service.PrescriptionBean;
 import tn.welldone.service.BookingBean;
+import tn.welldone.service.ReservationBean;
 import tn.welldone.service.ServiceBean;
 import tn.welldone.service.TreatmentBean;
 
@@ -66,6 +69,9 @@ public class MedicalJourneyController implements Serializable {
 
 	@EJB
 	private BookingBean bookingBean;
+	
+	@EJB
+	private ReservationBean reservationBean;
 
 	@EJB
 	private PrescriptionBean prescriptionBean;
@@ -75,6 +81,9 @@ public class MedicalJourneyController implements Serializable {
 
 	@EJB
 	private EmployeeService employeeService;
+	
+	@EJB
+	FirebaseService fireBase;
 
 	@EJB
 	private ServiceBean serviceBean;
@@ -104,6 +113,8 @@ public class MedicalJourneyController implements Serializable {
 	private List<Treatment> listTreatments;
 
 	private List<Displacement> listDisplacements;
+	
+	private List<Reservation> listReservations;
 
 	private List<Booking> listBookings;
 
@@ -233,11 +244,12 @@ public class MedicalJourneyController implements Serializable {
 			medicalJourneyEmployeeService.setEmployee(employee);
 			medicalJourneyEmployeeService.setService(service);
 			medicalJourneyEmployeeService.setTache(tache);	
-			
 			//m.getMedicalJourneyEmployeeServices().add(medicalJourneyEmployeeService);
 			//medicalJourneyBean.editMedicalJourney(m);
 			medicalJourneyBean. affectEmployee(medicalJourneyEmployeeService);
 			notificationBean.addTaskNotification(m,service);
+			fireBase.pushNotification("test", "ounissi", "Notification", "Test from MMS");
+			
 			return "listMedicalJourneys.faces?faces-redirect=true";		
 		}			
 		else{
@@ -292,6 +304,7 @@ public class MedicalJourneyController implements Serializable {
 		setSelectedMedicalJourney(m);
 		setListTreatments(treatmentBean.getListByMedicalJourney(m));
 		setListConsultations(consultationBean.getListByMedicalJourney(m));
+		setListReservations(reservationBean.getListByMedicalJourney(m));
 		setListDisplacements(displacementBean.getListByMedicalJourney(m));
 		setListBookings(bookingBean.getListByMedicalJourney(m));
 		setListPrescriptions(prescriptionBean.getListByMedicalJourney(m));
@@ -566,6 +579,14 @@ public class MedicalJourneyController implements Serializable {
 
 	public void setMedicalJourneyId(int medicalJourneyId) {
 		this.medicalJourneyId = medicalJourneyId;
+	}
+
+	public List<Reservation> getListReservations() {
+		return listReservations;
+	}
+
+	public void setListReservations(List<Reservation> listReservations) {
+		this.listReservations = listReservations;
 	}
 
 }

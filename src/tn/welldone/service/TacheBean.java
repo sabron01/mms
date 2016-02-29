@@ -48,18 +48,25 @@ public class TacheBean implements Serializable {
 
 	private String generateNumber() {
 		SecureRandom random = new SecureRandom();
-		String rand = new BigInteger(130, random).toString(32);
-		return rand;
+		String key;
+        while((key=new BigInteger(12*5/*base 32,2^5*/, random).toString(32)).length()<12);
+        return key;
+		//String rand = new BigInteger(10, random).toString(16);
+		//return rand;
 	}
 
 	public Tache generateTacheForEmployee(MedicalJourney medicalJourney,
 			Employee employee, Service service) {
 		Tache tache = instanciateTaskByService(service);
+		if(tache instanceof Displacement)
+			tache.setTacheState(TacheState.SUSPENDED);
+
+		else 
+			tache.setTacheState(TacheState.CREATED);
 		tache.setOwnerAgent(employee.getUser());
 		tache.setMedicalJourney(medicalJourney);
 		tache.setAction(Action.CREATE);
-		tache.setTacheState(TacheState.CREATED);
-		tache.setCodeTache("T" + generateNumber());
+		tache.setCodeTache("T-" + generateNumber());
 		
 		tacheRepository.add(tache);
 		return tache;

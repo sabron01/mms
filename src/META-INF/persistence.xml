@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-   <persistence-unit transaction-type="JTA" name="mmsPU">
-      <jta-data-source>java:jboss/datasources/mmsDS</jta-data-source>
-      <properties>
-         <!-- Properties for Hibernate -->
-		<property name="hibernate.hbm2ddl.auto" value="update" />
-		<property name="hibernate.enable_lazy_load_no_trans" value="true" />
-		<property name="hibernate.show_sql" value="false" />
-		<property name="hibernate.hbm2ddl.import_files" value="META-INF/sql/load.sql"  />     
-		<property name="hibernate.connection.useUnicode" value="true" />
-		<property name="hibernate.connection.characterEncoding" value="utf8" />       
-		<property name="hibernate.connection.charSet" value="UTF-8" />    
-      </properties>
-   </persistence-unit>	
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit transaction-type="JTA" name="mmsPU">
+		<jta-data-source>java:jboss/datasources/mmsDS</jta-data-source>
+		<properties>
+			<!-- Properties for Hibernate -->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.import_files" value="META-INF/sql/load.sql" />
+			<property name="hibernate.enable_lazy_load_no_trans" value="true" />
+			<property name="hibernate.connection.useUnicode" value="true" />
+			<property name="hibernate.connection.characterEncoding"
+				value="utf8" />
+			<property name="hibernate.connection.charSet" value="UTF-8" />
+		</properties>
+	</persistence-unit>
 </persistence>

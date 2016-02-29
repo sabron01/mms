@@ -3,7 +3,6 @@ package tn.welldone.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ViewScoped;
@@ -23,7 +22,6 @@ import tn.welldone.model.ServiceProvider;
 import tn.welldone.model.Tache;
 import tn.welldone.model.Tache.TacheState;
 import tn.welldone.security.Permission;
-import tn.welldone.security.PermissionsRequired;
 import tn.welldone.service.DataService;
 import tn.welldone.service.DisplacementBean;
 import tn.welldone.service.MedicalJourneyBean;

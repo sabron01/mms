@@ -201,7 +201,7 @@ $(function() {
             $(this).removeClass("open")
         }
     });
-
+    $("body").addClass("skin-blue");
     //$("body").append(demo);
     //$("body").append(demo_settings);
 });

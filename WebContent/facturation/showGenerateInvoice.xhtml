@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:body>
+	<ui:composition template="/template/common/commonLayout.xhtml">
+		<ui:define name="contentHeader">
+			<h1>
+				Facture <small>Générer</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><h:link outcome="/home/dashboard.xhtml">
+						<i class="fa fa-home"></i>Accueil
+					</h:link></li>
+				<li class="active">Facture</li>
+			</ol>
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+				<h:form>
+					<div class="row">
+						<!-- Left column -->
+						<div class="col-md-12">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">Informations Facture</h3>
+								</div>
+								<div class="box-body">
+									<div class="form-group">
+										<div class="row">
+											<div class="col-xs-3">
+												<h:outputLabel value="Référence" />
+											</div>
+											<div class="col-xs-4">
+												<h:outputLabel value="Séjour" />
+											</div>
+											<div class="col-xs-5">
+												<h:outputLabel value="Assurance" />
+											</div>
+										</div>
+										<div class="row">
+											<h:inputHidden value="#{InvoiceController.invoice.id}"
+												id="selectedPatient_id" />
+
+											<div class="col-xs-3">
+												<h:inputText placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{InvoiceController.invoice.reference}" />
+											</div>
+
+											<div class="col-xs-4">
+												<h:outputLabel
+													value="#{InvoiceController.invoice.medicalJourney.identifier}" />
+											</div>
+											<div class="col-xs-5">
+												<h:outputLabel
+													value="#{InvoiceController.invoice.beneficiary.companyName}" />
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-xs-5">
+												<h:outputLabel value="Date d'émission" />
+											</div>
+											<div class="col-xs-4">
+												<h:outputLabel value="Échéance" />
+											</div>
+											<div class="col-xs-3">
+												<h:outputLabel value="Message d'entête" />
+											</div>
+										</div>
+										<div class="row">
+
+											<div class="col-xs-5">
+												<div class="input-group">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<h:inputText value="#{InvoiceController.invoice.issueDate}"
+														styleClass="form-control">
+														<f:passThroughAttribute name="data-mask" value="" />
+														<f:passThroughAttribute name="id" value="issueDate" />
+														<f:passThroughAttribute name="data-inputmask"
+															value="'alias': 'dd/mm/yyyy'" />
+														<f:convertDateTime pattern="dd/mm/yyyy" />
+													</h:inputText>
+												</div>
+
+											</div>
+											<div class="col-xs-4">
+												<div class="input-group">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<h:inputText
+														value="#{InvoiceController.invoice.paymentDate}"
+														styleClass="form-control">
+														<f:passThroughAttribute name="data-mask" value="" />
+														<f:passThroughAttribute name="id" value="paymentDate" />
+														<f:passThroughAttribute name="data-inputmask"
+															value="'alias': 'dd/mm/yyyy'" />
+														<f:convertDateTime pattern="dd/mm/yyyy" />
+													</h:inputText>
+												</div>
+
+											</div>
+											<div class="col-xs-3">
+												<h:inputText placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{InvoiceController.invoice.headerMessage}" />
+											</div>
+
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-xs-6">
+												<h:outputLabel value="Note de bas de page" />
+											</div>
+											<div class="col-xs-3">
+												<h:outputLabel value="Taux TVA" />
+											</div>
+											<div class="col-xs-3">
+												<h:outputLabel value="Net à payer" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-6">
+												<h:inputText placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{InvoiceController.invoice.footerMessage}" />
+											</div>
+											<div class="col-xs-3">
+												<h:inputText placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{InvoiceController.invoice.tvaValue}" />
+											</div>
+											<div class="col-xs-3">
+												<h:inputText placeholder="Enter ..."
+													styleClass="form-control"
+													value="#{InvoiceController.invoice.amount}" />
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="box-footer">
+									<h:commandButton styleClass="btn btn-primary"
+										value="#{i18n.submit}"
+										action="#{InvoiceController.editInvoice()}" type="submit" />
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</h:form>
+
+				<div class="row">
+					<h:outputText value="#{i18n.noItemsFound}"
+						rendered="#{InvoiceController.invoice.items == null || InvoiceController.invoice.items.size() ==0}" />
+					<div class="col-xs-12">
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Produits de la facture</h3>
+								<div class="box-tools">
+									<div class="input-group">
+										<input type="text" name="table_search"
+											class="form-control input-sm pull-right"
+											style="width: 150px;" placeholder="Search"></input>
+										<div class="input-group-btn">
+											<button class="btn btn-sm btn-default">
+												<i class="fa fa-search"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body table-responsive no-padding">
+								<table class="table table-hover">
+									<tbody>
+										<tr>										
+											<th>Service</th>
+											<th>Description</th>
+											<th>Total</th>
+											<th>Action</th>
+										</tr>
+
+										<ui:repeat value="#{InvoiceController.invoice.items}"
+											var="element">
+											<h:form>
+												<tr>
+													<td><h:outputText value="#{element.product['class'].simpleName}">
+														</h:outputText></td>
+													<td><h:outputText value="#{element.description}">
+														</h:outputText></td>
+													<td><h:outputText value="#{element.unitPrice}"></h:outputText></td>													
+													<td><h:commandLink title="Facture"
+														styleClass="badge bg-green"
+														action="#{InvoiceController.verifyItemInvoice(element.id)}"
+														value="Vérifier">
+														<f:param value="#{element.id}"
+																	name="itemId"></f:param>
+														<f:setPropertyActionListener value="#{element}"
+															target="#{InvoiceController.item}" />
+													</h:commandLink></td>
+												</tr>
+
+											</h:form>
+										</ui:repeat>
+									</tbody>
+								</table>
+
+							</div>
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+					</div>
+				</div>
+				<h:outputScript target="body">
+
+            $(function() {
+                       
+                //Datemask dd/mm/yyyy
+                $("#issueDate").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                 $("#paymentDate").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+            });
+</h:outputScript>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

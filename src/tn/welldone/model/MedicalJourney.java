@@ -21,6 +21,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import tn.welldone.converter.MedicalJourneyStateConverter;
 
@@ -54,6 +55,7 @@ public class MedicalJourney implements Serializable {
 	private Collection<Tache> taches;
 	private Collection<Employee> affectedEmployees;
 	private Set<MedicalJourneyEmployeeService> medicalJourneyEmployeeServices = new HashSet<MedicalJourneyEmployeeService>(0);
+	private Invoice invoice;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -246,6 +248,15 @@ public class MedicalJourney implements Serializable {
 	public void setMedicalJourneyEmployeeServices(
 			Set<MedicalJourneyEmployeeService> medicalJourneyEmployeeServices) {
 		this.medicalJourneyEmployeeServices = medicalJourneyEmployeeServices;
+	}
+
+	@OneToOne(mappedBy="medicalJourney")
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
 	}
 
 }

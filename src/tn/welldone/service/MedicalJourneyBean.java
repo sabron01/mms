@@ -1,6 +1,7 @@
 package tn.welldone.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,6 +30,9 @@ public class MedicalJourneyBean implements Serializable {
 
 	@Inject
 	NotificationBean notificationBean;
+	
+	@Inject
+	FirebaseService fireBase;
 
 	@Inject
 	TacheBean tacheBean;
@@ -44,9 +48,38 @@ public class MedicalJourneyBean implements Serializable {
 
 	}
 
+	public Collection<MedicalJourney> getGeneratedInvoicesMedicalJourneys() {
+		List<MedicalJourney> list = medicalJourneyRepository.getNonDeletedMedicalJourneys();
+		Collection<MedicalJourney> newList = new ArrayList<MedicalJourney>();
+		System.out.println("Parcour getGeneratedInvoicesMedicalJourneys !!!");
+		for(MedicalJourney medicalJourney : list)
+		{
+			if(medicalJourney.getInvoice() != null ){				
+				newList.add(medicalJourney);
+			}				
+		}
+		return newList;
+	}
+	
+	
+	public Collection<MedicalJourney> getNonGeneratedInvoicesMedicalJourneys() {
+		List<MedicalJourney> list = medicalJourneyRepository.getNonDeletedMedicalJourneys();
+		Collection<MedicalJourney> newList = new ArrayList<MedicalJourney>();
+		System.out.println("Parcour !!!");
+		for(MedicalJourney medicalJourney : list)
+		{
+			if(medicalJourney.getInvoice() == null ){				
+				newList.add(medicalJourney);
+			}				
+		}
+		return newList;
+	}
+
+
 	public void addMedicalJourney(MedicalJourney medicalJourney) {
 		medicalJourneyRepository.add(medicalJourney);
 		notificationBean.addNotification(medicalJourney);
+		//fireBase.pushNotification("test", "ounissi", "Notification", "Test from MMS");
 	}
 	
 	public void updateMedicalJourneyEmployees(
@@ -100,6 +133,7 @@ public class MedicalJourneyBean implements Serializable {
 	public Collection<MedicalJourney> getCurrentMedicalJourneys() {
 		return medicalJourneyRepository.getCurrentMedicalJourneys();
 	}
+
 
 
 

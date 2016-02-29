@@ -5,8 +5,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <body>
-	<ui:composition>
-		<h:form>
+	<ui:composition>		
 			<ui:fragment rendered="#{request.isUserInRole('Administrateur')}">
 				<span style="margin: 10px;"><B>Convensions et Partenaires</B></span>
 				<li
@@ -111,6 +110,27 @@
 			</ui:fragment>
 
 			<ui:fragment
+				rendered="#{request.isUserInRole('Facturation et Comptabilité')}">
+				<span style="margin: 10px;"><B>Comptabilité et
+						Facturation</B></span>
+				<li class="#{view.viewId.contains('facturation')? 'active' : ''}"><h:link
+						outcome="/facturation/listInvoices.xhtml">
+						<i class="fa fa-calendar"></i>
+						<span>Les séjours</span>
+					</h:link></li>
+				<li class="#{view.viewId.contains('facturation')? 'active' : ''}"><h:link
+						outcome="/facturation/listUngeneratedInvoices.xhtml">
+						<i class="fa fa-calendar"></i>
+						<span>Factures à générer</span>
+					</h:link></li>
+					<li class="#{view.viewId.contains('facturation')? 'active' : ''}">
+						<h:commandLink action="#{InvoiceController.listUnGeneratedInvoices()}">
+							<i class="fa fa-angle-double-right"></i>Factures à générer
+					</h:commandLink>
+					</li>
+			</ui:fragment>
+
+			<ui:fragment
 				rendered="#{request.isUserInRole('Hebergement') || request.isUserInRole('Transport') || request.isUserInRole('Administrateur') || request.isUserInRole('Santé')}">
 				<span style="margin: 10px;"><B>Planification</B></span>
 				<li class="#{view.viewId.contains('planification')? 'active' : ''}"><h:link
@@ -159,7 +179,7 @@
 						<li><h:commandLink styleClass="fa fa-angle-double-right"
 								action="#{DisplacementController.createNewDisplacement()}"
 								value="Nouveau">
-							</h:commandLink> <h:link outcome="/displacement/addDisplacement.xhtml">
+							</h:commandLink> <h:link value="test" outcome="/displacement/addDisplacement.xhtml">
 							</h:link></li>
 						<li><h:link outcome="/displacement/listDisplacements.xhtml">
 								<i class="fa fa-angle-double-right"></i>Liste des déplacements</h:link></li>
@@ -263,7 +283,6 @@
 				</li>
 
 			</ui:fragment>
-		</h:form>
 	</ui:composition>
 </body>
 </html>

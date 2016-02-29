@@ -51,36 +51,33 @@
 
 <h:body styleClass="skin-blue">
 	<!-- header logo: style can be found in header.less -->
-	<header class="header"> 
-		<ui:insert name="header">
-			<ui:include src="/template/common/commonHeader.xhtml" />
-		</ui:insert> 
-	</header>
+	<header class="header"> <ui:insert name="header">
+		<ui:include src="/template/common/commonHeader.xhtml">
+			<ui:param name="currentUserTasks"
+				value="#{currentUserTasks}" />
+			<ui:param name="currentUserNotifications"
+				value="#{currentUserNotifications}" />
+			<ui:param name="currentUserMessages"
+				value="#{currentUserMessages}" />
+		</ui:include>
+	</ui:insert> </header>
 
 	<div class="wrapper row-offcanvas row-offcanvas-left">
 		<!-- Left side column. contains the logo and sidebar -->
-		<aside class="left-side sidebar-offcanvas"> 
-			<ui:insert name="leftSide">
-				<ui:include src="/template/common/leftSideBar.xhtml" />
-			</ui:insert> 
-		</aside>
-	
+		<aside class="left-side sidebar-offcanvas"> <ui:insert
+			name="leftSide">
+			<ui:include src="/template/common/leftSideBar.xhtml" />
+		</ui:insert> </aside>
+
 		<!-- Right side column. Contains the navbar and content of the page -->
-		<aside class="right-side"> 
-				<!-- Content Header (Page header) -->
-				<section class="content-header"> 
-					<ui:insert name="contentHeader">
-						<ui:include src="/template/common/contentHeader.xhtml" />
-					</ui:insert> 
-				</section> 
-				<!-- Main content --> 
-				<section class="content"> 
-					<ui:insert name="content">
-						<ui:include src="/template/common/content.xhtml" />
-					</ui:insert>
-				</section>
-				<!-- /.content --> 
-		</aside>
+		<aside class="right-side"> <!-- Content Header (Page header) -->
+		<section class="content-header"> <ui:insert
+			name="contentHeader">
+			<ui:include src="/template/common/contentHeader.xhtml" />
+		</ui:insert> </section> <!-- Main content --> <section class="content"> <ui:insert
+			name="content">
+			<ui:include src="/template/common/content.xhtml" />
+		</ui:insert> </section> <!-- /.content --> </aside>
 		<!-- /.right-side -->
 	</div>
 	<!-- ./wrapper -->

@@ -14,6 +14,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import tn.welldone.model.Displacement;
 import tn.welldone.model.MedicalJourney;
 import tn.welldone.model.Reservation;
 import tn.welldone.model.Service;
@@ -21,7 +22,9 @@ import tn.welldone.model.ServiceProvider;
 import tn.welldone.model.Tache;
 import tn.welldone.model.Tache.TacheState;
 import tn.welldone.service.DataService;
+import tn.welldone.service.DisplacementBean;
 import tn.welldone.service.MedicalJourneyBean;
+import tn.welldone.service.NotificationBean;
 import tn.welldone.service.PartnerAgencyBean;
 import tn.welldone.service.ReservationBean;
 
@@ -37,6 +40,12 @@ public class ReservationController implements Serializable {
 	
 	@EJB
 	PartnerAgencyBean partnerAgencyBean;
+	
+	@EJB
+	DisplacementBean displacementBean;
+	
+	@EJB
+	NotificationBean notificationBean;
 
 	@EJB
 	private DataService service;
@@ -110,6 +119,9 @@ public class ReservationController implements Serializable {
 		reservation.setOwnerAgent(taskController.getTache().getOwnerAgent());
 		reservation.setTacheState(TacheState.PLANNED);
 		reservationBean.editReservation(reservation);
+		Displacement d =displacementBean.activeMedicalJourneyTaskDisplacement(taskController.getTache().getMedicalJourney());
+		if (d!=null)
+		notificationBean.addCustomNotification(d.getOwnerAgent(), d.getMedicalJourney(),"Displacement Active","Your Displacement Task for "+d.getMedicalJourney().getIdentifier()+" is available");
 		taskController.setTache(new Tache());
 		return "listReservations.faces?faces-redirect=true";
 	}

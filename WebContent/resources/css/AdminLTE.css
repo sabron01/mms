@@ -2463,28 +2463,28 @@ Component: timeline
   color: #555555;
 }
 /* skin-blue sidebar */
-.skin-blue .sidebar {
+.skin-blue .sidebar > form{
   border-bottom: 1px solid #fff;
 }
-.skin-blue .sidebar > .sidebar-menu > li {
+.skin-blue .sidebar > form > .sidebar-menu > li {
   border-top: 1px solid #fff;
   border-bottom: 1px solid #dbdbdb;
 }
-.skin-blue .sidebar > .sidebar-menu > li:first-of-type {
+.skin-blue .sidebar > form > .sidebar-menu > li:first-of-type {
   border-top: 1px solid #dbdbdb;
 }
-.skin-blue .sidebar > .sidebar-menu > li:first-of-type > a {
+.skin-blue .sidebar > form > .sidebar-menu > li:first-of-type > a {
   border-top: 1px solid #fff;
 }
-.skin-blue .sidebar > .sidebar-menu > li > a {
+.skin-blue .sidebar > form > .sidebar-menu > li > a {
   margin-right: 1px;
 }
-.skin-blue .sidebar > .sidebar-menu > li > a:hover,
-.skin-blue .sidebar > .sidebar-menu > li.active > a {
+.skin-blue .sidebar > form > .sidebar-menu > li > a:hover,
+.skin-blue .sidebar > form > .sidebar-menu > li.active > a {
   color: #222;
   background: #f9f9f9;
 }
-.skin-blue .sidebar > .sidebar-menu > li > .treeview-menu {
+.skin-blue .sidebar > form > .sidebar-menu > li > .treeview-menu {
   margin: 0 1px;
   background: #f9f9f9;
 }

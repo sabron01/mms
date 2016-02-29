@@ -10,13 +10,13 @@
 <h:body>
 
 	<ui:composition template="/template/common/commonLayout.xhtml">
+		<ui:param name="currentUserTasks"
+			value="#{notificationController.currentUserTasks}" />
+		<ui:param name="currentUserNotifications"
+			value="#{notificationController.currentUserNotifications}" />
+		<ui:param name="currentUserMessages"
+			value="#{notificationController.currentUserMessages}" />
 		<ui:define name="content">
-			<ui:param name="currentUserTasks"
-				value="#{notificationController.currentUserTasks}" />
-			<ui:param name="currentUserNotifications"
-				value="#{notificationController.currentUserNotifications}" />
-			<ui:param name="currentUserMessages"
-				value="#{notificationController.currentUserMessages}" />
 			<!-- Small boxes (Stat box) -->
 			<div class="row">
 				<div class="col-lg-3 col-xs-6">
@@ -184,8 +184,8 @@
 								</span> <span class="label label-success"><h:outputText
 											value="#{element.medicalJourney.identifier}"></h:outputText></span>
 									<small class="label label-danger"><i
-										class="fa fa-clock-o"></i>
-									<h:outputText value="#{element.createdAt}">
+										class="fa fa-clock-o"></i> <h:outputText
+											value="#{element.createdAt}">
 											<f:convertDateTime pattern="dd/MM/yyyy" />
 										</h:outputText></small>
 									<div class="tools">
